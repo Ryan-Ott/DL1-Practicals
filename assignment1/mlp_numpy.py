@@ -52,7 +52,27 @@ class MLP(object):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-        pass
+        self.layers = []
+
+        # Check if there are hidden layers
+        if n_hidden:
+            # First input layer with different Kaiming initialization
+            self.layers.append(LinearModule(n_inputs, n_hidden[0], input_layer=True))
+            self.layers.append(ELUModule())
+
+            # Remaining hidden layers
+            for i in range(1, len(n_hidden)):
+                self.layers.append(LinearModule(n_hidden[i - 1], n_hidden[i]))
+                self.layers.append(ELUModule())
+
+            # Output layer - connected to the last hidden layer
+            self.layers.append(LinearModule(n_hidden[-1], n_classes))
+        else:
+            # Output layer directly connected to input in absence of hidden layers
+            self.layers.append(LinearModule(n_inputs, n_classes, input_layer=True))
+
+        # Softmax is always the final layer
+        self.layers.append(SoftMaxModule())
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -74,7 +94,9 @@ class MLP(object):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-
+        out = x
+        for layer in self.layers:
+            out = layer.forward(out)
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -95,7 +117,8 @@ class MLP(object):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-        pass
+        for layer in reversed(self.layers):
+            dout = layer.backward(dout)
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -112,7 +135,8 @@ class MLP(object):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-        pass
+        for layer in self.layers:
+            layer.clear_cache()
         #######################
         # END OF YOUR CODE    #
         #######################
