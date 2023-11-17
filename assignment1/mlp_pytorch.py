@@ -65,7 +65,7 @@ class MLP(nn.Module):
         
         for i in range(len(layer_sizes) - 1):
             layers[f'Linear_{i}'] = nn.Linear(layer_sizes[i], layer_sizes[i + 1])
-            
+            # TODO Kaiming but check if different is needed when its the input layer
         
         #######################
         # END OF YOUR CODE    #
