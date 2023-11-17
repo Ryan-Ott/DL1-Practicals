@@ -50,8 +50,8 @@ class MLP(nn.Module):
 
         TODO:
         Implement module setup of the network.
-        The linear layer have to initialized according to the Kaiming initialization.
-        Add the Batch-Normalization _only_ is use_batch_norm is True.
+        The linear layer has to initialized according to the Kaiming initialization.
+        Add the Batch-Normalization _only_ if use_batch_norm is True.
         
         Hint: No softmax layer is needed here. Look at the CrossEntropyLoss module for loss calculation.
         """
@@ -59,7 +59,14 @@ class MLP(nn.Module):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-        pass
+        super(MLP, self).__init__()  # init parent nn.Module class
+        layers = OrderedDict()
+        layer_sizes = [n_inputs] + n_hidden + [n_classes]
+        
+        for i in range(len(layer_sizes) - 1):
+            layers[f'Linear_{i}'] = nn.Linear(layer_sizes[i], layer_sizes[i + 1])
+            
+        
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -81,7 +88,7 @@ class MLP(nn.Module):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-
+        out = self.layers(x)
         #######################
         # END OF YOUR CODE    #
         #######################
