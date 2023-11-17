@@ -32,6 +32,9 @@ import cifar10_utils
 
 import torch
 
+# Added imports
+import matplotlib.pyplot as plt
+
 
 def confusion_matrix(predictions, targets):
     """
@@ -48,7 +51,13 @@ def confusion_matrix(predictions, targets):
     #######################
     # PUT YOUR CODE HERE  #
     #######################
+    n_classes = predictions.shape[1]
+    conf_mat = np.zeros((n_classes, n_classes), dtype=np.float32)
 
+    for i, probs in enumerate(predictions):
+        true = targets[i]
+        pred = np.argmax(probs)
+        conf_mat[true, pred] += 1
     #######################
     # END OF YOUR CODE    #
     #######################
@@ -69,7 +78,21 @@ def confusion_matrix_to_metrics(confusion_matrix, beta=1.):
     #######################
     # PUT YOUR CODE HERE  #
     #######################
+    TP = np.diag(confusion_matrix)
+    FP = np.sum(confusion_matrix, axis=0) - TP
+    FN = np.sum(confusion_matrix, axis=1) - TP
 
+    accuracy = np.sum(TP) / np.sum(confusion_matrix)  # accuracy over entire confusion matrix
+    precision = TP / (TP + FP)
+    recall = TP / (TP + FN)
+    f1_beta = (1 + beta**2) * (precision * recall) / (beta**2 * precision + recall)
+
+    metrics = {
+        'accuracy': accuracy,
+        'precision': precision,
+        'recall': recall,
+        'f1_beta': f1_beta
+    }
     #######################
     # END OF YOUR CODE    #
     #######################
@@ -96,7 +119,13 @@ def evaluate_model(model, data_loader, num_classes=10):
     #######################
     # PUT YOUR CODE HERE  #
     #######################
+    total_conf_mat = np.zeros((num_classes, num_classes), dtype=np.float32)
 
+    for x, y in data_loader:
+        y_pred = model.forward(x)
+        total_conf_mat += confusion_matrix(y_pred, y)
+    
+    metrics = confusion_matrix_to_metrics(total_conf_mat)
     #######################
     # END OF YOUR CODE    #
     #######################
@@ -150,14 +179,53 @@ def train(hidden_dims, lr, batch_size, epochs, seed, data_dir):
     #######################
 
     # TODO: Initialize model and loss module
-    model = ...
-    loss_module = ...
+    n_inputs = np.prod(cifar10['train'][0][0].shape)  # a single image as 3x32x32 (C, H, W) features
+    model = MLP(n_inputs, hidden_dims, n_classes=10)
+    loss_module = CrossEntropyModule()
     # TODO: Training loop including validation
-    val_accuracies = ...
+    val_accuracies = []
+    best_val_accuracy = 0.0
+    best_model = None
+    train_losses = []
+
+    # === Training ===
+    for epoch in tqdm(range(epochs)):
+        # === Training ===
+        for x, y in cifar10_loader['train']:
+            # == Forward pass ==
+            y_pred = model.forward(x)
+            loss = loss_module.forward(y_pred, y)
+            train_losses.append(loss)
+
+            # == Backward pass ==
+            grad = loss_module.backward(y_pred, y)
+            model.backward(grad)
+
+            # == Gradient Descent ==
+            for layer in model.layers:
+                if hasattr(layer, 'params'):
+                    for param in layer.params:
+                        layer.params[param] -= lr * layer.grads[param]
+
+        # === Validation ===
+        val_metrics = evaluate_model(model, cifar10_loader['validation'])
+        val_accuracy = val_metrics['accuracy']
+        val_accuracies.append(val_accuracy)
+
+        # === Save best model ===
+        if val_accuracy > best_val_accuracy:
+            best_val_accuracy = val_accuracy
+            best_model = deepcopy(model)
+
     # TODO: Test best model
-    test_accuracy = ...
+    test_accuracy = evaluate_model(best_model, cifar10_loader['test'])['accuracy']
     # TODO: Add any information you might want to save for plotting
-    logging_info = ...
+    logging_info = {
+        'train_losses': train_losses,
+        'val_accuracies': val_accuracies
+    }
+    logging_dict = logging_info  # misnamed variables I guess? But its given so I won't change it
+    model = best_model
     #######################
     # END OF YOUR CODE    #
     #######################
@@ -190,6 +258,16 @@ if __name__ == '__main__':
     args = parser.parse_args()
     kwargs = vars(args)
 
-    train(**kwargs)
+    best_model, val_accuracies, test_accuracy, logging_dict = train(**kwargs)
     # Feel free to add any additional functions, such as plotting of the loss curve here
-    
+    print(f"Test accuracy: {test_accuracy * 100:.2f}%")
+
+    # === Plotting ===
+    train_losses = logging_dict['train_losses']
+    plt.figure(figsize=(10, 5))
+    plt.plot(train_losses, label='Training Loss')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Training Loss Curve')
+    plt.legend()
+    plt.show()

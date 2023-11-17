@@ -46,7 +46,7 @@ def numpy_collate_fn(batch):
 
 def read_data_sets(data_dir, validation_size=5000):
     """
-    Returns the dataset readed from data_dir.
+    Returns the dataset read from data_dir.
     Uses or not uses one-hot encoding for the labels.
     Subsamples validation set with specified size if necessary.
     Args:

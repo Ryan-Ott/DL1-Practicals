@@ -94,7 +94,7 @@ class MLP(object):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-        out = x
+        out = x.reshape(x.shape[0], -1)  # Flatten input from (N, C, H, W) to (N, C*H*W)
         for layer in self.layers:
             out = layer.forward(out)
         #######################

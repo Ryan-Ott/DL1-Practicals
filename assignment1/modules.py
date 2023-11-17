@@ -1,22 +1,22 @@
-################################################################################
-# MIT License
-#
-# Copyright (c) 2023 University of Amsterdam
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to conditions.
-#
-# Author: Deep Learning Course (UvA) | Fall 2023
-# Date Created: 2023-11-01
-################################################################################
-"""
-This module implements various modules of the network.
-You should fill in code into indicated sections.
-"""
+# ################################################################################
+# # MIT License
+# #
+# # Copyright (c) 2023 University of Amsterdam
+# #
+# # Permission is hereby granted, free of charge, to any person obtaining a copy
+# # of this software and associated documentation files (the "Software"), to deal
+# # in the Software without restriction, including without limitation the rights
+# # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# # copies of the Software, and to permit persons to whom the Software is
+# # furnished to do so, subject to conditions.
+# #
+# # Author: Deep Learning Course (UvA) | Fall 2023
+# # Date Created: 2023-11-01
+# ################################################################################
+# """
+# This module implements various modules of the network.
+# You should fill in code into indicated sections.
+# """
 import numpy as np
 
 
@@ -60,7 +60,7 @@ class LinearModule(object):
         else:  # W is of shape N x M (out x in) before transposing
             self.params['weight'] = np.random.randn(out_features, in_features) * np.sqrt(2 / in_features)
         
-        self.params['bias'] = np.zeros(1, out_features)  # b is of shape 1xN (1 x out) and then gets broadcasted to SxN (batch size x out) by numpy
+        self.params['bias'] = np.zeros(out_features)  # b is of shape 1xN (1 x out) and then gets broadcasted to SxN (batch size x out) by numpy
 
         self.grads['weight'] = np.zeros_like(self.params['weight'])
         self.grads['bias'] = np.zeros_like(self.params['bias'])
@@ -86,7 +86,7 @@ class LinearModule(object):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-        out = np.dot(x, self.params['weight'].T) + self.params['bias']  # W^T X + b (broadcasted to be B)
+        out = x @ self.params['weight'].T + self.params['bias']  # X W^T + b (broadcasted to be B)
 
         self.cache = x  # Save input for backward pass
         #######################
@@ -113,10 +113,11 @@ class LinearModule(object):
         # PUT YOUR CODE HERE  #
         #######################
         X = self.cache
-        self.grads['weight'] = np.dot(dout.T, X)
+
+        self.grads['weight'] = dout.T @ X
         self.grads['bias'] = np.sum(dout, axis=0)  # Sum over batch dimension
 
-        dx = np.dot(dout, self.params['weight'])
+        dx = dout @ self.params['weight']
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -165,7 +166,6 @@ class ELUModule(object):
         out = np.where(x > 0, x, np.exp(x) - 1)
 
         self.cache = x
-        
         # END OF YOUR CODE    #
         #######################
 
@@ -186,8 +186,8 @@ class ELUModule(object):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-        x = self.cache
-        dx = dout * np.where(x > 0, 1, np.exp(x))  # dL/dx = dL/dy * dy/dx = dL/dy * 1 if x > 0 else exp(x)
+        X = self.cache
+        dx = dout * np.where(X > 0, 1, np.exp(X))  # dL/dx = dL/dy * dy/dx = dL/dy * 1 if x > 0 else exp(x)
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -233,8 +233,8 @@ class SoftMaxModule(object):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-        x -= np.max(x, axis=1, keepdims=True)  # Max trick
-        exps = np.exp(x)
+        maxx = np.max(x, axis=1, keepdims=True)  # Max trick
+        exps = np.exp(x - maxx)
         out = exps / np.sum(exps, axis=1, keepdims=True)  # Softmax
 
         self.cache = out
@@ -260,10 +260,10 @@ class SoftMaxModule(object):
         # PUT YOUR CODE HERE  #
         #######################
         Y = self.cache  # Softmax output
-        S = Y.shape[0]  # Batch size
-        one_oneT = np.ones((S, S))
+        S = Y.shape[-1]  # Number of classes
 
-        dx = Y * (dout - np.dot((dout * Y), one_oneT))
+        one_oneT = np.ones((S, S))
+        dx = Y * (dout - (dout * Y) @ one_oneT)
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -316,7 +316,7 @@ class CrossEntropyModule(object):
         # ?               will result in a negative number. We turn it positive, sum them up and average over the batch.
         S = y.shape[0]
         log_likelihood = -np.log(x[np.arange(S), y])  # * select from x the correct class for each sample in the batch using x[sample, correct_class]
-        out = np.sum(log_likelihood) / S
+        out = np.sum(log_likelihood) / S  # Average over the entire batch
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -341,9 +341,9 @@ class CrossEntropyModule(object):
         #######################
         # ? Note to self: ∂L/∂x = ∂L/∂y * ∂y/∂x = (y - x) / S
         S = y.shape[0]
-        dx = x.copy()  # To avoid modifying it
-        dx[np.arange(S), y] -= 1  # Subtract 1 from the probability of the correct class for each sample in the batch
-        dx /= S  # Average over the entire batch
+        labels = np.zeros_like(x)
+        labels[np.arange(S), y] = 1  # One hot encoding of the labels
+        dx = -labels / (x * S)  
         #######################
         # END OF YOUR CODE    #
         #######################
