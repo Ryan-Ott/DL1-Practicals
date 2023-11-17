@@ -1,5 +1,3 @@
-  ################################################################################
-# MIT License
 #
 # Copyright (c) 2023 University of Amsterdam
 #
@@ -49,7 +47,7 @@ def confusion_matrix(predictions, targets):
     #######################
     # PUT YOUR CODE HERE  #
     #######################
-
+    # howdy partner
     #######################
     # END OF YOUR CODE    #
     #######################

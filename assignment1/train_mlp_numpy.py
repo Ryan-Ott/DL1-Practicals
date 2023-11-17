@@ -190,12 +190,16 @@ def train(hidden_dims, lr, batch_size, epochs, seed, data_dir):
 
     # === Training ===
     for epoch in tqdm(range(epochs)):
+        sum_loss = 0.0
+        num_batches = 0
+
         # === Training ===
         for x, y in cifar10_loader['train']:
             # == Forward pass ==
             y_pred = model.forward(x)
             loss = loss_module.forward(y_pred, y)
-            train_losses.append(loss)
+            sum_loss += loss
+            num_batches += 1
 
             # == Backward pass ==
             grad = loss_module.backward(y_pred, y)
@@ -206,6 +210,9 @@ def train(hidden_dims, lr, batch_size, epochs, seed, data_dir):
                 if hasattr(layer, 'params'):
                     for param in layer.params:
                         layer.params[param] -= lr * layer.grads[param]
+        
+        avg_train_loss = sum_loss / num_batches
+        train_losses.append(avg_train_loss)
 
         # === Validation ===
         val_metrics = evaluate_model(model, cifar10_loader['validation'])
@@ -220,11 +227,10 @@ def train(hidden_dims, lr, batch_size, epochs, seed, data_dir):
     # TODO: Test best model
     test_accuracy = evaluate_model(best_model, cifar10_loader['test'])['accuracy']
     # TODO: Add any information you might want to save for plotting
-    logging_info = {
+    logging_dict = {
         'train_losses': train_losses,
         'val_accuracies': val_accuracies
     }
-    logging_dict = logging_info  # misnamed variables I guess? But its given so I won't change it
     model = best_model
     #######################
     # END OF YOUR CODE    #
@@ -260,14 +266,34 @@ if __name__ == '__main__':
 
     best_model, val_accuracies, test_accuracy, logging_dict = train(**kwargs)
     # Feel free to add any additional functions, such as plotting of the loss curve here
-    print(f"Test accuracy: {test_accuracy * 100:.2f}%")
 
     # === Plotting ===
     train_losses = logging_dict['train_losses']
-    plt.figure(figsize=(10, 5))
-    plt.plot(train_losses, label='Training Loss')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.title('Training Loss Curve')
-    plt.legend()
+    val_accuracies = logging_dict['val_accuracies']
+
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
+
+    # == Training Loss Curve ==
+    ax1.plot(range(1, len(train_losses) + 1), train_losses, label='Training Loss', color='blue')
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Loss')
+    ax1.set_title('Training Loss Curve')
+    ax1.legend()
+
+    # == Validation Accuracy Curve ==
+    ax2.plot(range(1, len(val_accuracies) + 1), val_accuracies, label='Validation Accuracy', color='red')
+    ax2.set_xlabel('Epoch')
+    ax2.set_ylabel('Accuracy')
+    ax2.set_title('Validation Accuracy Curve')
+
+    # == Test Accuracy ==
+    ax2.annotate(f"Test Accuracy: {test_accuracy * 100:.2f}%", xy=(1, 0), xycoords='axes fraction', fontsize=12,
+                xytext=(-10, 10), textcoords='offset points', ha='right', va='bottom')
+    ax2.legend()
+
+    # Set x-axis ticks
+    ax1.set_xticks(range(1, len(train_losses) + 1))
+    ax2.set_xticks(range(1, len(val_accuracies) + 1))
+
+    plt.tight_layout()
     plt.show()

@@ -343,7 +343,8 @@ class CrossEntropyModule(object):
         S = y.shape[0]
         labels = np.zeros_like(x)
         labels[np.arange(S), y] = 1  # One hot encoding of the labels
-        dx = -labels / (x * S)  
+        # dx = -labels / (x * S)
+        dx = (x - labels) / S
         #######################
         # END OF YOUR CODE    #
         #######################
