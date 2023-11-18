@@ -55,18 +55,28 @@ class MLP(nn.Module):
         
         Hint: No softmax layer is needed here. Look at the CrossEntropyLoss module for loss calculation.
         """
-
+        
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-        super(MLP, self).__init__()  # init parent nn.Module class
+        super().__init__()
         layers = OrderedDict()
         layer_sizes = [n_inputs] + n_hidden + [n_classes]
-        
+
         for i in range(len(layer_sizes) - 1):
-            layers[f'Linear_{i}'] = nn.Linear(layer_sizes[i], layer_sizes[i + 1])
-            # TODO Kaiming but check if different is needed when its the input layer
-        
+            # Linear kaiming init in first layer, relu for rest. Linear because input doesn't have halved variance. ReLU to make fair comparison with numpy version.
+            kaiming_nonlinearity = 'linear' if i == 0 else 'relu'
+            layer = nn.Linear(layer_sizes[i], layer_sizes[i + 1])
+            nn.init.kaiming_normal_(layer.weight, nonlinearity=kaiming_nonlinearity)
+            layers[f'Linear_{i}'] = layer
+
+            if use_batch_norm and i < len(layer_sizes) - 2:  # no batch norm after the last layer
+                layers[f'BatchNorm_{i}'] = nn.BatchNorm1d(layer_sizes[i + 1])
+
+            if i < len(layer_sizes) - 2:  # no activation after the last layer
+                layers[f'ELU_{i}'] = nn.ELU()
+
+        self.layers = nn.Sequential(layers)
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -88,6 +98,7 @@ class MLP(nn.Module):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
+        x = x.reshape(x.shape[0], -1)  # Flatten input from (N, C, H, W) to (N, C*H*W)
         out = self.layers(x)
         #######################
         # END OF YOUR CODE    #

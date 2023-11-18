@@ -193,7 +193,6 @@ def train(hidden_dims, lr, batch_size, epochs, seed, data_dir):
         sum_loss = 0.0
         num_batches = 0
 
-        # === Training ===
         for x, y in cifar10_loader['train']:
             # == Forward pass ==
             y_pred = model.forward(x)
@@ -205,7 +204,7 @@ def train(hidden_dims, lr, batch_size, epochs, seed, data_dir):
             grad = loss_module.backward(y_pred, y)
             model.backward(grad)
 
-            # == Gradient Descent ==
+            # == Gradient Descent Step ==
             for layer in model.layers:
                 if hasattr(layer, 'params'):
                     for param in layer.params:
@@ -227,16 +226,15 @@ def train(hidden_dims, lr, batch_size, epochs, seed, data_dir):
     # TODO: Test best model
     test_accuracy = evaluate_model(best_model, cifar10_loader['test'])['accuracy']
     # TODO: Add any information you might want to save for plotting
-    logging_dict = {
-        'train_losses': train_losses,
-        'val_accuracies': val_accuracies
+    logging_info = {
+        'train_losses': train_losses
     }
     model = best_model
     #######################
     # END OF YOUR CODE    #
     #######################
 
-    return model, val_accuracies, test_accuracy, logging_dict
+    return model, val_accuracies, test_accuracy, logging_info
 
 
 if __name__ == '__main__':
@@ -264,14 +262,13 @@ if __name__ == '__main__':
     args = parser.parse_args()
     kwargs = vars(args)
 
-    best_model, val_accuracies, test_accuracy, logging_dict = train(**kwargs)
+    best_model, val_accuracies, test_accuracy, logging_info = train(**kwargs)
     # Feel free to add any additional functions, such as plotting of the loss curve here
 
     # === Plotting ===
-    train_losses = logging_dict['train_losses']
-    val_accuracies = logging_dict['val_accuracies']
-
+    train_losses = logging_info['train_losses']
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
+    fig.suptitle('Numpy MLP Training', fontsize=16)
 
     # == Training Loss Curve ==
     ax1.plot(range(1, len(train_losses) + 1), train_losses, label='Training Loss', color='blue')
@@ -295,5 +292,8 @@ if __name__ == '__main__':
     ax1.set_xticks(range(1, len(train_losses) + 1))
     ax2.set_xticks(range(1, len(val_accuracies) + 1))
 
-    plt.tight_layout()
-    plt.show()
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    
+    # Saving the plot
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    plt.savefig(os.path.join(script_dir, 'Numpy_Plot.png'))

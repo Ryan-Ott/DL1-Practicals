@@ -31,6 +31,9 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
+# Added imports
+import matplotlib.pyplot as plt
+
 
 def confusion_matrix(predictions, targets):
     """
@@ -47,7 +50,13 @@ def confusion_matrix(predictions, targets):
     #######################
     # PUT YOUR CODE HERE  #
     #######################
-    # howdy partner
+    n_classes = predictions.shape[1]
+    conf_mat = np.zeros((n_classes, n_classes), dtype=np.float32)
+
+    for i, probs in enumerate(predictions):
+        true = targets[i]
+        pred = np.argmax(probs)
+        conf_mat[true, pred] += 1
     #######################
     # END OF YOUR CODE    #
     #######################
@@ -68,7 +77,21 @@ def confusion_matrix_to_metrics(confusion_matrix, beta=1.):
     #######################
     # PUT YOUR CODE HERE  #
     #######################
+    TP = np.diag(confusion_matrix)
+    FP = np.sum(confusion_matrix, axis=0) - TP
+    FN = np.sum(confusion_matrix, axis=1) - TP
 
+    accuracy = np.sum(TP) / np.sum(confusion_matrix)  # accuracy over entire confusion matrix
+    precision = TP / (TP + FP)
+    recall = TP / (TP + FN)
+    f1_beta = (1 + beta ** 2) * precision * recall / (beta ** 2 * precision + recall)
+
+    metrics = {
+        'accuracy': accuracy,
+        'precision': precision,
+        'recall': recall,
+        'f1_beta': f1_beta
+    }
     #######################
     # END OF YOUR CODE    #
     #######################
@@ -95,8 +118,19 @@ def evaluate_model(model, data_loader, num_classes=10):
     #######################
     # PUT YOUR CODE HERE  #
     #######################
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model.eval()
+    total_conf_mat = np.zeros((num_classes, num_classes), dtype=np.float32)
 
-    #######################
+    with torch.no_grad():
+      for x, y in data_loader:
+          x = x.to(device)
+          y = y.cpu().numpy()
+          y_pred = model(x)
+          y_pred = y_pred.cpu().numpy()
+          total_conf_mat += confusion_matrix(y_pred, y)
+      
+    metrics = confusion_matrix_to_metrics(total_conf_mat)
     # END OF YOUR CODE    #
     #######################
     return metrics
@@ -155,17 +189,60 @@ def train(hidden_dims, lr, use_batch_norm, batch_size, epochs, seed, data_dir):
     #######################
     # PUT YOUR CODE HERE  #
     #######################
-
+    print(f"Using device: {device}")
     # TODO: Initialize model and loss module
-    model = ...
-    loss_module = ...
+    n_inputs = np.prod(cifar10['train'][0][0].shape)  # (C, H, W) (3, 32, 32)
+    model = MLP(n_inputs, hidden_dims, n_classes=10, use_batch_norm=use_batch_norm).to(device)
+    loss_module = nn.CrossEntropyLoss()
     # TODO: Training loop including validation
     # TODO: Do optimization with the simple SGD optimizer
-    val_accuracies = ...
+    val_accuracies = []
+    best_val_accuracy = 0.0
+    best_model = None
+    train_losses = []
+    
+    optimizer = optim.SGD(model.parameters(), lr=lr)
+
+    # === Training ===
+    for epoch in tqdm(range(epochs)):
+        sum_loss = 0.0
+        num_batches = 0
+
+        for x, y in cifar10_loader['train']:
+            # == Forward pass ==
+            optimizer.zero_grad()
+            x, y = x.to(device), y.to(device)
+            y_pred = model(x)
+            loss = loss_module(y_pred, y)
+            sum_loss += loss.item()
+            num_batches += 1
+
+            # == Backward pass ==
+            loss.backward()
+
+            # == Gradient Descent Step ==
+            optimizer.step()
+        
+        avg_train_loss = sum_loss / num_batches
+        train_losses.append(avg_train_loss)
+
+        # === Validation ===
+        val_metrics = evaluate_model(model, cifar10_loader['validation'])
+        val_accuracy = val_metrics['accuracy']
+        val_accuracies.append(val_accuracy)
+
+        # === Save best model ===
+        if val_accuracy > best_val_accuracy:
+            best_val_accuracy = val_accuracy
+            best_model = deepcopy(model)
+
     # TODO: Test best model
-    test_accuracy = ...
+    test_accuracy = evaluate_model(best_model, cifar10_loader['test'])['accuracy']
     # TODO: Add any information you might want to save for plotting
-    logging_info = ...
+    logging_info = {
+        'train_losses': train_losses,
+    }
+    model = best_model
     #######################
     # END OF YOUR CODE    #
     #######################
@@ -200,6 +277,38 @@ if __name__ == '__main__':
     args = parser.parse_args()
     kwargs = vars(args)
 
-    train(**kwargs)
+    best_model, val_accuracies, test_accuracy, logging_info = train(**kwargs)
     # Feel free to add any additional functions, such as plotting of the loss curve here
     
+    # === Plotting ===
+    train_losses = logging_info['train_losses']
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
+    fig.suptitle('Pytorch MLP Training', fontsize=16)
+
+    # == Training Loss Curve ==
+    ax1.plot(range(1, len(train_losses) + 1), train_losses, label='Training Loss', color='blue')
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Loss')
+    ax1.set_title('Training Loss Curve')
+    ax1.legend()
+
+    # == Validation Accuracy Curve ==
+    ax2.plot(range(1, len(val_accuracies) + 1), val_accuracies, label='Validation Accuracy', color='red')
+    ax2.set_xlabel('Epoch')
+    ax2.set_ylabel('Accuracy')
+    ax2.set_title('Validation Accuracy Curve')
+
+    # == Test Accuracy ==
+    ax2.annotate(f"Test Accuracy: {test_accuracy * 100:.2f}%", xy=(1, 0), xycoords='axes fraction', fontsize=12,
+                xytext=(-10, 10), textcoords='offset points', ha='right', va='bottom')
+    ax2.legend()
+
+    # Set x-axis ticks
+    ax1.set_xticks(range(1, len(train_losses) + 1))
+    ax2.set_xticks(range(1, len(val_accuracies) + 1))
+
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    
+    # Saving the plot
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    plt.savefig(os.path.join(script_dir, 'Pytorch_Plot.png'))

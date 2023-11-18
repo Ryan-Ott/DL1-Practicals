@@ -56,9 +56,9 @@ class LinearModule(object):
         # ?               It deviates in the first layer because the input is not normalized like later layers
         # ?               Scales the weights by sqrt(2 / num_features), where the 2 is because ReLU zeros out half
         if input_layer:
-            self.params['weight'] = np.random.randn(out_features, in_features) * np.sqrt(1 / in_features)  # First layer doesn't have ReLU applied so we don't need to scale by 2
+            self.params['weight'] = np.random.normal(0, np.sqrt(1 / in_features), (out_features, in_features))  # First layer doesn't have ReLU applied so we don't need to scale by 2
         else:  # W is of shape N x M (out x in) before transposing
-            self.params['weight'] = np.random.randn(out_features, in_features) * np.sqrt(2 / in_features)
+            self.params['weight'] = np.random.normal(0, np.sqrt(2 / in_features), (out_features, in_features))
         
         self.params['bias'] = np.zeros(out_features)  # b is of shape 1xN (1 x out) and then gets broadcasted to SxN (batch size x out) by numpy
 
