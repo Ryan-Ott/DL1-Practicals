@@ -18,9 +18,9 @@ ryan.ott@student.uva.nl
 \begin{minipage}{0.4\textwidth} 
 \centering 
 \large 
-Homework Assignment 4\\ 
+Practical Assignment 1\\ 
 \normalsize 
-Machine Learning 1\\ 
+Deep Learning 1\\ 
 \end{minipage}
 \begin{minipage}{0.295\textwidth} 
 \raggedleft
@@ -35,21 +35,43 @@ Machine Learning 1\\
 \section{Linear Module}
 \subsection{} %a
 \begin{align}
-    \frac{\partial L}{\partial W} &= \sum_{i,j}^{} \frac{\partial L}{\partial Y_{ij}} \frac{\partial Y_{ij}}{\partial W_{mn}} \quad\quad \text{From section 3} \\
-    \frac{\partial Y_{ij}}{\partial W_{mn}} &= \sum_{k} \frac{\partial}{\partial W_{mn}} (X_{ik} W_{kj}) = \sum_{k} X_{ik} \delta_{km} \delta_{jn} \\
-    \frac{\partial L}{\partial W} = \sum_{i,j} \frac{\partial L}{\partial Y_{ij}} \frac{\partial Y_{ij}}{\partial W_{mn}} = \sum_{i,j,k} \frac{\partial L}{\partial Y_{ij}} X_{ik} \delta_{km} \delta_{jn} \\
-    
+   \left[ \frac{\partial L}{\partial \mb{W}} \right]_{ij} &= \frac{\partial L}{\partial W_{ij}} = \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} \frac{\partial Y_{sn}}{\partial W_{ij}} \\
+   \frac{\partial Y_{sn}}{\partial W_{ij}} &= \frac{\partial}{\partial W_{ij}} \left( \sum_{m} [\mb{X}]_{sm} [\mb{W}^\top]_{mn} + [\mb{B}]_{sn} \right) = \sum_m X_{sm} \frac{\partial W_{nm}}{\partial W_{ij}} + \frac{\partial B_{sn}}{\partial W_{ij}} \\
+   &= \sum_m X_{sm} \delta_{ni} \delta_{mj} + 0 = X_{sj} \delta_{ni} \\
+   \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} \frac{\partial Y_{sn}}{\partial W_{ij}} &= \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} X_{sj} \delta_{ni} = \sum_{s} \frac{\partial L}{\partial Y_{si}} X_{sj} \\
+   \therefore \frac{\partial L}{\partial \mb{W}} &= \left( \frac{\partial L}{\partial \mb{Y}} \right)^\top \mb{X} \quad \in \mathbb{R}^{N \times M}
 \end{align}
 
+\subsection{} %b
+\begin{align}
+   \left[ \frac{\partial L}{\partial \mb{b}} \right]_{j} &= \frac{\partial L}{\partial b_{j}} = \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} \frac{\partial Y_{sn}}{\partial b_{j}} \\
+   \frac{\partial Y_{sn}}{\partial b_{j}} &= \frac{\partial}{\partial b_{j}} \left( \sum_{m} [\mb{X}]_{sm} [\mb{W}^\top]_{mn} + [\mb{B}]_{sn} \right) = \sum_m \frac{\partial X_{sm} W_{nm}}{\partial b_{j}} + \frac{\partial B_{sn}}{\partial b_{j}} \\
+   &= 0 + \delta_{nj} = \delta_{nj} \\
+   \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} \frac{\partial Y_{sn}}{\partial b_{j}} &= \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} \delta_{nj} = \sum_{s} \frac{\partial L}{\partial Y_{sj}} \\
+   \therefore \frac{\partial L}{\partial \mb{b}} &= \sum_{s} \frac{\partial L}{\partial \mb{Y}_s} \quad \in \mathbb{R}^{1 \times N}
+\end{align}
+For clarification, in equation (10) we sum over the rows $s \in S$ of $\mb{Y}$, so the $j$-th element of $\mb{b}$ is the sum of all elements in position $j$ of the rows of $\mb{Y}$.
 
-3. Substituting this into the expression for \( \frac{\partial L}{\partial W} \):
-   \[ \frac{\partial L}{\partial W} = \sum_{i,j} \frac{\partial L}{\partial Y_{ij}} \frac{\partial Y_{ij}}{\partial W_{mn}} = \sum_{i,j,k} \frac{\partial L}{\partial Y_{ij}} X_{ik} \delta_{km} \delta_{jn} \]
+\subsection{} %c
+\begin{align}
+   \left[ \frac{\partial L}{\partial \mb{X}} \right]_{ij} &= \frac{\partial L}{\partial X_{ij}} = \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} \frac{\partial Y_{sn}}{\partial X_{ij}} \\
+   \frac{\partial Y_{sn}}{\partial X_{ij}} &= \frac{\partial}{\partial X_{ij}} \left( \sum_{m} [\mb{X}]_{sm} [\mb{W}^\top]_{mn} + [\mb{B}]_{sn} \right) = \sum_m \frac{\partial X_{sm}}{\partial X_{ij}} W_{nm} + \frac{\partial B_{sn}}{\partial X_{ij}} \\
+   &= \sum_m \delta_{si} \delta_{mj} W_{nm} + 0 = \delta_{si} W_{nj} \\
+   \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} \frac{\partial Y_{sn}}{\partial X_{ij}} &= \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} \delta_{si} W_{nj} = \sum_{n} \frac{\partial L}{\partial Y_{in}} W_{nj} \\
+   \therefore \frac{\partial L}{\partial \mb{X}} &= \frac{\partial L}{\partial \mb{Y}} \mb{W} \quad \in \mathbb{R}^{S \times M}
+\end{align}
 
-4. As the Kronecker deltas effectively filter for \( k = m \) and \( j = n \), the summation over \( k \) and \( j \) selects the \( m \)-th row and \( n \)-th column of \( X \) and \( \frac{\partial L}{\partial Y} \) respectively. Thus:
-   \[ \frac{\partial L}{\partial W_{mn}} = \sum_{i} X_{im} \frac{\partial L}{\partial Y_{in}} \]
+\subsection{} %d
+\begin{align}
+   \left[ \frac{\partial L}{\partial \mb{X}} \right]_{ij} &= \frac{\partial L}{\partial X_{ij}} = \sum_{s,m} \frac{\partial L}{\partial Y_{sm}} \frac{\partial Y_{sm}}{\partial X_{ij}} \\
+   &= \sum_{s,m} \frac{\partial L}{\partial Y_{sm}} \frac{\partial h(X_{sm})}{\partial X_{ij}} \\
+   &= \sum_{s,m} \frac{\partial L}{\partial Y_{sm}} \delta_{si} \delta_{mj} = \frac{\partial L}{\partial Y_{ij}} \\
+   \therefore \frac{\partial L}{\partial \mb{X}} &= \frac{\partial L}{\partial \mb{Y}} \circ h'(\mb{X}) \quad \in \mathbb{R}^{S \times M}
+\end{align}
+From equation (17) to (18) we get two Kronecker deltas because the derivative of the element-wise activation function
+is zero for all elements except the one we are taking the derivative of. This makes intuitive sense, given we are
+differentiating an element-wise function. The final derivative of the loss w.r.t. the input $\mb{X}$ is the Hadamard
+product of the derivative of the loss w.r.t. the output $\mb{Y}$ and the element-wise derivative of the activation
+function $h$ w.r.t. the input $\mb{X}$. We can assume the shapes of $\mb{X}$ and $\mb{Y}$ are compatible, since $\mb{Y}=h(\mb{X})$
 
-5. Rewriting in matrix terms, we arrive at the final expression:
-   \[ \frac{\partial L}{\partial W} = \left( \frac{\partial L}{\partial Y} \right)^T X \]
-
-This correctly captures the gradients of the loss with respect to the weights \( W \) in a linear module, using matrix calculus and the chain rule.
 \end{document}
