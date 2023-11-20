@@ -32,8 +32,8 @@ Deep Learning 1\\
 %-------------------------------
 %	CONTENTS
 %-------------------------------
-\section{Linear Module}
-\subsection{} %a
+\section{Linear Module and Activation Module}
+\subsection{Linear Module} %a
 \begin{align}
    \left[ \frac{\partial L}{\partial \mb{W}} \right]_{ij} &= \frac{\partial L}{\partial W_{ij}} = \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} \frac{\partial Y_{sn}}{\partial W_{ij}} \\
    \frac{\partial Y_{sn}}{\partial W_{ij}} &= \frac{\partial}{\partial W_{ij}} \left( \sum_{m} [\mb{X}]_{sm} [\mb{W}^\top]_{mn} + [\mb{B}]_{sn} \right) = \sum_m X_{sm} \frac{\partial W_{nm}}{\partial W_{ij}} + \frac{\partial B_{sn}}{\partial W_{ij}} \\
@@ -41,6 +41,8 @@ Deep Learning 1\\
    \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} \frac{\partial Y_{sn}}{\partial W_{ij}} &= \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} X_{sj} \delta_{ni} = \sum_{s} \frac{\partial L}{\partial Y_{si}} X_{sj} \\
    \therefore \frac{\partial L}{\partial \mb{W}} &= \left( \frac{\partial L}{\partial \mb{Y}} \right)^\top \mb{X} \quad \in \mathbb{R}^{N \times M}
 \end{align}
+\bigskip
+% --------------------------------
 
 \subsection{} %b
 \begin{align}
@@ -51,6 +53,8 @@ Deep Learning 1\\
    \therefore \frac{\partial L}{\partial \mb{b}} &= \sum_{s} \frac{\partial L}{\partial \mb{Y}_s} \quad \in \mathbb{R}^{1 \times N}
 \end{align}
 For clarification, in equation (10) we sum over the rows $s \in S$ of $\mb{Y}$, so the $j$-th element of $\mb{b}$ is the sum of all elements in position $j$ of the rows of $\mb{Y}$.
+\bigskip
+% --------------------------------
 
 \subsection{} %c
 \begin{align}
@@ -60,8 +64,10 @@ For clarification, in equation (10) we sum over the rows $s \in S$ of $\mb{Y}$, 
    \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} \frac{\partial Y_{sn}}{\partial X_{ij}} &= \sum_{s,n} \frac{\partial L}{\partial Y_{sn}} \delta_{si} W_{nj} = \sum_{n} \frac{\partial L}{\partial Y_{in}} W_{nj} \\
    \therefore \frac{\partial L}{\partial \mb{X}} &= \frac{\partial L}{\partial \mb{Y}} \mb{W} \quad \in \mathbb{R}^{S \times M}
 \end{align}
+\bigskip
+% --------------------------------
 
-\subsection{} %d
+\subsection{Activation Module} %d
 \begin{align}
    \left[ \frac{\partial L}{\partial \mb{X}} \right]_{ij} &= \frac{\partial L}{\partial X_{ij}} = \sum_{s,m} \frac{\partial L}{\partial Y_{sm}} \frac{\partial Y_{sm}}{\partial X_{ij}} \\
    &= \sum_{s,m} \frac{\partial L}{\partial Y_{sm}} \frac{\partial h(X_{sm})}{\partial X_{ij}} \\
@@ -73,5 +79,76 @@ is zero for all elements except the one we are taking the derivative of. This ma
 differentiating an element-wise function. The final derivative of the loss w.r.t. the input $\mb{X}$ is the Hadamard
 product of the derivative of the loss w.r.t. the output $\mb{Y}$ and the element-wise derivative of the activation
 function $h$ w.r.t. the input $\mb{X}$. We can assume the shapes of $\mb{X}$ and $\mb{Y}$ are compatible, since $\mb{Y}=h(\mb{X})$
+\bigskip
+% ==================================
+
+\section{Softmax, Loss Modules and Residuals}
+Let 
+\subsection{Softmax} %a
+Ligma
+\bigskip
+% --------------------------------
+
+\subsection{Residuals} %b
+\textit{Which constraints does the residual connection place on $N_1$ and $N_1$, the numbers of neurons in the two linear layers of the LAL module?}\\
+The first linear layer $L_1$ must have have $F$ rows to allow for the matrix multiplication with the input $\mb{X} \in \mathbb{R}^{S \times F}$.
+It will then have an arbitrary output dimension (that is compatible with the activation function). The second linear layer $L_2$ must however have
+the exact same shape as $X$ to allow for the element-wise addition of the residual connection. So $N_2 = S \times F$.
+\bigskip
+% --------------------------------
+
+\subsection{} %c
+\textit{How does adding the residual connection change $\frac{\partial L}{\partial \mb{X}}$?}\\
+The derivative of the loss now has an additional term, which is the derivative of the residual connection. This is the identity function,
+so the derivative is 1. The derivative of the loss w.r.t. the input $\mb{X}$ is now the sum of the derivative of the loss w.r.t. the output $\mb{Y}$
+plus the derivative of the residual connection w.r.t. the input $\mb{X}$.
+\begin{align}
+   \frac{\partial L}{\partial \mb{X}} &= \frac{\partial L}{\partial \mb{Y}}\mb{W} + \frac{\partial \mb{X}}{\partial \mb{X}} \\
+   &= \frac{\partial L}{\partial \mb{Y}}\mb{W} + \mb{I}
+\end{align}
+
+\bigskip
+% --------------------------------
+
+\subsection{} %d
+\textit{Briefly explain how your answer to (c) improves the stability of training a deep neural network made up of many
+such residual blocks, also known as ResNet.}
+\begin{itemize}
+   \item \textbf{Vanishing gradients:} By adding residual connections, the gradient of the loss w.r.t. the input $\mb{X}$
+   can take an alternative path through the network and is far less likely to vanish. Applying the chain rule many times
+   makes us multiply small numbers by each other, making the gradient smaller as it propagates. By adding the input
+   element-wise, we keep an alternative, non-vanishing path in the backward.
+   \item \textbf{Reduced Error Propagation:} The network is able to learn more complex functions and isn't limited to passing
+   on the errornous output of the previous layer. It can learn more low-level features from the input or highly process them
+   to learn high-level features.
+   \item \textbf{Smoother Loss Landscape:} Because the gradients dont vanish as easily, there are less sharp edges in the loss
+   surface. Also, by allowing both high and low-level features to be passed on, the problem can be modeled better, thus smoothing
+   the loss surface.
+\end{itemize}
+\bigskip
+% ==================================
+
+\section{NumPy Implementation}
+Test accuracy was 49.88\% using the default settings.
+We see that the training loss is monotonically decreasing, which is what we hope for. The network is learning something with each
+iteration. When looking at validation accuracy over the epochs, we see that it is increasing, but not monotonically. This is because
+the network is generally getting better at modelling the data, but sometimes it might be over or under fitting thus performs worse
+on unseen data.
+% ==================================
+
+\section{PyTorch Implementation}
+Test accuracy was 47.89\% using the default settings.
+Very similar to the NumPy implementation, with a monotonically decreasing training loss and a validation accuracy curve that increases
+but not monotonically. Noteworthy is that the network seems to make a bigger jump in terms of training loss improvment after the first
+epoch and that it seems to over/underfit more, as the validation accuracy fluctuates and dips more considerably. This is further
+made evident by the slightly lower test accuracy.
+% ==================================
+\bigskip
+
+\section{Optimization}
+\subsection{Hessian Matrix at Local Minimum having Positive Eigenvalues}
+\textit{Show that the Hessian matrix of a function $f(\mb{x})$ at a local minimum has only positive eigenvalues.}\\
+
+
 
 \end{document}
