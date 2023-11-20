@@ -32,7 +32,99 @@ import torch.nn as nn
 import torch.optim as optim
 
 # Added imports
+import pandas as pd
 import matplotlib.pyplot as plt
+
+
+def plot_curves(train_losses, val_accuracies, test_accuracy):
+    plt.figure()
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
+    fig.suptitle('PyTorch MLP', fontsize=16)
+
+    # == Training Loss Curve ==
+    ax1.plot(range(1, len(train_losses) + 1), train_losses, label='Training Loss', color='blue')
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Loss')
+    ax1.set_title('Training Loss Curve')
+    ax1.legend()
+
+    # == Validation Accuracy Curve ==
+    ax2.plot(range(1, len(val_accuracies) + 1), val_accuracies, label='Validation Accuracy', color='red')
+    ax2.set_xlabel('Epoch')
+    ax2.set_ylabel('Accuracy')
+    ax2.set_title('Validation Accuracy Curve')
+
+    # == Test Accuracy ==
+    ax2.annotate(f"Test Accuracy: {test_accuracy * 100:.2f}%", xy=(1, 0), xycoords='axes fraction', fontsize=12,
+                xytext=(-10, 10), textcoords='offset points', ha='right', va='bottom')
+    ax2.legend()
+
+    # Set x-axis ticks
+    ax1.set_xticks(range(1, len(train_losses) + 1))
+    ax2.set_xticks(range(1, len(val_accuracies) + 1))
+
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    
+    # Saving the plot
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    plt.savefig(os.path.join(script_dir, 'PyTorch Curves.png'), dpi=300)
+    plt.close(fig)
+
+
+def plot_confusion_matrix(conf_mat, classes):
+    plt.figure(figsize=(10, 10))
+    plt.suptitle("PyTorch Confusion Matrix", fontsize=16)
+    plt.imshow(conf_mat, interpolation='nearest', cmap=plt.cm.Blues)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    for i in range(conf_mat.shape[0]):
+        for j in range(conf_mat.shape[1]):
+            plt.text(j, i, int(conf_mat[i, j]),
+                     horizontalalignment="center",
+                     color="white" if conf_mat[i, j] > conf_mat.max() / 2. else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    
+    # Saving the plot
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    plt.savefig(os.path.join(script_dir, 'PyTorch Confusion Matrix.png'), dpi=300)
+    plt.close()
+
+
+def plot_metrics_table(confusion_matrix, classes, betas=[0.1, 1, 10]):
+    # Calculate metrics
+    metrics_default = confusion_matrix_to_metrics(confusion_matrix)
+    precision = np.round(metrics_default['precision'], 3)
+    recall = np.round(metrics_default['recall'], 3)
+
+    # Create a DataFrame
+    data = {
+        "Precision": precision,
+        "Recall": recall
+    }
+
+    for beta in betas:
+        f1_beta = np.round(confusion_matrix_to_metrics(confusion_matrix, beta=beta)['f1_beta'], 3)
+        data[f"F1-{beta}"] = f1_beta
+
+    df = pd.DataFrame(data, index=classes)
+
+    # == Plotting the table ==
+    fig, ax = plt.subplots(figsize=(12, 4))
+    ax.axis('tight')
+    ax.axis('off')
+    ax.set_title("Metrics Table for PyTorch", fontsize=16, weight='bold', pad=15)
+    ax.table(cellText=df.values, colLabels=df.columns, rowLabels=df.index, cellLoc='center', loc='center')
+
+    # Saving the plot
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    plt.savefig(os.path.join(script_dir, 'PyTorch Metrics Table.png'), dpi=300, bbox_inches='tight')
+    plt.close(fig)
 
 
 def confusion_matrix(predictions, targets):
@@ -131,6 +223,7 @@ def evaluate_model(model, data_loader, num_classes=10):
           total_conf_mat += confusion_matrix(y_pred, y)
       
     metrics = confusion_matrix_to_metrics(total_conf_mat)
+    metrics['confusion_matrix'] = total_conf_mat
     # END OF YOUR CODE    #
     #######################
     return metrics
@@ -237,11 +330,10 @@ def train(hidden_dims, lr, use_batch_norm, batch_size, epochs, seed, data_dir):
             best_model = deepcopy(model)
 
     # TODO: Test best model
-    test_accuracy = evaluate_model(best_model, cifar10_loader['test'])['accuracy']
+    logging_info = evaluate_model(best_model, cifar10_loader['test'])
     # TODO: Add any information you might want to save for plotting
-    logging_info = {
-        'train_losses': train_losses,
-    }
+    logging_info['train_losses'] = train_losses
+    test_accuracy = logging_info['accuracy']
     model = best_model
     #######################
     # END OF YOUR CODE    #
@@ -278,37 +370,15 @@ if __name__ == '__main__':
     kwargs = vars(args)
 
     best_model, val_accuracies, test_accuracy, logging_info = train(**kwargs)
-    # Feel free to add any additional functions, such as plotting of the loss curve here
+    # Feel free to add any additional functions, such as plotting of the loss curve here    
+    
+    classes = ["airplanes", "cars", "birds", "cats", "deer", "dogs", "frogs", "horses", "ships", "trucks"]
     
     # === Plotting ===
-    train_losses = logging_info['train_losses']
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
-    fig.suptitle('Pytorch MLP Training', fontsize=16)
+    plot_curves(logging_info['train_losses'], val_accuracies, test_accuracy)
 
-    # == Training Loss Curve ==
-    ax1.plot(range(1, len(train_losses) + 1), train_losses, label='Training Loss', color='blue')
-    ax1.set_xlabel('Epoch')
-    ax1.set_ylabel('Loss')
-    ax1.set_title('Training Loss Curve')
-    ax1.legend()
-
-    # == Validation Accuracy Curve ==
-    ax2.plot(range(1, len(val_accuracies) + 1), val_accuracies, label='Validation Accuracy', color='red')
-    ax2.set_xlabel('Epoch')
-    ax2.set_ylabel('Accuracy')
-    ax2.set_title('Validation Accuracy Curve')
-
-    # == Test Accuracy ==
-    ax2.annotate(f"Test Accuracy: {test_accuracy * 100:.2f}%", xy=(1, 0), xycoords='axes fraction', fontsize=12,
-                xytext=(-10, 10), textcoords='offset points', ha='right', va='bottom')
-    ax2.legend()
-
-    # Set x-axis ticks
-    ax1.set_xticks(range(1, len(train_losses) + 1))
-    ax2.set_xticks(range(1, len(val_accuracies) + 1))
-
-    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    # === Plotting Confusion Matrix ===
+    plot_confusion_matrix(logging_info['confusion_matrix'], classes)
     
-    # Saving the plot
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    plt.savefig(os.path.join(script_dir, 'Pytorch_Plot.png'))
+    # === Precision, Recall & F1-beta Scores ===
+    plot_metrics_table(logging_info['confusion_matrix'], classes)

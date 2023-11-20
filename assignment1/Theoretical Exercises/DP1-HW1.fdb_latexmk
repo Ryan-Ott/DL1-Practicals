@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber DP1-HW1"] 1700440122 "DP1-HW1.bcf" "DP1-HW1.bbl" "DP1-HW1" 1700440222 0
-  "DP1-HW1.bcf" 1700440222 107256 558f353c61d079cf547769d22cca1d04 "pdflatex"
+["biber DP1-HW1"] 1700493059 "DP1-HW1.bcf" "DP1-HW1.bbl" "DP1-HW1" 1700493086 0
+  "DP1-HW1.bcf" 1700493086 107256 558f353c61d079cf547769d22cca1d04 "pdflatex"
   (generated)
   "DP1-HW1.bbl"
   "DP1-HW1.blg"
   (rewritten before read)
-["pdflatex"] 1700440219 "/Users/ryan/Edu/UvA/Semester1/DL1/DL1-Practicals/assignment1/Theoretical Exercises/DP1-HW1.tex" "DP1-HW1.pdf" "DP1-HW1" 1700440222 0
-  "/Users/ryan/Edu/UvA/Semester1/DL1/DL1-Practicals/assignment1/Theoretical Exercises/DP1-HW1.tex" 1700440215 9002 fc8b1415f55fea099e1e6962e72f0c47 ""
+["pdflatex"] 1700493082 "/Users/ryan/Edu/UvA/Semester1/DL1/DL1-Practicals/assignment1/Theoretical Exercises/DP1-HW1.tex" "DP1-HW1.pdf" "DP1-HW1" 1700493086 0
+  "/Users/ryan/Edu/UvA/Semester1/DL1/DL1-Practicals/assignment1/Theoretical Exercises/DP1-HW1.tex" 1700493082 14176 4344d5a39c5b58d4b454051e6137d614 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/bitstrea/charter/bchb7t.tfm" 1136768653 2732 006d846b4d54f9b40899c7c3eecd771a ""
@@ -279,11 +279,11 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1694628660 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1694628570 7883453 51c4c5a8098eae168c681c327e572b15 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "DP1-HW1.aux" 1700440222 2440 c3a3219a4d519298dfc18d384e91fb67 "pdflatex"
-  "DP1-HW1.bbl" 1700440125 0 d41d8cd98f00b204e9800998ecf8427e "biber DP1-HW1"
-  "DP1-HW1.out" 1700440222 1903 08cd52d3b1ebfd3db59080d04acf6d9b "pdflatex"
-  "DP1-HW1.run.xml" 1700440222 2306 f826aff7c66b20551e1c0755055218a4 "pdflatex"
-  "DP1-HW1.tex" 1700440215 9002 fc8b1415f55fea099e1e6962e72f0c47 ""
+  "DP1-HW1.aux" 1700493086 3270 07133754dda6895e064833c709f7f514 "pdflatex"
+  "DP1-HW1.bbl" 1700493063 0 d41d8cd98f00b204e9800998ecf8427e "biber DP1-HW1"
+  "DP1-HW1.out" 1700493086 3299 2b197b8543ce0541fad9f58b3d7b84d6 "pdflatex"
+  "DP1-HW1.run.xml" 1700493086 2306 f826aff7c66b20551e1c0755055218a4 "pdflatex"
+  "DP1-HW1.tex" 1700493082 14176 4344d5a39c5b58d4b454051e6137d614 ""
   "head.tex" 1699634543 3344 681d1475595dc2a24bec38ef23c06c48 ""
   "style/avm.sty" 1699634543 5057 cec8bc669a9099a9976655c41e198f2d ""
   "style/btree.sty" 1699634543 4227 1f940af56ec4d6b13bc5f67ae255817c ""

@@ -148,7 +148,101 @@ made evident by the slightly lower test accuracy.
 \section{Optimization}
 \subsection{Hessian Matrix at Local Minimum having Positive Eigenvalues}
 \textit{Show that the Hessian matrix of a function $f(\mb{x})$ at a local minimum has only positive eigenvalues.}\\
+From the assignment description we know that if $H$ at point pp is positive definite, then we have are at a strictly
+local minimum. To prove that the eigenvalues $\lambda$ of $H$ at a local minimum are positive, we must show that
+the inequality from Lecture 3 slide 31 holds only for positive eigenvalues:
+\begin{align}
+   \mb{x}^{\top} H \mb{x} > 0 \quad \forall \mb{x} \in \mathbb{R}^n \setminus \{0\}
+\end{align}
 
+Suppose that $H$ has an eigenvalue $\lambda$, we can then write the eigenvalue decomposition of $H$ as:
+\begin{align}
+   H\mb{x} = \lambda \mb{x}
+\end{align}
 
+If $\lambda=0$, then there is some eigenvector $\mb{x}$ such that $H\mb{x}=0$. But then the inequality (21) would no
+longer hold because $\mb{x}^{\top} H \mb{x} = 0$. So $H$ would not be positive definite if it had an eigenvalue of 0
+and by extension we would not be at a local minimum.
+
+If $\lambda<0$, then there is some eigenvector $\mb{x}$ such that $H\mb{x}=\lambda \mb{x}$.
+If we examine this further, we get:
+\begin{align}
+   \mb{x}^{\top} H \mb{x} &= \mb{x}^{\top} \lambda \mb{x} \\
+   \implies \mb{x}^{\top} H \mb{x} &= \lambda \mb{x}^{\top} \mb{x} \\
+   \implies \mb{x}^{\top} H \mb{x} &= \lambda |\mb{x}|^2
+\end{align}
+
+We see that the inequality (21) would no longer hold because $\mb{x}^{\top} H \mb{x} = \lambda |\mb{x}|^2 < 0$ due to
+$\lambda<0$. So $H$ would not be positive definite if it had a negative eigenvalue and by extension we would not be at
+a local minimum.
+
+But then $\mb{x}^{\top} H \mb{x}=\lambda \mb{x}^{\top} \mb{x}$,
+which is negative since $\mb{x}^{\top} \mb{x}>0$ and $\lambda<0$. Thus $H$ is not positive definite.
+
+And so for $H$ at a local minimum, all eigenvalues must be positive.
+\bigskip
+% --------------------------------
+
+\subsection{Exponentially Higher Number of Saddle Points than Local Minima}
+For a location to be a local minimum, all eigenvalues must be positive as proven in the previous question. For a
+location to be a saddle point however, there must be at least one negative and one postive eigenvalue.
+If we take the sign of an eigenvalue to be a binary variable, we can see that there are $2^n$ possible combinations
+of eigenvalue signs for $n$ dimensions. Out of all combinations, only one is a local minimum, while almost all
+remaining combinations are saddle points (except for the one where all eigenvalues are negative, which would be a
+local maximum). As dimensionality increases, it becomes exponentially more likley that not all eigenvalues will be
+positive. So the number of saddle points is exponentially higher than the number of local minima.
+\bigskip
+% --------------------------------
+
+\subsection{Gradient Descent around a Saddle Point}
+Firstly, because as the assignment description states, at a saddle point p the gradient is zero
+$\nabla_{\mb{x}} f(\mb{x}_p) = 0$, when we look at the gradient descent update formula we see that the update
+will be zero as well:
+\begin{align}
+   \mb{w}_{t+1} &= \mb{w}_t - \eta \cdot \nabla_{\mb{w}} f(\mb{w}_t) \\
+   \implies \mb{w}_{t+1} &= \mb{w}_t - \eta \cdot 0 \\
+   \implies \mb{w}_{t+1} &= \mb{w}_t
+\end{align}
+
+So in the close vicinity of a saddle point, the gradient descent update will be minimally small, harming the
+effectiveness of the learning.
+
+Furthermore, when looking at Lecture 3 slide 34, we can see using the 2$^{\text{nd}}$ order Taylor expansion that
+after an update the new loss can be approximated as:
+\begin{align}
+   \mathcal{L}(w' - \varepsilon g) \approx \mathcal{L}(w') - \varepsilon g^Tg + \frac{1}{2} \varepsilon^2 g^THg
+\end{align}
+
+Where $g^Tg$ (the first order term) represents the magnitude of the gradient, and $g^THg$ (second order term)
+represents the curvature in the direction of the gradient.
+If $\frac{1}{2} \varepsilon^2 g^THg > \varepsilon g^Tg$, the update step can increase the loss because the effect
+of the curvature (the second-order term) is greater than the effect of the gradient (the first-order term).
+\bigskip
+% ==================================
+
+\section{Precision, Recall, Accuracy and F1-beta Score}
+\subsection{When to use which metric}
+Precision: Used when the cost of false positives is high. For example, in email spam detection (labeling a
+legitimate email as spam is worse than missing a spam email) and in legal systems (labeling an innocent person
+as guilty is highly undesirable).
+
+Recall: Used when missing true positives is costly. For example, in fraud detection systems (missing a fraudulent
+transaction can be very costly, rather one would do an unnecessary double check) and in medical diagnosis (missing
+a disease can be fatal).
+
+Accuracy: Used when the costs of false positives and false negatives are relatively balanced and the class
+distribution is even. For example, in a balanced binary classification problem like sentiment analysis
+(positive vs negative reviews) and in gender classification based on images.
+\bigskip
+% --------------------------------
+
+\subsection{Confusion Matrix}
+Using NumPy, we get the following confusion matrix for the CIFAR10 dataset:
+
+\bigskip
+% --------------------------------
+
+\subsection{F1-beta Score}
+Using NumPy, we get the following F1-beta scores for the CIFAR10 dataset:
 
 \end{document}
