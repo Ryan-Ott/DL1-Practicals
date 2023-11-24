@@ -123,6 +123,7 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
     wandb.watch(model, loss_function, log="all", log_freq=10)
 
     # Training loop with validation after each epoch. Save the best model.
+    print("Training & eval ...")
     for epoch in tqdm(range(epochs)):
     # for epoch in range(tqdm(epochs)):
         # Set model to training mode
@@ -242,6 +243,7 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise):
 
     # Set the device to use for training
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print("Device: ", device)
 
     # Load the model
     model = get_model()
@@ -253,6 +255,7 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise):
     model = train_model(model, lr, batch_size, epochs, data_dir, 'best_model.pt', device, augmentation_name)
 
     # Evaluate the model on the test set
+    print("Testing ...")
     test_set = get_test_set(data_dir, test_noise)
     test_loader = data.DataLoader(test_set, batch_size=batch_size, shuffle=False)
     test_accuracy = evaluate_model(model, test_loader, device)
