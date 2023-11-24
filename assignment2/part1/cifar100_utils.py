@@ -94,6 +94,10 @@ def get_train_validation_set(data_dir, validation_size=5000, augmentation_name=N
     val_transform = transforms.Compose([transforms.Resize((224, 224)),
                                         transforms.ToTensor(),
                                         transforms.Normalize(mean, std)])
+    
+    test_transofrm = transforms.Compose([transforms.Resize((224, 224)),
+                                         transforms.ToTensor(),
+                                         transforms.Normalize(mean, std)])])
 
     # We need to load the dataset twice because we want to use them with different transformations
     train_dataset = CIFAR100(root=data_dir, train=True, download=True, transform=train_transform)

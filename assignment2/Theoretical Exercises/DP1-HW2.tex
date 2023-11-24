@@ -1,0 +1,50 @@
+\documentclass[a4paper]{article} 
+\input{head}
+\begin{document}
+
+%-------------------------------
+%	TITLE SECTION
+%-------------------------------
+
+\fancyhead[C]{}
+\hrule \medskip % Upper rule
+\begin{minipage}{0.295\textwidth} 
+\raggedright
+\footnotesize
+Ryan Ott \hfill\\   
+14862565 \hfill\\
+ryan.ott@student.uva.nl
+\end{minipage}
+\begin{minipage}{0.4\textwidth} 
+\centering 
+\large 
+Practical Assignment 2\\ 
+\normalsize 
+Deep Learning 1\\ 
+\end{minipage}
+\begin{minipage}{0.295\textwidth} 
+\raggedleft
+\today\hfill\\
+\end{minipage}
+\medskip\hrule 
+\bigskip
+
+%-------------------------------
+%	CONTENTS
+%-------------------------------
+
+\section{Transfer Learning}
+\subsection{Comparing Models}
+\subsubsection{Inference Speed per Image against Accuracy and Number of Parameters}
+With a Pearson correlation coefficient of 0.78 there seems to be a positive correlation between the top-1 accuracy
+and the inference speed, so accurate models tend to take longer. ViT-B/32 model performs best overall with a higher
+accuracy for its inference speed than the trend suggests.
+For inference speed against number of trainable parameters, we see no correlation. The number of trainable parameters
+should only play a role when the model is being trained, not during inferencing.
+
+\subsubsection{Inference Speed per Image with and without torch.no\_grad()}
+With torch.no\_grad() the inference speed should be faster because gradients are not computed and stored for the
+backward pass. This is confirmed by the results, the inference speed is slightly faster with torch.no\_grad() across
+the models.
+
+\end{document}
