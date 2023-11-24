@@ -51,7 +51,7 @@ def get_model(num_classes=100):
     #######################
 
     # Get the pretrained ResNet18 model on ImageNet from torchvision.models
-    model = models.resnet18(pretrained=True)
+    model = models.resnet18(weights="ResNet18_Weights.IMAGENET1K_V1")
 
     # Randomly initialize and modify the model's last layer for CIFAR100.
     model.fc = nn.Linear(model.fc.in_features, num_classes)
@@ -91,7 +91,7 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
     """
     #######################
     # PUT YOUR CODE HERE  #
-    ####################### HUGEPENIS
+    #######################
 
     # Load the datasets
     train_set, val_set = get_train_validation_set(data_dir, augmentation_name=augmentation_name)
