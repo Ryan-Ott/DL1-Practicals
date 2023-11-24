@@ -21,7 +21,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.utils.data as data
 import torchvision.models as models
-
+from tqdm import tqdm  # TODO: REMOVE ME!!!
 from cifar100_utils import get_train_validation_set, get_test_set
 
 def set_seed(seed):
@@ -111,7 +111,8 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
     best_val_accuracy = 0
 
     # Training loop with validation after each epoch. Save the best model.
-    for epoch in range(epochs):
+    for epoch in tqdm(range(epochs)):
+    # for epoch in range(tqdm(epochs)):
         # Set model to training mode
         model.train()
 
