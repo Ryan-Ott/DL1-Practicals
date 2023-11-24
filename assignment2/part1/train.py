@@ -91,7 +91,7 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
     """
     #######################
     # PUT YOUR CODE HERE  #
-    #######################
+    ####################### HUGEPENIS
 
     # Load the datasets
     train_set, val_set = get_train_validation_set(data_dir, augmentation_name=augmentation_name)
