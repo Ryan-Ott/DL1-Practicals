@@ -21,6 +21,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.utils.data as data
 import torchvision.models as models
+import wandb  # TODO: REMOVE ME!!!
 from tqdm import tqdm  # TODO: REMOVE ME!!!
 from cifar100_utils import get_train_validation_set, get_test_set
 
@@ -221,6 +222,8 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise):
     # Set the device to use for training
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print("Device: ", device)
+
+    wandb.inti(project")
 
     # Load the model
     model = get_model()
