@@ -47,7 +47,7 @@ def get_model(num_classes=100):
         model: nn.Module object representing the model architecture.
     """
     #######################
-    # PUT YOUR CODE HERE  #
+    # PUT YOUR CODE HERE  # 
     #######################
 
     # Get the pretrained ResNet18 model on ImageNet from torchvision.models
