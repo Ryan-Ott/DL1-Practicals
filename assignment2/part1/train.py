@@ -52,7 +52,7 @@ def get_model(num_classes=100):
     #######################
 
     # Get the pretrained ResNet18 model on ImageNet from torchvision.models
-    pass
+    model = models.resnet18(pretrained=True)
 
     # Randomly initialize and modify the model's last layer for CIFAR100.
     pass

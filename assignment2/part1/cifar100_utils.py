@@ -37,8 +37,7 @@ class AddGaussianNoise(torch.nn.Module):
         # - You can use torch.randn() to sample z ~ N(0, 1).
         # - Then, you can transform z s.t. it is sampled from N(self.mean, self.std)
         # - Finally, you can add the noise to the image.
-
-        raise NotImplementedError
+        pass
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -97,7 +96,7 @@ def get_train_validation_set(data_dir, validation_size=5000, augmentation_name=N
     
     test_transofrm = transforms.Compose([transforms.Resize((224, 224)),
                                          transforms.ToTensor(),
-                                         transforms.Normalize(mean, std)])])
+                                         transforms.Normalize(mean, std)])
 
     # We need to load the dataset twice because we want to use them with different transformations
     train_dataset = CIFAR100(root=data_dir, train=True, download=True, transform=train_transform)
