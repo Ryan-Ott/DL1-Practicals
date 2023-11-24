@@ -111,11 +111,23 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
     # Initialize the best accuracy to zero
     best_val_accuracy = 0
 
+    # WandB – Initialize a new run
+    wandb.init(project="dl1_assignment2", config={
+        "learning_rate": lr,
+        "batch_size": batch_size,
+        "epochs": epochs,
+        "augmentation_name": augmentation_name,
+    })
+
+    # WandB – Define the model
+    wandb.watch(model, loss_function, log="all", log_freq=10)
+
     # Training loop with validation after each epoch. Save the best model.
     for epoch in tqdm(range(epochs)):
     # for epoch in range(tqdm(epochs)):
         # Set model to training mode
         model.train()
+        loss = 0
 
         # Loop over the training set and train the model.
         for batch in train_loader:
@@ -144,6 +156,16 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
         if val_accuracy > best_val_accuracy:
             best_val_accuracy = val_accuracy
             torch.save(model.state_dict(), checkpoint_name)
+
+        # Log the epoch loss, accuracy and best accuracy to WandB.
+        wandb.log({
+            "epoch": epoch,
+            "loss": loss,
+            "val_accuracy": val_accuracy,
+            "best_val_accuracy": best_val_accuracy
+        })
+
+    wandb.finish()
 
     # Load the best model on val accuracy and return it.
     model.load_state_dict(torch.load(checkpoint_name))
@@ -220,8 +242,6 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise):
 
     # Set the device to use for training
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-    wandb.inti(project")
 
     # Load the model
     model = get_model()
