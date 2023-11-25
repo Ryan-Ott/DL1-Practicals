@@ -100,8 +100,8 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
 
     # Use a smaller dataset for debugging
     if debug:
-        train_set = data.Subset(train_set, range(100))
-        val_set = data.Subset(val_set, range(100))
+        train_set = data.Subset(train_set, range(10))
+        val_set = data.Subset(val_set, range(10))
 
     train_loader = data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
     val_loader = data.DataLoader(val_set, batch_size=batch_size, shuffle=False)
@@ -163,8 +163,6 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
             "val_accuracy": val_accuracy,
             "best_val_accuracy": best_val_accuracy
         })
-
-    wandb.finish()
 
     # Load the best model on val accuracy and return it.
     model.load_state_dict(torch.load(checkpoint_name))
@@ -270,10 +268,13 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise, 
     print("Testing ...")
     test_set = get_test_set(data_dir, test_noise)
     if debug:
-        test_set = data.Subset(test_set, range(100))
+        test_set = data.Subset(test_set, range(10))
     test_loader = data.DataLoader(test_set, batch_size=batch_size, shuffle=False)
     test_accuracy = evaluate_model(model, test_loader, device, )
     print("Test accuracy: {0:.2f}".format(test_accuracy * 100))
+
+    # End WandB logging
+    wandb.finish()
     #######################
     # END OF YOUR CODE    #
     #######################
