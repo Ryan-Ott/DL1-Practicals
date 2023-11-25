@@ -153,7 +153,7 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
         val_accuracy = evaluate_model(model, val_loader, device)
 
         # Save the model if it is the best one on validation.
-        if val_accuracy > best_val_accuracy:
+        if val_accuracy >= best_val_accuracy:  # >= instead of > allows debugging to work
             best_val_accuracy = val_accuracy
             torch.save(model.state_dict(), checkpoint_name)
 
@@ -212,9 +212,6 @@ def evaluate_model(model, data_loader, device):
     
     accuracy /= total
 
-    # Log the test accuracy to WandB
-    wandb.log({"test_accuracy": accuracy})
-
     #######################
     # END OF YOUR CODE    #
     #######################
@@ -250,6 +247,7 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise, 
     model = get_model()
 
     # Get the augmentation to use
+    checkpoint_name = f"best_model_aug-{augmentation_name}.pt" if augmentation_name else "best_model.pt"
 
     # WandB – Initialize a new run
     wandb.init(project="DL1 Practical 2", config={
@@ -262,7 +260,7 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise, 
     })
 
     # Train the model
-    model = train_model(model, lr, batch_size, epochs, data_dir, f"best_model_{augmentation_name}.pt", device, augmentation_name, debug)
+    model = train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device, augmentation_name, debug)
 
     # Evaluate the model on the test set
     print("Testing ...")
@@ -272,6 +270,9 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise, 
     test_loader = data.DataLoader(test_set, batch_size=batch_size, shuffle=False)
     test_accuracy = evaluate_model(model, test_loader, device, )
     print("Test accuracy: {0:.2f}".format(test_accuracy * 100))
+
+    # Log the test accuracy to WandB
+    wandb.log({"test_accuracy": test_accuracy})
 
     # End WandB logging
     wandb.finish()
