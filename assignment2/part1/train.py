@@ -264,7 +264,7 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise, 
     })
 
     # Train the model
-    model = train_model(model, lr, batch_size, epochs, data_dir, 'best_model.pt', device, augmentation_name, debug)
+    model = train_model(model, lr, batch_size, epochs, data_dir, f"best_model_{augmentation_name}.pt", device, augmentation_name, debug)
 
     # Evaluate the model on the test set
     print("Testing ...")
