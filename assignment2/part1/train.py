@@ -111,16 +111,8 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
     # Initialize the best accuracy to zero
     best_val_accuracy = 0
 
-    # WandB – Initialize a new run
-    wandb.init(project="dl1_assignment2", config={
-        "learning_rate": lr,
-        "batch_size": batch_size,
-        "epochs": epochs,
-        "augmentation_name": augmentation_name,
-    })
-
-    # WandB – Define the model
-    wandb.watch(model, loss_function, log="all", log_freq=10)
+    # WandB – Watching gradients and weights
+    wandb.watch(model, log="all", log_freq=100)
 
     # Training loop with validation after each epoch. Save the best model.
     print("Training & eval ...")
@@ -250,6 +242,14 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise):
 
     # Get the augmentation to use
 
+    # WandB – Initialize a new run
+    wandb.init(project="DL1 Practical 2", config={
+        "learning_rate": lr,
+        "batch_size": batch_size,
+        "epochs": epochs,
+        "augmentation_name": augmentation_name,
+        "test_noise": test_noise
+    })
 
     # Train the model
     model = train_model(model, lr, batch_size, epochs, data_dir, 'best_model.pt', device, augmentation_name)
@@ -260,6 +260,9 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise):
     test_loader = data.DataLoader(test_set, batch_size=batch_size, shuffle=False)
     test_accuracy = evaluate_model(model, test_loader, device)
     print("Test accuracy: {0:.2f}".format(test_accuracy * 100))
+
+    # Log the test accuracy to WandB
+    wandb.log({"test_accuracy": test_accuracy})
     #######################
     # END OF YOUR CODE    #
     #######################
