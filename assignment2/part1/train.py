@@ -74,7 +74,7 @@ def get_model(num_classes=100):
     return model
 
 
-def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device, augmentation_name=None):
+def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device, augmentation_name=None, debug=False):
     """
     Trains a given model architecture for the specified hyperparameters.
 
@@ -87,6 +87,7 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
         checkpoint_name: Filename to save the best model on validation.
         device: Device to use.
         augmentation_name: Augmentation to use for training.
+        debug: Whether to use a smaller dataset for debugging or not.
     Returns:
         model: Model that has performed best on the validation set.
     """
@@ -96,6 +97,12 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
 
     # Load the datasets
     train_set, val_set = get_train_validation_set(data_dir, augmentation_name=augmentation_name)
+
+    # Use a smaller dataset for debugging
+    if debug:
+        train_set = data.Subset(train_set, range(100))
+        val_set = data.Subset(val_set, range(100))
+
     train_loader = data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
     val_loader = data.DataLoader(val_set, batch_size=batch_size, shuffle=False)
 
@@ -207,6 +214,9 @@ def evaluate_model(model, data_loader, device):
     
     accuracy /= total
 
+    # Log the test accuracy to WandB
+    wandb.log({"test_accuracy": accuracy})
+
     #######################
     # END OF YOUR CODE    #
     #######################
@@ -214,7 +224,7 @@ def evaluate_model(model, data_loader, device):
     return accuracy
 
 
-def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise):
+def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise, debug):
     """
     Main function for training and testing the model.
 
@@ -225,6 +235,8 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise):
         data_dir: Directory where the CIFAR10 dataset should be loaded from or downloaded to.
         seed: Seed for reproducibility.
         augmentation_name: Name of the augmentation to use.
+        test_noise: Whether to test the model on noisy images or not.
+        debug: Whether to use a smaller dataset for debugging or not.
     """
     #######################
     # PUT YOUR CODE HERE  #
@@ -247,20 +259,21 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise):
         "batch_size": batch_size,
         "epochs": epochs,
         "augmentation_name": augmentation_name,
-        "test_noise": test_noise
+        "test_noise": test_noise,
+        "debug": debug
     })
 
     # Train the model
-    model = train_model(model, lr, batch_size, epochs, data_dir, 'best_model.pt', device, augmentation_name)
+    model = train_model(model, lr, batch_size, epochs, data_dir, 'best_model.pt', device, augmentation_name, debug)
 
     # Evaluate the model on the test set
     print("Testing ...")
     test_set = get_test_set(data_dir, test_noise)
+    if debug:
+        test_set = data.Subset(test_set, range(100))
     test_loader = data.DataLoader(test_set, batch_size=batch_size, shuffle=False)
-    test_accuracy = evaluate_model(model, test_loader, device)
+    test_accuracy = evaluate_model(model, test_loader, device, )
     print("Test accuracy: {0:.2f}".format(test_accuracy * 100))
-
-    # Log the test accuracy to WandB
     #######################
     # END OF YOUR CODE    #
     #######################
@@ -285,6 +298,9 @@ if __name__ == '__main__':
                         help='Augmentation to use.')
     parser.add_argument('--test_noise', default=False, action="store_true",
                         help='Whether to test the model on noisy images or not.')
+    # Added own argument to use smaller dataset for debugging
+    parser.add_argument('--debug', default=False, action="store_true",
+                        help='Whether to use a smaller dataset for debugging or not.')
 
     args = parser.parse_args()
     kwargs = vars(args)

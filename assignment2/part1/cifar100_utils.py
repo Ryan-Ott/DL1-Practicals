@@ -64,12 +64,11 @@ def add_augmentation(augmentation_name, transform_list):
     # Create a new transformation based on the augmentation_name.
     if augmentation_name == 'test_noise':
         transform_list.append(AddGaussianNoise(always_apply=True))
-    elif augmentation_name == 'noise':
+    elif augmentation_name == 'gaussian_noise':
         transform_list.append(AddGaussianNoise())
     elif augmentation_name == 'hflip':
         transform_list.append(transforms.RandomHorizontalFlip(p=0.5))
-    elif augmentation_name == 'crop':
-        transform_list.append(transforms.RandomCrop(224, padding=4))
+
     # ? Note to self: You can compose transformations with transforms.Compose([transform1, transform2, ...])
     
     # Add the new transformation to the list.
