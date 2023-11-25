@@ -152,7 +152,6 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
 
         # Log the epoch loss, accuracy and best accuracy to WandB.
         wandb.log({
-            "epoch": epoch,
             "loss": loss,
             "val_accuracy": val_accuracy,
             "best_val_accuracy": best_val_accuracy
@@ -262,7 +261,6 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise):
     print("Test accuracy: {0:.2f}".format(test_accuracy * 100))
 
     # Log the test accuracy to WandB
-    wandb.log({"test_accuracy": test_accuracy})
     #######################
     # END OF YOUR CODE    #
     #######################
