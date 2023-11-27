@@ -36,15 +36,62 @@ Deep Learning 1\\
 \section{Transfer Learning}
 \subsection{Comparing Models}
 \subsubsection{Inference Speed per Image against Accuracy and Number of Parameters}
-With a Pearson correlation coefficient of 0.78 there seems to be a positive correlation between the top-1 accuracy
-and the inference speed, so accurate models tend to take longer. ViT-B/32 model performs best overall with a higher
-accuracy for its inference speed than the trend suggests.
+With a Pearson correlation coefficient of 0.85 there seems to be a strong positive linear correlation between the
+top-1 accuracy and the inference speed. The ViT-B/32 model performs best overall with a higher accuracy for its
+inference speed than the trend suggests.
 For inference speed against number of trainable parameters, we see no correlation. The number of trainable parameters
-should only play a role when the model is being trained, not during inferencing.
+should only play a role when the model is being trained, not during inferencing, so this result matches our
+expectations.
 
 \subsubsection{Inference Speed per Image with and without torch.no\_grad()}
 With torch.no\_grad() the inference speed should be faster because gradients are not computed and stored for the
-backward pass. This is confirmed by the results, the inference speed is slightly faster with torch.no\_grad() across
-the models.
+backward pass within the context manager's scope, thus requiring less operations and saving compute. This is
+confirmed by the results, the inference speed is slightly faster with torch.no\_grad() across the models.
+
+\subsubsection{vRAM Usage with and without torch.no\_grad()}
+Like with the inference speed, the vRAM usage should be lower with torch.no\_grad() because gradients are not
+stored for the backward pass when performing tensor operations, freeing up memory. Much more considerably than the
+inference speed, the vRAM usage is lower when using torch.no\_grad() as seen in the plot.
+\bigskip
+% ------------------------------
+
+\subsection{Fine-tuning}
+\subsubsection{Retraining ResNet-18's Fully Connected Layer}
+Using the specifications and default hyperparameters from the assignment, the retrained model achieved a test
+accuracy of 0.5855 in CIFAR-100.
+
+\subsubsection{Increasing Model Performance using Data Augmentation}
+By applying \texttt{torchvision.transforms.RandomHorizontalFlip(p=0.5)} around half of the images in the training
+set are flipped horizontally. This should increase the model's performance because it is being trained on more
+varied data, thus making it more robust to different inputs. The model achieved a test accuracy of 0.5927, a small
+improvement.
+
+\subsubsection{Last vs First Convolutional Layer}
+The first convolutional layers tend to capture lower-level features like edges, corners or textures, while the last
+layers capture higher-level features like shapes and objects in a larger receptive field. As such, better performance
+should be achievable by fine-tuning the last layers (along with the classifier layers) because they are more
+specialized to the downstream task than the first layers.
+\newpage
+% ==============================
+
+\section{Visual Prompting}
+\subsection{CLIP Baseline}
+\subsubsection{Top-1 Accuracy on CIFAR-10 and CIFAR-100 with CLIP ViT-B/32 Backbone}
+% Zero-shot CLIP top-1 accuracy on cifar10/train: 88.726
+% Zero-shot CLIP top-1 accuracy on cifar10/test: 88.94
+% Zero-shot CLIP top-1 accuracy on cifar100/train: 63.564
+% Zero-shot CLIP top-1 accuracy on cifar100/test: 63.14999999999999
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{Dataset} & \textbf{Train Accuracy (\%)} & \textbf{Test Accuracy (\%)} \\ \hline
+    CIFAR-10 & 88.726 & 88.940 \\ \hline
+    CIFAR-100 & 63.564 & 63.150 \\ \hline
+    \end{tabular}
+    \caption{Zero-shot CLIP Top-1 Accuracy on CIFAR-10 and CIFAR-100}
+    \label{tab:clip_accuracy}
+\end{table}    
+
 
 \end{document}

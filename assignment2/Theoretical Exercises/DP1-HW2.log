@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.13)  24 NOV 2023 01:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.13)  27 NOV 2023 14:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -115,15 +115,7 @@ Package babel Info: Hyphen rules for 'australian' set to \l@ukenglish
 (babel)             (\language21). Reported on input line 105.
 Package babel Info: Hyphen rules for 'newzealand' set to \l@ukenglish
 (babel)             (\language21). Reported on input line 108.
-) (/usr/local/texlive/2023/texmf-dist/tex/generic/babel-german/ngerman.ldf
-Language: ngerman 2021/02/27 v2.13 German support for babel (post-1996 orthography)
- (/usr/local/texlive/2023/texmf-dist/tex/generic/babel-german/ngermanb.ldf
-Language: ngermanb 2021/02/27 v2.13 German support for babel (post-1996 orthography)
-Package babel Info: Making " an active character on input line 122.
-))) (/usr/local/texlive/2023/texmf-dist/tex/generic/babel/locale/de/babel-ngerman.tex
-Package babel Info: Importing font and identification data for ngerman
-(babel)             from babel-de.ini. Reported on input line 11.
-) (/usr/local/texlive/2023/texmf-dist/tex/generic/babel/locale/en/babel-english.tex
+)) (/usr/local/texlive/2023/texmf-dist/tex/generic/babel/locale/en/babel-english.tex
 Package babel Info: Importing font and identification data for english
 (babel)             from babel-en.ini. Reported on input line 11.
 ) (/usr/local/texlive/2023/texmf-dist/tex/latex/amscls/amsthm.sty
@@ -1090,15 +1082,7 @@ Package: fcnumparser 2017/06/15
 \fc@tmpcatcode=\count499
  (/usr/local/texlive/2023/texmf-dist/tex/latex/fmtcount/fc-english.def
 File: fc-english.def 2016/01/12
-) (/usr/local/texlive/2023/texmf-dist/tex/latex/fmtcount/fc-ngerman.def
-File: fc-ngerman.def 2012/06/18
- (/usr/local/texlive/2023/texmf-dist/tex/latex/fmtcount/fc-german.def
-File: fc-german.def 2018/06/17
- (/usr/local/texlive/2023/texmf-dist/tex/latex/fmtcount/fc-germanb.def
-File: fc-germanb.def 2013/08/17
-)) (/usr/local/texlive/2023/texmf-dist/tex/latex/fmtcount/fc-ngermanb.def
-File: fc-ngermanb.def 2013/08/17
-))
+)
 \@DT@modctr=\count500
 \@ordinalctr=\count501
 \@orgargctr=\count502
@@ -1126,10 +1110,6 @@ Package datetime Info: No datetime.cfg file found, using default settings on inp
 \dayofyear=\count520
 \dayofweek=\count521
 LaTeX Info: Redefining \today on input line 736.
- (/usr/local/texlive/2023/texmf-dist/tex/latex/datetime/dt-ngerman.def
-File: dt-ngerman.def 2013/09/10
-LaTeX Info: Redefining \datengerman on input line 86.
-)
 \dt@a=\toks63
 \dt@b=\toks64
 ) (/usr/local/texlive/2023/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
@@ -1147,7 +1127,7 @@ Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
-Package csquotes Info: Redefining alias 'default' -> 'ngerman'.
+Package csquotes Info: Redefining alias 'default' -> 'english'.
 LaTeX Font Info:    Trying to load font information for OT1+bch on input line 3.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ot1bch.fd
 File: ot1bch.fd 2004/10/18 font definitions for OT1/bch.
@@ -1216,20 +1196,6 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 \c@lstlisting=\count528
-Package biblatex Info: Trying to load language 'ngerman'...
-Package biblatex Info: ... file 'ngerman.lbx' found.
- (/usr/local/texlive/2023/texmf-dist/tex/latex/biblatex/lbx/ngerman.lbx
-File: ngerman.lbx 2023/03/05 v3.19 biblatex localization (PK/MW)
-Package biblatex Info: Trying to load language 'german'...
-Package biblatex Info: ... file 'german.lbx' found.
- (/usr/local/texlive/2023/texmf-dist/tex/latex/biblatex/lbx/german.lbx
-File: german.lbx 2023/03/05 v3.19 biblatex localization (PK/MW)
-)
-Package biblatex Info: Trying to load language 'german'...
-Package biblatex Info: ... file 'german.lbx' found.
- (/usr/local/texlive/2023/texmf-dist/tex/latex/biblatex/lbx/german.lbx
-File: german.lbx 2023/03/05 v3.19 biblatex localization (PK/MW)
-))
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/biblatex/lbx/english.lbx
@@ -1263,28 +1229,33 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 LaTeX Font Info:    Trying to load font information for U+wasy on input line 17.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/wasysym/uwasy.fd
 File: uwasy.fd 2020/01/19 v2.4 Wasy-2 symbol font definitions
-) [1
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: OT1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+ [1
 
-{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc}] (./DP1-HW2.aux)
+{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc}] [2] (./DP1-HW2.aux)
 Package rerunfilecheck Info: File `DP1-HW2.out' has not changed.
-(rerunfilecheck)             Checksum: 9E4C51068E8513A140583F81553110A6;1087.
+(rerunfilecheck)             Checksum: 2B1A706D108B1DE48A0B568B368E50BF;3078.
 Package logreq Info: Writing requests to 'DP1-HW2.run.xml'.
 \openout1 = `DP1-HW2.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39223 strings out of 476025
- 757681 string characters out of 5790017
- 1858388 words of memory out of 5000000
- 58912 multiletter control sequences out of 15000+600000
- 532979 words of font info for 97 fonts, out of 8000000 for 9000
- 1143 hyphenation exceptions out of 8191
- 104i,11n,97p,1177b,2459s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb>
-Output written on DP1-HW2.pdf (1 page, 29463 bytes).
+ 39012 strings out of 476025
+ 752698 string characters out of 5790017
+ 1864388 words of memory out of 5000000
+ 58710 multiletter control sequences out of 15000+600000
+ 534387 words of font info for 108 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 104i,11n,97p,1147b,1767s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on DP1-HW2.pdf (2 pages, 51531 bytes).
 PDF statistics:
- 44 PDF objects out of 1000 (max. 8388607)
- 36 compressed objects within 1 object stream
- 6 named destinations out of 1000 (max. 500000)
- 29741 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 89 PDF objects out of 1000 (max. 8388607)
+ 78 compressed objects within 1 object stream
+ 16 named destinations out of 1000 (max. 500000)
+ 30317 words of extra memory for PDF output out of 35830 (max. 10000000)
 
