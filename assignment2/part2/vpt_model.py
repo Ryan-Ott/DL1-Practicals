@@ -38,7 +38,7 @@ def load_clip_to_cpu(cfg):
     """Loads CLIP model to CPU."""
     backbone_name = cfg.MODEL.BACKBONE.NAME
     url = clip._MODELS[backbone_name]
-    model_path = clip._download(url)
+    model_path = clip._download(url, cfg.ROOT)  # ! check if this is necessary (root argument was missing)
 
     try:
         # loading JIT archive

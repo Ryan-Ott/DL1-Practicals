@@ -45,7 +45,7 @@ class FixedPatchPrompter(nn.Module):
         # - You can define variable parameters using torch.nn.Parameter
         # - You can initialize the patch randomly in N(0, 1) using torch.randn
 
-        raise NotImplementedError
+        self.patch = nn.Parameter(torch.randn(1, 3, args.prompt_size, args.prompt_size))
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -61,7 +61,11 @@ class FixedPatchPrompter(nn.Module):
         # - It is always advisable to implement and then visualize if
         #   your prompter does what you expect it to do.
 
-        raise NotImplementedError
+        _, _, H_patch, W_patch = self.patch.shape
+        x_patched= x.clone()
+        x_patched[:, :, :H_patch, :W_patch] += self.patch
+        
+        return x_patched
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -88,7 +92,10 @@ class PadPrompter(nn.Module):
         # - Shape of self.pad_up and self.pad_down should be (1, 3, pad_size, image_size)
         # - See Fig 2.(g)/(h) and think about the shape of self.pad_left and self.pad_right
 
-        raise NotImplementedError
+        self.pad_up = torch.nn.Parameter(torch.randn(1, 3, pad_size, image_size))
+        self.pad_down = torch.nn.Parameter(torch.randn(1, 3, pad_size, image_size))
+        self.pad_left = torch.nn.Parameter(torch.randn(1, 3, image_size - 2 * pad_size, pad_size))
+        self.pad_right = torch.nn.Parameter(torch.randn(1, 3, image_size - 2 * pad_size, pad_size))
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -104,7 +111,26 @@ class PadPrompter(nn.Module):
         # - It is always advisable to implement and then visualize if
         #   your prompter does what you expect it to do.
 
-        raise NotImplementedError
+        B, C, H, W = x.shape
+        x_padded = x.clone()
+
+        # Top and bottom padding
+        padded_x = torch.cat((self.pad_up.expand(B, -1, -1, -1), x_padded, self.pad_down.expand(B, -1, -1, -1)), dim=2)
+        # ? Does thsi actually place the prompt at the top and bottom? I dont see how? Its important that the padding is
+        # ? added on top of the existing image value and is within the image, not expanding outside of it in case this is what the code does now.
+
+        # Get starting & ending index for left and right padding
+        new_H = padded_x.shape[2]
+        # ? This is never used?
+
+        # Left and right padding
+        padded_x = torch.cat((padded_x[:, :, :, :self.pad_size],
+                              self.pad_left.expand(B, -1, -1, -1),
+                              padded_x[:, :, :, self.pad_size:-self.pad_size],
+                              self.pad_right.expand(B, -1, -1, -1),
+                              padded_x[:, :, :, -self.pad_size:]),
+                            dim=3)
+
         #######################
         # END OF YOUR CODE    #
         #######################
