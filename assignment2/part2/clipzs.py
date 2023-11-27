@@ -134,7 +134,7 @@ class ZeroshotCLIP(nn.Module):
         self.class_names = classnames
         self.text_features = text_features
         self.clip_model = clip_model
-        self.logit_scale = self.clip_model.logit_scale.exp().detach()
+        self.logit_scale = self.clip_model.logit_scale.exp().detach()  # * Check ED discussion about this
 
     def precompute_text_features(self, clip_model, prompts, device):
         """
@@ -170,8 +170,19 @@ class ZeroshotCLIP(nn.Module):
         # - Read the CLIP API documentation for more details:
         #   https://github.com/openai/CLIP#api
 
-        # remove this line once you implement the function
-        raise NotImplementedError("Implement the precompute_text_features function.")
+        prompts = clip.tokenize(prompts).to(device)
+
+        with torch.no_grad():
+            text_features = clip_model.encode_text(prompts)
+
+        text_features /= text_features.norm(dim=-1, keepdim=True)
+
+        assert text_features.shape == (len(prompts), 512), (
+            f"Expected text features of shape (num_prompts, 512), "
+            f"got {text_features.shape}"
+        )
+
+        return text_features
 
         #######################
         # END OF YOUR CODE    #
@@ -209,8 +220,18 @@ class ZeroshotCLIP(nn.Module):
         # - Read the CLIP API documentation for more details:
         #   https://github.com/openai/CLIP#api
 
-        # remove this line once you implement the function
-        raise NotImplementedError("Implement the model_inference function.")
+        with torch.no_grad():
+            image_features = self.clip_model.encode_image(image)
+        
+        image_features /= image_features.norm(dim=-1, keepdim=True)
+        logits = self.logit_scale * image_features @ self.text_features.T  # * Check ED discussion about this
+
+        assert logits.shape == (image.shape[0], len(self.class_names)), (
+            f"Expected logits of shape (batch_size, num_classes), "
+            f"got {logits.shape}"
+        )
+
+        return logits
 
         #######################
         # END OF YOUR CODE    #
@@ -371,8 +392,18 @@ def main():
     # - Updating the accuracy meter is as simple as calling top1.update(accuracy, batch_size)
     # - You can use the model_inference method of the ZeroshotCLIP class to get the logits
 
-    # you can remove the following line once you have implemented the inference loop
-    raise NotImplementedError("Implement the inference loop")
+    for images, labels in tqdm(loader):
+        images = images.to(device)
+        labels = labels.to(device)
+
+        logits = clipzs.model_inference(images)
+        
+        preds = logits.argmax(dim=1)
+        
+        correct = preds.eq(labels).sum().item()
+        accuracy = correct / images.shape[0]
+
+        top1.update(accuracy, images.shape[0])
 
     #######################
     # END OF YOUR CODE    #
