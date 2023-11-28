@@ -38,7 +38,7 @@ def load_clip_to_cpu(cfg):
     """Loads CLIP model to CPU."""
     backbone_name = cfg.MODEL.BACKBONE.NAME
     url = clip._MODELS[backbone_name]
-    model_path = clip._download(url, cfg.ROOT)  # ! check if this is necessary (root argument was missing)
+    model_path = clip._download(url)  # ! check if ", cfg.ROOT" is necessary (was missing)
 
     try:
         # loading JIT archive
@@ -82,8 +82,13 @@ class VisualPromptCLIP(nn.Module):
         # - Given a list of prompts, compute the text features for each prompt.
         # - Return a tensor of shape (num_prompts, 512).
 
-        # remove this line once you implement the function
-        raise NotImplementedError("Write the code to compute text features.")
+        prompts = clip.tokenize(prompts).to(args.device)
+        
+        with torch.no_grad():
+            text_features = clip_model.encode_text(prompts)
+        text_features = text_features / text_features.norm(dim=-1, keepdim=True)
+
+        assert text_features.shape == (len(prompts), 512), f"Expected text features of shape (num_prompts, 512), got {text_features.shape}."
 
         #######################
         # END OF YOUR CODE    #
@@ -117,9 +122,17 @@ class VisualPromptCLIP(nn.Module):
         # - You need to multiply the similarity logits with the logit scale (clip_model.logit_scale).
         # - Return logits of shape (batch size, number of classes).
 
-        # remove this line once you implement the function
-        raise NotImplementedError("Implement the model_inference function.")
+        image = self.prompt_learner(image)  # ** Difference with clipzs.py
 
+        # ** Difference with clipzs.py (not using torch.no_grad(), because we need it in training but not in validation, where it is being wrapped)
+        image_features = self.clip_model.encode_image(image)
+        image_features = image_features / image_features.norm(dim=-1, keepdim=True)
+
+        logits = self.logit_scale * image_features @ self.text_features.T  # * Check ED discussion about this
+
+        assert logits.shape == (image.shape[0], len(self.text_features)), f"Expected logits of shape (batch_size, num_classes), got {logits.shape}"
+
+        return logits
         #######################
         # END OF YOUR CODE    #
         #######################

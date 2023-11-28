@@ -174,13 +174,9 @@ class ZeroshotCLIP(nn.Module):
 
         with torch.no_grad():
             text_features = clip_model.encode_text(prompts)
-
         text_features /= text_features.norm(dim=-1, keepdim=True)
 
-        assert text_features.shape == (len(prompts), 512), (
-            f"Expected text features of shape (num_prompts, 512), "
-            f"got {text_features.shape}"
-        )
+        assert text_features.shape == (len(prompts), 512), f"Expected text features of shape (num_prompts, 512), got {text_features.shape}."
 
         return text_features
 
@@ -222,17 +218,13 @@ class ZeroshotCLIP(nn.Module):
 
         with torch.no_grad():
             image_features = self.clip_model.encode_image(image)
-        
         image_features /= image_features.norm(dim=-1, keepdim=True)
+
         logits = self.logit_scale * image_features @ self.text_features.T  # * Check ED discussion about this
 
-        assert logits.shape == (image.shape[0], len(self.class_names)), (
-            f"Expected logits of shape (batch_size, num_classes), "
-            f"got {logits.shape}"
-        )
+        assert logits.shape == (image.shape[0], len(self.class_names)), f"Expected logits of shape (batch_size, num_classes), got {logits.shape}"
 
         return logits
-
         #######################
         # END OF YOUR CODE    #
         #######################

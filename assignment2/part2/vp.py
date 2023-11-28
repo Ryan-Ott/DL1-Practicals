@@ -61,8 +61,8 @@ class FixedPatchPrompter(nn.Module):
         # - It is always advisable to implement and then visualize if
         #   your prompter does what you expect it to do.
 
-        _, _, H_patch, W_patch = self.patch.shape
         x_patched= x.clone()
+        _, _, H_patch, W_patch = self.patch.shape
         x_patched[:, :, :H_patch, :W_patch] += self.patch
         
         return x_patched
@@ -111,26 +111,20 @@ class PadPrompter(nn.Module):
         # - It is always advisable to implement and then visualize if
         #   your prompter does what you expect it to do.
 
-        B, C, H, W = x.shape
+        _, _, H, W = x.shape
+        pad_size = self.pad_up.shape[2]  # could also have been dim 3 of left/right
         x_padded = x.clone()
 
         # Top and bottom padding
-        padded_x = torch.cat((self.pad_up.expand(B, -1, -1, -1), x_padded, self.pad_down.expand(B, -1, -1, -1)), dim=2)
-        # ? Does thsi actually place the prompt at the top and bottom? I dont see how? Its important that the padding is
-        # ? added on top of the existing image value and is within the image, not expanding outside of it in case this is what the code does now.
-
-        # Get starting & ending index for left and right padding
-        new_H = padded_x.shape[2]
-        # ? This is never used?
+        x_padded[:, :, :pad_size, :] += self.pad_up
+        x_padded[:, :, H - pad_size:, :] += self.pad_down
 
         # Left and right padding
-        padded_x = torch.cat((padded_x[:, :, :, :self.pad_size],
-                              self.pad_left.expand(B, -1, -1, -1),
-                              padded_x[:, :, :, self.pad_size:-self.pad_size],
-                              self.pad_right.expand(B, -1, -1, -1),
-                              padded_x[:, :, :, -self.pad_size:]),
-                            dim=3)
+        vertical_range = slice(pad_size, H - pad_size)
+        x_padded[:, :, vertical_range, :pad_size] += self.pad_left
+        x_padded[:, :, vertical_range, W - pad_size:] += self.pad_right
 
+        return x_padded
         #######################
         # END OF YOUR CODE    #
         #######################

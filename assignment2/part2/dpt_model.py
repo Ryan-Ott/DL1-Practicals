@@ -86,7 +86,7 @@ class DeepPromptCLIP(nn.Module):
         # Hint: CLIP uses different datatypes for CPU (float32) and GPU (float16)
         # Hint: use args.prompt_num to specify the number of deep prompts to use
 
-        self.deep_prompt = 
+        self.deep_prompt = ...
 
         # remove this line once you implement the function
         raise NotImplementedError("Write the code to compute text features.")

@@ -114,19 +114,35 @@ def parse_option():
 
     args.num_workers = min(args.num_workers, os.cpu_count())
 
-    args.filename = "{}_{}_{}_{}_{}_{}_lr_{}_decay_{}_bsz_{}_warmup_{}_trial_{}".format(
-        args.method,
-        args.prompt_size,
-        args.dataset,
-        args.model,
-        args.arch,
-        args.optim,
-        args.learning_rate,
-        args.weight_decay,
-        args.batch_size,
-        args.warmup,
-        args.trial,
-    )
+    if args.prompt_type == "visual_prompt":
+        args.filename = "{}_{}_{}_{}_{}_{}_{}_lr_{}_decay_{}_bsz_{}_warmup_{}_trial_{}".format(
+            args.prompt_type,
+            args.method,
+            args.prompt_size,
+            args.dataset,
+            args.model,
+            args.arch,
+            args.optim,
+            args.learning_rate,
+            args.weight_decay,
+            args.batch_size,
+            args.warmup,
+            args.trial,
+        )
+    elif args.prompt_type == "deep_prompt":
+        args.filename = "{}_injection_layer_{}_{}_{}_{}_{}_lr_{}_decay_{}_bsz_{}_warmup_{}_trial_{}".format(
+            args.prompt_type,
+            args.injection_layer,
+            args.dataset,
+            args.model,
+            args.arch,
+            args.optim,
+            args.learning_rate,
+            args.weight_decay,
+            args.batch_size,
+            args.warmup,
+            args.trial,
+        )
 
     args.device = "cuda" if torch.cuda.is_available() else "cpu"
     args.model_folder = os.path.join(args.model_dir, args.filename)
@@ -145,7 +161,11 @@ def main():
         learn.evaluate("test")
     else:
         learn.run()
-        learn.evaluate("valid")
+        # ** Altered here to evaluate the best model, not the last one and avoiding redundant evaluation on valid set
+        # learn.evaluate("valid")  # ! Redundant because run() already evaluates on valid set
+        learn.args.resume = os.path.join(learn.args.model_folder, "model_best.pth.tar")
+        print("Evaluating best model on test set...")
+        # **
         learn.evaluate("test")
 
 

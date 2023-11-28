@@ -22,7 +22,7 @@ import torch.nn as nn
 import numpy as np
 import random
 from clip import clip
-from torch.cuda.amp import GradScaler
+from torch.cuda.amp.grad_scaler import GradScaler
 import time
 
 
@@ -73,7 +73,11 @@ class Learner:
         # Note: You need to keep the visual/deep prompt's parameters trainable
         # Hint: Check for "prompt_learner" and "deep_prompt" in the parameters' names
 
-        raise NotImplementedError
+        for name, param in self.clip.named_parameters():
+            if "prompt_learner" in name or "deep_prompt" in name:
+                param.requires_grad = True
+            else:
+                param.requires_grad = False
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -229,7 +233,20 @@ class Learner:
             # - Perform a backward pass
             # - Update the parameters
 
-            raise NotImplementedError
+            self.optimizer.zero_grad()
+
+            images = images.to(self.device)
+            target = target.to(self.device)
+
+            output = self.clip(images)
+
+            loss = self.criterion(output, target)
+
+            # Using GradScaler to use PyTorch's AMP
+            self.scaler.scale(loss).backward()
+
+            self.scaler.step(self.optimizer)
+            self.scaler.update()
             #######################
             # END OF YOUR CODE    #
             #######################
@@ -289,7 +306,12 @@ class Learner:
                 # - Forward pass (using self.clip)
                 # - Compute the loss (using self.criterion)
 
-                raise NotImplementedError
+                images = images.to(self.device)
+                target = target.to(self.device)
+
+                output = self.clip(images)
+
+                loss = self.criterion(output, target)  # No need for GradScaler because we don't use gradients for parameter updates
                 #######################
                 # END OF YOUR CODE    #
                 #######################
