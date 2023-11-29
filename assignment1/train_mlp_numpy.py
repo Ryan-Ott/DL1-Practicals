@@ -33,7 +33,6 @@ import cifar10_utils
 import torch
 
 # Added imports
-import pandas as pd
 import matplotlib.pyplot as plt
 
 
@@ -97,31 +96,32 @@ def plot_confusion_matrix(conf_mat, classes):
     plt.savefig(os.path.join(script_dir, 'NumPy Confusion Matrix.png'), dpi=300)
     plt.close()
 
-
 def plot_metrics_table(confusion_matrix, classes, betas=[0.1, 1, 10]):
     # Calculate metrics
     metrics_default = confusion_matrix_to_metrics(confusion_matrix)
     precision = np.round(metrics_default['precision'], 3)
     recall = np.round(metrics_default['recall'], 3)
 
-    # Create a DataFrame
-    data = {
-        "Precision": precision,
-        "Recall": recall
-    }
+    # Preparing data for the table
+    data = [precision, recall]
+    column_labels = ["Precision", "Recall"]
 
     for beta in betas:
         f1_beta = np.round(confusion_matrix_to_metrics(confusion_matrix, beta=beta)['f1_beta'], 3)
-        data[f"F1-{beta}"] = f1_beta
+        data.append(f1_beta)
+        column_labels.append(f"F1-{beta}")
 
-    df = pd.DataFrame(data, index=classes)
+    # Transposing data to fit into the table format
+    table_data = np.array(data).T
 
     # == Plotting the table ==
     fig, ax = plt.subplots(figsize=(12, 4))
     ax.axis('tight')
     ax.axis('off')
     ax.set_title("Metrics Table for NumPy", fontsize=16, weight='bold', pad=15)
-    ax.table(cellText=df.values, colLabels=df.columns, rowLabels=df.index, cellLoc='center', loc='center')
+
+    # Creating the table
+    ax.table(cellText=table_data, colLabels=column_labels, rowLabels=classes, cellLoc='center', loc='center')
 
     # Saving the plot
     script_dir = os.path.dirname(os.path.abspath(__file__))

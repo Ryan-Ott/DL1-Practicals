@@ -186,8 +186,9 @@ class ELUModule(object):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
+        # ? Note to self: dL/dx = dL/dy * dy/dx = dL/dy * 1 if x > 0 else exp(x)
         X = self.cache
-        dx = dout * np.where(X > 0, 1, np.exp(X))  # dL/dx = dL/dy * dy/dx = dL/dy * 1 if x > 0 else exp(x)
+        dx = dout * np.where(X > 0, 1, np.exp(X))
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -313,7 +314,7 @@ class CrossEntropyModule(object):
         # ?               We then average over the batch size
 
         # ? Note to self: x are the softmax probabilities between 0 and 1. We take the log of the correct class (which
-        # ?               will result in a negative number. We turn it positive, sum them up and average over the batch.
+        # ?               will result in a negative number because <1. We turn it positive, sum them up and average over the batch.
         S = y.shape[0]
         log_likelihood = -np.log(x[np.arange(S), y])  # * select from x the correct class for each sample in the batch using x[sample, correct_class]
         out = np.sum(log_likelihood) / S  # Average over the entire batch
@@ -343,8 +344,11 @@ class CrossEntropyModule(object):
         S = y.shape[0]
         labels = np.zeros_like(x)
         labels[np.arange(S), y] = 1  # One hot encoding of the labels
-        # dx = -labels / (x * S)
         dx = (x - labels) / S
+        # ? Note to self: In isolation, ∂L/∂x would be (labels np.dot 1/x) / S
+        # ? but we can simplify this to (x - labels) / S because the gradient
+        # ? of softmax wrt to the input logits is x-(class label), averaged over
+        # ? the batch
         #######################
         # END OF YOUR CODE    #
         #######################
