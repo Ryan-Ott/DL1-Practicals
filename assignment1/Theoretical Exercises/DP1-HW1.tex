@@ -236,12 +236,25 @@ distribution is even. For example, in a balanced binary classification problem l
 % --------------------------------
 
 \subsection{Confusion Matrix}
-Using NumPy, we get the following confusion matrix for the CIFAR10 dataset:
+Created using NumPy, we get the confusion matrices on the CIFAR10 dataset for the two models as seen in the
+\texttt{.png} files.
 
 \bigskip
 % --------------------------------
 
 \subsection{F1-beta Score}
-Using NumPy, we get the following F1-beta scores for the CIFAR10 dataset:
+Using NumPy, a metrics table for both the NumPy and the PyTorch model was created (also shown in the \texttt{.png})
+files.
+
+For the NumPy model we see that the \textit{cars, trucks, ships} and \textit{airplanes} classes have the highest
+precision, with the classes for which the model showed high precision also being the ones with highest recall.
+Especially ships seem to be easily classifyable as it has the highest F1-1 score (which is the harmonic mean of
+precision and recall), it has one of the highest precision scores and the highest recall score, so scores even more
+highly in the F1-10 metric, which weighs recall higher than precision.
+
+For the PyTorch model we see that \textit{trucks} now actually beats \textit{cars} in terms of precision, but
+\textit{ships} having the highest recall and F1-1 score. Noticable for this model is the very low recall for
+\textit{cats}, which is the lowest of all classes. This is also reflected in the F1-10 score, which is the lowest
+by far for both models. This might explain the lower overall accuracy of the PyTorch model compared to the NumPy one.
 
 \end{document}

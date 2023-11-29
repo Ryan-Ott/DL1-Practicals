@@ -1,0 +1,4 @@
+[0] Config.pm:307> INFO - This is Biber 2.19
+[0] Config.pm:310> INFO - Logfile is 'DP1-HW1.blg'
+[90] biber-darwin:340> INFO - === Wed Nov 29, 2023, 01:43:55
+[108] Biber.pm:419> INFO - Reading 'DP1-HW1.bcf'
