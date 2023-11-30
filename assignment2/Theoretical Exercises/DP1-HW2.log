@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.13)  27 NOV 2023 14:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.13)  30 NOV 2023 23:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1230,32 +1230,83 @@ LaTeX Font Info:    Trying to load font information for U+wasy on input line 17.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/wasysym/uwasy.fd
 File: uwasy.fd 2020/01/19 v2.4 Wasy-2 symbol font definitions
 )
+<imgs/Top1Acc-vs-Inference.png, id=64, 824.6007pt x 395.3169pt>
+File: imgs/Top1Acc-vs-Inference.png Graphic file (type png)
+<use imgs/Top1Acc-vs-Inference.png>
+Package pdftex.def Info: imgs/Top1Acc-vs-Inference.png  used on input line 44.
+(pdftex.def)             Requested size: 354.77805pt x 170.07945pt.
+<imgs/NumParams-vs-Inference.png, id=67, 934.4511pt x 395.3169pt>
+File: imgs/NumParams-vs-Inference.png Graphic file (type png)
+<use imgs/NumParams-vs-Inference.png>
+Package pdftex.def Info: imgs/NumParams-vs-Inference.png  used on input line 54.
+(pdftex.def)             Requested size: 354.77805pt x 150.08926pt.
+<imgs/Inference-vs-noGrad.png, id=69, 783.4068pt x 426.393pt>
+File: imgs/Inference-vs-noGrad.png Graphic file (type png)
+<use imgs/Inference-vs-noGrad.png>
+Package pdftex.def Info: imgs/Inference-vs-noGrad.png  used on input line 66.
+(pdftex.def)             Requested size: 354.77805pt x 193.10475pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imgs/VRAM-vs-noGrad.png, id=71, 735.7086pt x 426.393pt>
+File: imgs/VRAM-vs-noGrad.png Graphic file (type png)
+<use imgs/VRAM-vs-noGrad.png>
+Package pdftex.def Info: imgs/VRAM-vs-noGrad.png  used on input line 78.
+(pdftex.def)             Requested size: 354.77805pt x 205.62273pt.
+[1
+
+{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc} <./imgs/Top1Acc-vs-Inference.png> <./imgs/NumParams-vs-Inference.png>]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [1
+ [2 <./imgs/Inference-vs-noGrad.png> <./imgs/VRAM-vs-noGrad.png>]
+<imgs/cifar100-test_red,green,blue.png, id=92, 1011.78pt x 578.16pt>
+File: imgs/cifar100-test_red,green,blue.png Graphic file (type png)
+<use imgs/cifar100-test_red,green,blue.png>
+Package pdftex.def Info: imgs/cifar100-test_red,green,blue.png  used on input line 129.
+(pdftex.def)             Requested size: 354.77805pt x 202.72955pt.
+<imgs/cifar100-test_human-made,from-nature.png, id=94, 1011.78pt x 578.16pt>
+File: imgs/cifar100-test_human-made,from-nature.png Graphic file (type png)
+<use imgs/cifar100-test_human-made,from-nature.png>
+Package pdftex.def Info: imgs/cifar100-test_human-made,from-nature.png  used on input line 144.
+(pdftex.def)             Requested size: 354.77805pt x 202.72955pt.
 
-{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc}] [2] (./DP1-HW2.aux)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3 <./imgs/cifar100-test_red,green,blue.png>]
+<imgs/prompt_fixed_patch.png, id=105, 161.8848pt x 161.8848pt>
+File: imgs/prompt_fixed_patch.png Graphic file (type png)
+<use imgs/prompt_fixed_patch.png>
+Package pdftex.def Info: imgs/prompt_fixed_patch.png  used on input line 168.
+(pdftex.def)             Requested size: 170.29294pt x 170.3027pt.
+<imgs/prompt_padding.png, id=106, 161.8848pt x 161.8848pt>
+File: imgs/prompt_padding.png Graphic file (type png)
+<use imgs/prompt_padding.png>
+Package pdftex.def Info: imgs/prompt_padding.png  used on input line 175.
+(pdftex.def)             Requested size: 170.29294pt x 170.3027pt.
+ [4 <./imgs/cifar100-test_human-made,from-nature.png> <./imgs/prompt_fixed_patch.png> <./imgs/prompt_padding.png>] (./DP1-HW2.aux)
 Package rerunfilecheck Info: File `DP1-HW2.out' has not changed.
-(rerunfilecheck)             Checksum: 2B1A706D108B1DE48A0B568B368E50BF;3078.
+(rerunfilecheck)             Checksum: D26C169E919507EAC796AC728A5C3C2C;3780.
 Package logreq Info: Writing requests to 'DP1-HW2.run.xml'.
 \openout1 = `DP1-HW2.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39012 strings out of 476025
- 752698 string characters out of 5790017
- 1864388 words of memory out of 5000000
- 58710 multiletter control sequences out of 15000+600000
- 534387 words of font info for 108 fonts, out of 8000000 for 9000
+ 39137 strings out of 476025
+ 755682 string characters out of 5790017
+ 1862388 words of memory out of 5000000
+ 58781 multiletter control sequences out of 15000+600000
+ 538553 words of font info for 128 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  104i,11n,97p,1147b,1767s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on DP1-HW2.pdf (2 pages, 51531 bytes).
+</usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on DP1-HW2.pdf (4 pages, 1324780 bytes).
 PDF statistics:
- 89 PDF objects out of 1000 (max. 8388607)
- 78 compressed objects within 1 object stream
- 16 named destinations out of 1000 (max. 500000)
- 30317 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 146 PDF objects out of 1000 (max. 8388607)
+ 114 compressed objects within 2 object streams
+ 29 named destinations out of 1000 (max. 500000)
+ 34469 words of extra memory for PDF output out of 35830 (max. 10000000)
 

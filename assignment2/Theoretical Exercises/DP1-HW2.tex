@@ -38,20 +38,47 @@ Deep Learning 1\\
 \subsubsection{Inference Speed per Image against Accuracy and Number of Parameters}
 With a Pearson correlation coefficient of 0.85 there seems to be a strong positive linear correlation between the
 top-1 accuracy and the inference speed. The ViT-B/32 model performs best overall with a higher accuracy for its
-inference speed than the trend suggests.
+inference speed than the trend suggests. Shown in Figure \ref{fig:Top1Acc-vs-Inference}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{"imgs/Top1Acc-vs-Inference.png"}
+    \caption{Top-1 Accuracy vs Inference Speed per Image}
+    \label{fig:Top1Acc-vs-Inference}
+\end{figure}
+
 For inference speed against number of trainable parameters, we see no correlation. The number of trainable parameters
 should only play a role when the model is being trained, not during inferencing, so this result matches our
-expectations.
+expectations. Shown in Figure \ref{fig:NumParams-vs-Inference}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{"imgs/NumParams-vs-Inference.png"}
+    \caption{Number of Trainable Parameters vs Inference Speed per Image}
+    \label{fig:NumParams-vs-Inference}
+\end{figure}
 
 \subsubsection{Inference Speed per Image with and without torch.no\_grad()}
 With torch.no\_grad() the inference speed should be faster because gradients are not computed and stored for the
 backward pass within the context manager's scope, thus requiring less operations and saving compute. This is
-confirmed by the results, the inference speed is slightly faster with torch.no\_grad() across the models.
+confirmed by the results, the inference speed is slightly faster with torch.no\_grad() across the models. Shown in
+Figure \ref{fig:Inference-vs-noGrad}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{"imgs/Inference-vs-noGrad.png"}
+    \caption{Inference Speed per Image with and without torch.no\_grad()}
+    \label{fig:Inference-vs-noGrad}
+\end{figure}
 
 \subsubsection{vRAM Usage with and without torch.no\_grad()}
 Like with the inference speed, the vRAM usage should be lower with torch.no\_grad() because gradients are not
 stored for the backward pass when performing tensor operations, freeing up memory. Much more considerably than the
-inference speed, the vRAM usage is lower when using torch.no\_grad() as seen in the plot.
+inference speed, the vRAM usage is lower when using torch.no\_grad() as seen in the plot. Shown in Figure
+\ref{fig:VRAM-vs-noGrad}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{"imgs/VRAM-vs-noGrad.png"}
+    \caption{vRAM Usage with and without torch.no\_grad()}
+    \label{fig:VRAM-vs-noGrad}
+\end{figure}
 \bigskip
 % ------------------------------
 
@@ -71,7 +98,7 @@ The first convolutional layers tend to capture lower-level features like edges, 
 layers capture higher-level features like shapes and objects in a larger receptive field. As such, better performance
 should be achievable by fine-tuning the last layers (along with the classifier layers) because they are more
 specialized to the downstream task than the first layers.
-\newpage
+\bigskip
 % ==============================
 
 \section{Visual Prompting}
@@ -93,11 +120,87 @@ specialized to the downstream task than the first layers.
     \label{tab:clip_accuracy}
 \end{table}
 
+
 \subsubsection{Prompting CLIP for a New Classification Task}
-\textbf{Prompt:} \textit{"This is an image mostly coloured \_\_\_"}
+\textbf{Prompt:} \textit{"This is an image mostly coloured \_\_\_"}\newline
 \textbf{Labels:} \textit{"red", "green", "blue"}
---------------------------------
-\textbf{Prompt:} \textit{"This image displays an object that is \_\_\_"}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{"imgs/cifar100-test_red,green,blue.png"}
+    \caption{Primary Colour Identification}
+    \label{fig:CLIP-primary-colour}
+\end{figure}
+
+We see in Figure \ref{fig:CLIP-primary-colour} that the model is able to identify the primary colour of the image
+with a high degree of accuracy. For images with a distinct primary colour, the model is able to identify it with
+high confidence, and for images with no clear distinct primary colour, it returns failry spread out probabilities.
+The contrastive learning approach of CLIP allows it to generalize well to new tasks using prompting.
+\bigskip
+
+\textbf{Prompt:} \textit{"This image displays an object that is \_\_\_"}\newline
 \textbf{Labels:} \textit{"human-made", "from-nature"}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{"imgs/cifar100-test_human-made,from-nature.png"}
+    \caption{Distinguishing Human-made and Natural Objects}
+    \label{fig:CLIP-human-vs-nature}
+\end{figure}
+
+Here too the model performs quite well, considering the task is slightly more abstract than identifying just primary
+colours. For clearly human-made objects like a computer keyboard or a couch, the model is able to identify it with
+high confidence. It does however mislabel some examples, like the image of the bunny being labelled as human-made. The
+more even spread of probabilities for the bunny image suggests that the model is not very confident in its prediction.
+See Figure \ref{fig:CLIP-human-vs-nature}.
+
+\bigskip
+It therefore seems that CLIP is able to generalize well to new tasks using prompting, but it is not perfect and can
+make mistakes when the task is more abstract.
+This approach to zero-shot learning is very powerful because it allows us to perform a wide range of tasks without
+having to train a new model for each task. This is especially useful when the task is not very complex and does not
+require a lot of training data, because training a new model for each task would be very inefficient.
+\bigskip
+
+\subsection{Comparing Prompt Type's Effectiveness on Classification Accuracy}
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{"imgs/prompt_fixed_patch.png"}
+        \caption{Fixed Patch Visual Prompt (Single Pixel Top-Left)}
+        \label{fig:prompt-fixed}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{"imgs/prompt_padding.png"}
+        \caption{Padding Visual Prompt}
+        \label{fig:prompt-padding}
+    \end{minipage}
+\end{figure}
+
+% CIFAR-10 fixed_patch and prompt size 1 Acc@1 89.570
+% CIFAR-10 padding and prompt size 30 Acc@1 92.740
+% CIFAR-100 fixed_patch and prompt size 1 Acc@1 64.490
+% CIFAR-100 padding and prompt size 30 Acc@1 71.390
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|c||c|}
+    \hline
+    \textbf{Dataset} & \textbf{Fixed Patch Accuracy (\%)} & \textbf{Padding Accuracy (\%)} & \textbf{Baseline Accuracy (\%)} \\ \hline
+    CIFAR-10 & 89.570 & 92.740 & 88.940 \\ \hline
+    CIFAR-100 & 64.490 & 71.390 & 63.150 \\ \hline
+    \end{tabular}
+    \caption{CLIP Top-1 Accuracy on CIFAR-10 and CIFAR-100's Test with Different Prompt Types Compared to Baseline}
+    \label{tab:clip_accuracy_prompt_types}
+\end{table}
+
+Comparing these results obtained using visual prompts on the CIFAR-10 and 100 test set to the baseline results in
+seen in Table \ref{tab:clip_accuracy}, we see that the accuracy is higher for both prompt types, with the padding
+prompt type performing significantly better than the fixed patch prompt type. This is likely because the padding
+prompt type has a lot more trainable parameters (69840 for padding size 30) than the fixed patch prompt type (3 for
+patch size 1, one per channel), and thus is able adapt better to the task. Espeically for the CIFAR-100 dataset this
+improvement is noticeable. likely due to the fact that the CIFAR-100 dataset is more complex than the CIFAR-10
+dataset, and thus requires more trainable parameters to perform well.
+
 
 \end{document}
