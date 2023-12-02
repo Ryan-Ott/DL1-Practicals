@@ -44,12 +44,11 @@ class DeepPromptCLIP(nn.Module):
         if args.device == "cpu":
             clip_model = clip_model.float()
 
-
         prompts = [template.format(c.replace("_", " ")) for c in classnames]
         print("List of prompts:")
         pprint(prompts)
 
-        prompts = torch.cat([clip.tokenize(p) for p in prompts])
+        prompts = torch.cat([clip.tokenize(p) for p in prompts])  # ? Note to self: This had to be done myself in vp_model.py
         prompts = prompts.to(args.device)
 
 
@@ -64,8 +63,11 @@ class DeepPromptCLIP(nn.Module):
         # - Given a list of prompts, compute the text features for each prompt.
         # - Return a tensor of shape (num_prompts, 512).
 
-        # remove this line once you implement the function
-        raise NotImplementedError("Write the code to compute text features.")
+        with torch.no_grad():
+            text_features = clip_model.encode_text(prompts)
+            text_features = text_features / text_features.norm(dim=-1, keepdim=True)
+
+        assert text_features.shape == (len(prompts), 512), f"Expected text features of shape (num_prompts, 512), got {text_features.shape}."
 
         #######################
         # END OF YOUR CODE    #
@@ -86,10 +88,9 @@ class DeepPromptCLIP(nn.Module):
         # Hint: CLIP uses different datatypes for CPU (float32) and GPU (float16)
         # Hint: use args.prompt_num to specify the number of deep prompts to use
 
-        self.deep_prompt = ...
-
-        # remove this line once you implement the function
-        raise NotImplementedError("Write the code to compute text features.")
+        dtype = torch.float32 if args.device == "cpu" else torch.float16
+        embedding_dim = self.clip_model.visual.
+        self.deep_prompt = torch.nn.Parameter(torch.randn(1, args.prompt_num, embedding_dim, dtype=dtype))
 
         #######################
         # END OF YOUR CODE    #
@@ -112,9 +113,14 @@ class DeepPromptCLIP(nn.Module):
         # - You need to multiply the similarity logits with the logit scale (clip_model.logit_scale).
         # - Return logits of shape (batch size, number of classes).
 
-        # remove this line once you implement the function
-        raise NotImplementedError("Implement the model_inference function.")
+        image_features = self.custom_encode_image(image)
+        image_features = image_features / image_features.norm(dim=-1, keepdim=True)
 
+        logits = self.logit_scale * image_features @ self.text_features.T
+
+        assert logits.shape == (image.shape[0], len(self.text_features)), f"Expected logits of shape (batch size, number of classes), got {logits.shape}."
+
+        return logits
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -149,8 +155,13 @@ class DeepPromptCLIP(nn.Module):
 
         # Hint: Beware of the batch size (the deep prompt is the same for all images in the batch).
 
-        # remove this line once you implement the function
-        raise NotImplementedError("Implement the model_inference function.")
+        for i, block in enumerate(image_encoder.transformer.resblocks):
+            if i == self.injection_layer:
+                L, N = x.shape[:2]  # ? L = sequence length, N = batch size (D = embedding dimension)
+                deep_prompt = self.deep_prompt.repeat(L, N, 1)  # repeat for all images in batch
+                x = torch.cat((x, deep_prompt), dim=0)  # add deep prompt to batch
+            
+            x = block(x)
 
         #######################
         # END OF YOUR CODE    #

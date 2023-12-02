@@ -1,0 +1,870 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius+and+Lisa#SoftwarepolicySnelliusandLisa-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+Running experiment on cifar10 with 1 learnable deep prompts injected at layer 0
+Namespace(print_freq=10, save_freq=50, batch_size=128, num_workers=16, epochs=20, square_size=8, optim='sgd', learning_rate=40, weight_decay=0, warmup=1000, momentum=0.9, patience=1000, model='clip', arch='ViT-B/32', prompt_type='deep_prompt', prompt_num=1, injection_layer=0, method='padding', prompt_size=30, text_prompt_template='This is a photo of a {}', visualize_prompt=False, root='/scratch-local/scur1180.4571930', dataset='cifar10', image_size=224, test_noise=False, seed=0, model_dir='./save/models', image_dir='./save/images', filename='deep_prompt_injection_layer_0_1_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1', trial=1, resume=None, evaluate=False, gpu=None, use_wandb=False, device='cuda', model_folder='./save/models/deep_prompt_injection_layer_0_1_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1')
+Downloading https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz to /scratch-local/scur1180.4571930/cifar-10-python.tar.gz
+  0%|          | 0/170498071 [00:00<?, ?it/s]  0%|          | 65536/170498071 [00:00<05:41, 498944.32it/s]  0%|          | 196608/170498071 [00:00<03:35, 790085.65it/s]  0%|          | 458752/170498071 [00:00<02:07, 1330185.14it/s]  1%|          | 1114112/170498071 [00:00<00:55, 3046342.89it/s]  2%|▏         | 3309568/170498071 [00:00<00:19, 8634193.19it/s]  4%|▍         | 6750208/170498071 [00:00<00:09, 16421789.97it/s]  6%|▋         | 10846208/170498071 [00:00<00:07, 21285505.10it/s]  9%|▉         | 15138816/170498071 [00:00<00:05, 27293939.47it/s] 11%|█         | 17989632/170498071 [00:01<00:05, 27265416.33it/s] 13%|█▎        | 21397504/170498071 [00:01<00:05, 29180035.61it/s] 15%|█▍        | 24903680/170498071 [00:01<00:04, 30882606.75it/s] 17%|█▋        | 29130752/170498071 [00:01<00:04, 34155268.03it/s] 20%|█▉        | 33423360/170498071 [00:01<00:03, 36695417.40it/s] 22%|██▏       | 37158912/170498071 [00:01<00:04, 31566777.49it/s] 24%|██▍       | 41484288/170498071 [00:01<00:03, 34648102.95it/s] 27%|██▋       | 45449216/170498071 [00:01<00:03, 36017537.90it/s] 29%|██▉       | 49741824/170498071 [00:01<00:03, 37953943.88it/s] 31%|███▏      | 53641216/170498071 [00:02<00:03, 32553582.86it/s] 34%|███▍      | 57933824/170498071 [00:02<00:03, 35228668.04it/s] 36%|███▋      | 62128128/170498071 [00:02<00:02, 36999018.87it/s] 39%|███▉      | 66224128/170498071 [00:02<00:03, 32701965.58it/s] 41%|████▏     | 70516736/170498071 [00:02<00:02, 35284256.94it/s] 44%|████▍     | 74743808/170498071 [00:02<00:02, 37139600.12it/s] 46%|████▋     | 79003648/170498071 [00:02<00:02, 38620380.43it/s] 49%|████▊     | 83001344/170498071 [00:02<00:02, 33420433.10it/s] 51%|█████     | 87195648/170498071 [00:02<00:02, 35599184.61it/s] 54%|█████▎    | 91455488/170498071 [00:03<00:02, 37471993.99it/s] 56%|█████▌    | 95354880/170498071 [00:03<00:02, 32713428.33it/s] 58%|█████▊    | 99647488/170498071 [00:03<00:02, 35295091.54it/s] 61%|██████    | 103743488/170498071 [00:03<00:01, 36801896.70it/s] 63%|██████▎   | 107839488/170498071 [00:03<00:01, 32652139.67it/s] 66%|██████▌   | 112132096/170498071 [00:03<00:01, 35237586.89it/s] 68%|██████▊   | 116228096/170498071 [00:03<00:01, 36742707.92it/s] 71%|███████   | 120487936/170498071 [00:03<00:01, 38352253.13it/s] 73%|███████▎  | 124452864/170498071 [00:04<00:01, 33371575.99it/s] 75%|███████▌  | 128548864/170498071 [00:04<00:01, 35271630.88it/s] 78%|███████▊  | 132874240/170498071 [00:04<00:01, 37400008.59it/s] 80%|████████  | 136773632/170498071 [00:04<00:01, 32740038.75it/s] 83%|████████▎ | 141033472/170498071 [00:04<00:00, 35254016.16it/s] 85%|████████▌ | 144998400/170498071 [00:04<00:00, 36407057.23it/s] 88%|████████▊ | 149225472/170498071 [00:04<00:00, 32737465.10it/s] 90%|█████████ | 153550848/170498071 [00:04<00:00, 35391486.15it/s] 92%|█████████▏| 157351936/170498071 [00:04<00:00, 36061939.32it/s] 95%|█████████▍| 161644544/170498071 [00:05<00:00, 37933783.23it/s] 97%|█████████▋| 165543936/170498071 [00:05<00:00, 33168935.95it/s]100%|█████████▉| 169836544/170498071 [00:05<00:00, 35673386.26it/s]100%|██████████| 170498071/170498071 [00:05<00:00, 31822710.29it/s]
+Extracting /scratch-local/scur1180.4571930/cifar-10-python.tar.gz to /scratch-local/scur1180.4571930
+Files already downloaded and verified
+Building custom CLIP
+Loading CLIP (backbone: ViT-B/32)
+  0%|                                               | 0.00/338M [00:00<?, ?iB/s]  5%|█▊                                     | 16.0M/338M [00:00<00:02, 166MiB/s]  9%|███▋                                   | 31.9M/338M [00:00<00:01, 166MiB/s] 14%|█████▌                                 | 47.7M/338M [00:00<00:02, 143MiB/s] 18%|███████                                | 61.6M/338M [00:00<00:02, 134MiB/s] 23%|████████▉                              | 77.9M/338M [00:00<00:01, 146MiB/s] 28%|██████████▊                            | 93.5M/338M [00:00<00:01, 151MiB/s] 32%|████████████▊                           | 108M/338M [00:00<00:01, 147MiB/s] 37%|██████████████▌                         | 123M/338M [00:00<00:01, 150MiB/s] 42%|████████████████▋                       | 140M/338M [00:00<00:01, 159MiB/s] 46%|██████████████████▍                     | 156M/338M [00:01<00:01, 141MiB/s] 50%|████████████████████                    | 170M/338M [00:01<00:01, 140MiB/s] 54%|█████████████████████▋                  | 183M/338M [00:01<00:01, 125MiB/s] 58%|███████████████████████▏                | 196M/338M [00:01<00:01, 125MiB/s] 62%|████████████████████████▊               | 209M/338M [00:01<00:01, 129MiB/s] 66%|██████████████████████████▌             | 224M/338M [00:01<00:00, 137MiB/s] 71%|████████████████████████████▎           | 238M/338M [00:01<00:00, 141MiB/s] 75%|█████████████████████████████▉          | 252M/338M [00:01<00:00, 138MiB/s] 79%|███████████████████████████████▍        | 265M/338M [00:01<00:00, 134MiB/s] 82%|████████████████████████████████▉       | 278M/338M [00:02<00:00, 135MiB/s] 86%|██████████████████████████████████▌     | 291M/338M [00:02<00:00, 132MiB/s] 90%|████████████████████████████████████    | 304M/338M [00:02<00:00, 127MiB/s] 94%|█████████████████████████████████████▍  | 316M/338M [00:02<00:00, 115MiB/s] 98%|███████████████████████████████████████▎| 331M/338M [00:02<00:00, 127MiB/s]100%|████████████████████████████████████████| 338M/338M [00:02<00:00, 137MiB/s]
+List of prompts:
+['This is a photo of a airplane',
+ 'This is a photo of a automobile',
+ 'This is a photo of a bird',
+ 'This is a photo of a cat',
+ 'This is a photo of a deer',
+ 'This is a photo of a dog',
+ 'This is a photo of a frog',
+ 'This is a photo of a horse',
+ 'This is a photo of a ship',
+ 'This is a photo of a truck']
+Turning off gradients in both the image and the text encoder
+Parameters to be updated:
+"Parameters to be updated: {'deep_prompt'}"
+Number of prompt parameters:  224
+  0%|          | 0/313 [00:00<?, ?it/s]/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/conv.py:456: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /opt/conda/conda-bld/pytorch_1695392026823/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+  0%|          | 0/313 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 174, in <module>
+    main()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 164, in main
+    learn.run()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 157, in run
+    self.train_one_epoch(epoch)
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 241, in train_one_epoch
+    output = self.clip(images)
+             ^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 116, in forward
+    image_features = self.custom_encode_image(image)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 162, in custom_encode_image
+    x = torch.cat((x, deep_prompt), dim=0)  # add deep prompt to batch
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Sizes of tensors must match except in dimension 0. Expected size 768 but got size 224 for tensor number 1 in the list.
+Running experiment on cifar10 with 1 learnable deep prompts injected at layer 0
+Namespace(print_freq=10, save_freq=50, batch_size=128, num_workers=16, epochs=20, square_size=8, optim='sgd', learning_rate=40, weight_decay=0, warmup=1000, momentum=0.9, patience=1000, model='clip', arch='ViT-B/32', prompt_type='deep_prompt', prompt_num=1, injection_layer=0, method='padding', prompt_size=30, text_prompt_template='This is a photo of a {}', visualize_prompt=False, root='/scratch-local/scur1180.4571930', dataset='cifar10', image_size=224, test_noise=False, seed=0, model_dir='./save/models', image_dir='./save/images', filename='deep_prompt_injection_layer_0_1_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1', trial=1, resume=None, evaluate=False, gpu=None, use_wandb=False, device='cuda', model_folder='./save/models/deep_prompt_injection_layer_0_1_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1')
+Files already downloaded and verified
+Files already downloaded and verified
+Building custom CLIP
+Loading CLIP (backbone: ViT-B/32)
+List of prompts:
+['This is a photo of a airplane',
+ 'This is a photo of a automobile',
+ 'This is a photo of a bird',
+ 'This is a photo of a cat',
+ 'This is a photo of a deer',
+ 'This is a photo of a dog',
+ 'This is a photo of a frog',
+ 'This is a photo of a horse',
+ 'This is a photo of a ship',
+ 'This is a photo of a truck']
+Turning off gradients in both the image and the text encoder
+Parameters to be updated:
+"Parameters to be updated: {'deep_prompt'}"
+Number of prompt parameters:  224
+  0%|          | 0/313 [00:00<?, ?it/s]/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/conv.py:456: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /opt/conda/conda-bld/pytorch_1695392026823/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+  0%|          | 0/313 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 174, in <module>
+    main()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 164, in main
+    learn.run()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 157, in run
+    self.train_one_epoch(epoch)
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 241, in train_one_epoch
+    output = self.clip(images)
+             ^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 116, in forward
+    image_features = self.custom_encode_image(image)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 162, in custom_encode_image
+    x = torch.cat((x, deep_prompt), dim=0)  # add deep prompt to batch
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Sizes of tensors must match except in dimension 0. Expected size 768 but got size 224 for tensor number 1 in the list.
+Running experiment on cifar10 with 4 learnable deep prompts injected at layer 6
+Namespace(print_freq=10, save_freq=50, batch_size=128, num_workers=16, epochs=20, square_size=8, optim='sgd', learning_rate=40, weight_decay=0, warmup=1000, momentum=0.9, patience=1000, model='clip', arch='ViT-B/32', prompt_type='deep_prompt', prompt_num=4, injection_layer=6, method='padding', prompt_size=30, text_prompt_template='This is a photo of a {}', visualize_prompt=False, root='/scratch-local/scur1180.4571930', dataset='cifar10', image_size=224, test_noise=False, seed=0, model_dir='./save/models', image_dir='./save/images', filename='deep_prompt_injection_layer_6_4_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1', trial=1, resume=None, evaluate=False, gpu=None, use_wandb=False, device='cuda', model_folder='./save/models/deep_prompt_injection_layer_6_4_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1')
+Files already downloaded and verified
+Files already downloaded and verified
+Building custom CLIP
+Loading CLIP (backbone: ViT-B/32)
+List of prompts:
+['This is a photo of a airplane',
+ 'This is a photo of a automobile',
+ 'This is a photo of a bird',
+ 'This is a photo of a cat',
+ 'This is a photo of a deer',
+ 'This is a photo of a dog',
+ 'This is a photo of a frog',
+ 'This is a photo of a horse',
+ 'This is a photo of a ship',
+ 'This is a photo of a truck']
+Turning off gradients in both the image and the text encoder
+Parameters to be updated:
+"Parameters to be updated: {'deep_prompt'}"
+Number of prompt parameters:  896
+  0%|          | 0/313 [00:00<?, ?it/s]/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/conv.py:456: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /opt/conda/conda-bld/pytorch_1695392026823/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+  0%|          | 0/313 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 174, in <module>
+    main()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 164, in main
+    learn.run()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 157, in run
+    self.train_one_epoch(epoch)
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 241, in train_one_epoch
+    output = self.clip(images)
+             ^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 116, in forward
+    image_features = self.custom_encode_image(image)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 162, in custom_encode_image
+    x = torch.cat((x, deep_prompt), dim=0)  # add deep prompt to batch
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Sizes of tensors must match except in dimension 0. Expected size 128 but got size 512 for tensor number 1 in the list.
+Running experiment on cifar10 with 4 learnable deep prompts injected at layer 6
+Namespace(print_freq=10, save_freq=50, batch_size=128, num_workers=16, epochs=20, square_size=8, optim='sgd', learning_rate=40, weight_decay=0, warmup=1000, momentum=0.9, patience=1000, model='clip', arch='ViT-B/32', prompt_type='deep_prompt', prompt_num=4, injection_layer=6, method='padding', prompt_size=30, text_prompt_template='This is a photo of a {}', visualize_prompt=False, root='/scratch-local/scur1180.4571930', dataset='cifar10', image_size=224, test_noise=False, seed=0, model_dir='./save/models', image_dir='./save/images', filename='deep_prompt_injection_layer_6_4_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1', trial=1, resume=None, evaluate=False, gpu=None, use_wandb=False, device='cuda', model_folder='./save/models/deep_prompt_injection_layer_6_4_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1')
+Files already downloaded and verified
+Files already downloaded and verified
+Building custom CLIP
+Loading CLIP (backbone: ViT-B/32)
+List of prompts:
+['This is a photo of a airplane',
+ 'This is a photo of a automobile',
+ 'This is a photo of a bird',
+ 'This is a photo of a cat',
+ 'This is a photo of a deer',
+ 'This is a photo of a dog',
+ 'This is a photo of a frog',
+ 'This is a photo of a horse',
+ 'This is a photo of a ship',
+ 'This is a photo of a truck']
+Turning off gradients in both the image and the text encoder
+Parameters to be updated:
+"Parameters to be updated: {'deep_prompt'}"
+Number of prompt parameters:  896
+  0%|          | 0/313 [00:00<?, ?it/s]/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/conv.py:456: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /opt/conda/conda-bld/pytorch_1695392026823/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+  0%|          | 0/313 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 174, in <module>
+    main()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 164, in main
+    learn.run()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 157, in run
+    self.train_one_epoch(epoch)
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 241, in train_one_epoch
+    output = self.clip(images)
+             ^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 116, in forward
+    image_features = self.custom_encode_image(image)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 162, in custom_encode_image
+    x = torch.cat((x, deep_prompt), dim=0)  # add deep prompt to batch
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Sizes of tensors must match except in dimension 0. Expected size 128 but got size 512 for tensor number 1 in the list.
+Running experiment on cifar10 with  learnable deep prompts injected at layer 11
+usage: Visual Prompting for CLIP [-h] [--print_freq PRINT_FREQ]
+                                 [--save_freq SAVE_FREQ]
+                                 [--batch_size BATCH_SIZE]
+                                 [--num_workers NUM_WORKERS] [--epochs EPOCHS]
+                                 [--square_size SQUARE_SIZE] [--optim OPTIM]
+                                 [--learning_rate LEARNING_RATE]
+                                 [--weight_decay WEIGHT_DECAY]
+                                 [--warmup WARMUP] [--momentum MOMENTUM]
+                                 [--patience PATIENCE] [--model MODEL]
+                                 [--arch ARCH]
+                                 [--prompt_type {visual_prompt,deep_prompt}]
+                                 [--prompt_num PROMPT_NUM]
+                                 [--injection_layer INJECTION_LAYER]
+                                 [--method {padding,random_patch,fixed_patch}]
+                                 [--prompt_size PROMPT_SIZE]
+                                 [--text_prompt_template TEXT_PROMPT_TEMPLATE]
+                                 [--visualize_prompt] [--root ROOT]
+                                 [--dataset DATASET] [--image_size IMAGE_SIZE]
+                                 [--test_noise] [--seed SEED]
+                                 [--model_dir MODEL_DIR]
+                                 [--image_dir IMAGE_DIR] [--filename FILENAME]
+                                 [--trial TRIAL] [--resume RESUME]
+                                 [--evaluate] [--gpu GPU] [--use_wandb]
+Visual Prompting for CLIP: error: argument --prompt_num: expected one argument
+Running experiment on cifar10 with  learnable deep prompts injected at layer 11
+usage: Visual Prompting for CLIP [-h] [--print_freq PRINT_FREQ]
+                                 [--save_freq SAVE_FREQ]
+                                 [--batch_size BATCH_SIZE]
+                                 [--num_workers NUM_WORKERS] [--epochs EPOCHS]
+                                 [--square_size SQUARE_SIZE] [--optim OPTIM]
+                                 [--learning_rate LEARNING_RATE]
+                                 [--weight_decay WEIGHT_DECAY]
+                                 [--warmup WARMUP] [--momentum MOMENTUM]
+                                 [--patience PATIENCE] [--model MODEL]
+                                 [--arch ARCH]
+                                 [--prompt_type {visual_prompt,deep_prompt}]
+                                 [--prompt_num PROMPT_NUM]
+                                 [--injection_layer INJECTION_LAYER]
+                                 [--method {padding,random_patch,fixed_patch}]
+                                 [--prompt_size PROMPT_SIZE]
+                                 [--text_prompt_template TEXT_PROMPT_TEMPLATE]
+                                 [--visualize_prompt] [--root ROOT]
+                                 [--dataset DATASET] [--image_size IMAGE_SIZE]
+                                 [--test_noise] [--seed SEED]
+                                 [--model_dir MODEL_DIR]
+                                 [--image_dir IMAGE_DIR] [--filename FILENAME]
+                                 [--trial TRIAL] [--resume RESUME]
+                                 [--evaluate] [--gpu GPU] [--use_wandb]
+Visual Prompting for CLIP: error: argument --prompt_num: expected one argument
+Running experiment on cifar100 with 1 learnable deep prompts injected at layer 0
+Namespace(print_freq=10, save_freq=50, batch_size=128, num_workers=16, epochs=20, square_size=8, optim='sgd', learning_rate=40, weight_decay=0, warmup=1000, momentum=0.9, patience=1000, model='clip', arch='ViT-B/32', prompt_type='deep_prompt', prompt_num=1, injection_layer=0, method='padding', prompt_size=30, text_prompt_template='This is a photo of a {}', visualize_prompt=False, root='/scratch-local/scur1180.4571930', dataset='cifar100', image_size=224, test_noise=False, seed=0, model_dir='./save/models', image_dir='./save/images', filename='deep_prompt_injection_layer_0_1_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1', trial=1, resume=None, evaluate=False, gpu=None, use_wandb=False, device='cuda', model_folder='./save/models/deep_prompt_injection_layer_0_1_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1')
+Downloading https://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz to /scratch-local/scur1180.4571930/cifar-100-python.tar.gz
+  0%|          | 0/169001437 [00:00<?, ?it/s]  0%|          | 65536/169001437 [00:00<07:20, 383853.54it/s]  0%|          | 229376/169001437 [00:00<03:54, 719432.25it/s]  1%|          | 917504/169001437 [00:00<01:15, 2217862.78it/s]  2%|▏         | 3473408/169001437 [00:00<00:19, 8634465.72it/s]  4%|▍         | 6946816/169001437 [00:00<00:10, 15988172.01it/s]  6%|▋         | 10813440/169001437 [00:00<00:08, 19175470.88it/s]  9%|▉         | 15073280/169001437 [00:00<00:06, 25240815.59it/s] 11%|█▏        | 19300352/169001437 [00:01<00:05, 29815187.26it/s] 14%|█▍        | 23429120/169001437 [00:01<00:05, 28285820.06it/s] 16%|█▋        | 27688960/169001437 [00:01<00:04, 31907189.04it/s] 19%|█▉        | 31948800/169001437 [00:01<00:03, 34740479.42it/s] 21%|██▏       | 36208640/169001437 [00:01<00:04, 31552061.49it/s] 24%|██▍       | 40468480/169001437 [00:01<00:03, 34324863.05it/s] 26%|██▋       | 44728320/169001437 [00:01<00:03, 36484953.06it/s] 29%|██▉       | 48791552/169001437 [00:01<00:03, 32342795.75it/s] 31%|███▏      | 53051392/169001437 [00:02<00:03, 34909077.20it/s] 34%|███▍      | 57212928/169001437 [00:02<00:03, 36665120.62it/s] 36%|███▌      | 61046784/169001437 [00:02<00:02, 37110391.64it/s] 38%|███▊      | 64880640/169001437 [00:02<00:03, 32588830.06it/s] 41%|████      | 68943872/169001437 [00:02<00:02, 34632856.46it/s] 43%|████▎     | 73138176/169001437 [00:02<00:02, 36604291.95it/s] 46%|████▌     | 76939264/169001437 [00:02<00:02, 32150757.53it/s] 48%|████▊     | 81199104/169001437 [00:02<00:02, 34828145.15it/s] 50%|█████     | 85196800/169001437 [00:02<00:02, 36198274.98it/s] 53%|█████▎    | 89391104/169001437 [00:03<00:02, 32523931.48it/s] 55%|█████▌    | 93618176/169001437 [00:03<00:02, 34978637.14it/s] 58%|█████▊    | 97681408/169001437 [00:03<00:01, 36465827.27it/s] 60%|██████    | 101941248/169001437 [00:03<00:01, 38134187.41it/s] 63%|██████▎   | 105873408/169001437 [00:03<00:01, 33191111.94it/s] 65%|██████▌   | 110166016/169001437 [00:03<00:01, 35430399.48it/s] 68%|██████▊   | 114425856/169001437 [00:03<00:01, 37335721.70it/s] 70%|██████▉   | 118292480/169001437 [00:03<00:01, 32651232.35it/s] 73%|███████▎  | 122552320/169001437 [00:04<00:01, 35173737.14it/s] 75%|███████▍  | 126681088/169001437 [00:04<00:01, 36788334.53it/s] 77%|███████▋  | 130908160/169001437 [00:04<00:01, 32866526.59it/s] 80%|███████▉  | 135168000/169001437 [00:04<00:00, 35314028.86it/s] 82%|████████▏ | 139296768/169001437 [00:04<00:00, 36883725.00it/s] 85%|████████▍ | 143556608/169001437 [00:04<00:00, 38428748.59it/s] 87%|████████▋ | 147521536/169001437 [00:04<00:00, 33285375.65it/s] 90%|████████▉ | 151748608/169001437 [00:04<00:00, 35587676.09it/s] 92%|█████████▏| 156008448/169001437 [00:04<00:00, 37465960.32it/s] 95%|█████████▍| 159907840/169001437 [00:05<00:00, 32660231.02it/s] 97%|█████████▋| 164167680/169001437 [00:05<00:00, 35165901.94it/s]100%|█████████▉| 168427520/169001437 [00:05<00:00, 37135871.74it/s]100%|██████████| 169001437/169001437 [00:05<00:00, 31738703.09it/s]
+Extracting /scratch-local/scur1180.4571930/cifar-100-python.tar.gz to /scratch-local/scur1180.4571930
+Files already downloaded and verified
+Building custom CLIP
+Loading CLIP (backbone: ViT-B/32)
+List of prompts:
+['This is a photo of a apple',
+ 'This is a photo of a aquarium fish',
+ 'This is a photo of a baby',
+ 'This is a photo of a bear',
+ 'This is a photo of a beaver',
+ 'This is a photo of a bed',
+ 'This is a photo of a bee',
+ 'This is a photo of a beetle',
+ 'This is a photo of a bicycle',
+ 'This is a photo of a bottle',
+ 'This is a photo of a bowl',
+ 'This is a photo of a boy',
+ 'This is a photo of a bridge',
+ 'This is a photo of a bus',
+ 'This is a photo of a butterfly',
+ 'This is a photo of a camel',
+ 'This is a photo of a can',
+ 'This is a photo of a castle',
+ 'This is a photo of a caterpillar',
+ 'This is a photo of a cattle',
+ 'This is a photo of a chair',
+ 'This is a photo of a chimpanzee',
+ 'This is a photo of a clock',
+ 'This is a photo of a cloud',
+ 'This is a photo of a cockroach',
+ 'This is a photo of a couch',
+ 'This is a photo of a crab',
+ 'This is a photo of a crocodile',
+ 'This is a photo of a cup',
+ 'This is a photo of a dinosaur',
+ 'This is a photo of a dolphin',
+ 'This is a photo of a elephant',
+ 'This is a photo of a flatfish',
+ 'This is a photo of a forest',
+ 'This is a photo of a fox',
+ 'This is a photo of a girl',
+ 'This is a photo of a hamster',
+ 'This is a photo of a house',
+ 'This is a photo of a kangaroo',
+ 'This is a photo of a keyboard',
+ 'This is a photo of a lamp',
+ 'This is a photo of a lawn mower',
+ 'This is a photo of a leopard',
+ 'This is a photo of a lion',
+ 'This is a photo of a lizard',
+ 'This is a photo of a lobster',
+ 'This is a photo of a man',
+ 'This is a photo of a maple tree',
+ 'This is a photo of a motorcycle',
+ 'This is a photo of a mountain',
+ 'This is a photo of a mouse',
+ 'This is a photo of a mushroom',
+ 'This is a photo of a oak tree',
+ 'This is a photo of a orange',
+ 'This is a photo of a orchid',
+ 'This is a photo of a otter',
+ 'This is a photo of a palm tree',
+ 'This is a photo of a pear',
+ 'This is a photo of a pickup truck',
+ 'This is a photo of a pine tree',
+ 'This is a photo of a plain',
+ 'This is a photo of a plate',
+ 'This is a photo of a poppy',
+ 'This is a photo of a porcupine',
+ 'This is a photo of a possum',
+ 'This is a photo of a rabbit',
+ 'This is a photo of a raccoon',
+ 'This is a photo of a ray',
+ 'This is a photo of a road',
+ 'This is a photo of a rocket',
+ 'This is a photo of a rose',
+ 'This is a photo of a sea',
+ 'This is a photo of a seal',
+ 'This is a photo of a shark',
+ 'This is a photo of a shrew',
+ 'This is a photo of a skunk',
+ 'This is a photo of a skyscraper',
+ 'This is a photo of a snail',
+ 'This is a photo of a snake',
+ 'This is a photo of a spider',
+ 'This is a photo of a squirrel',
+ 'This is a photo of a streetcar',
+ 'This is a photo of a sunflower',
+ 'This is a photo of a sweet pepper',
+ 'This is a photo of a table',
+ 'This is a photo of a tank',
+ 'This is a photo of a telephone',
+ 'This is a photo of a television',
+ 'This is a photo of a tiger',
+ 'This is a photo of a tractor',
+ 'This is a photo of a train',
+ 'This is a photo of a trout',
+ 'This is a photo of a tulip',
+ 'This is a photo of a turtle',
+ 'This is a photo of a wardrobe',
+ 'This is a photo of a whale',
+ 'This is a photo of a willow tree',
+ 'This is a photo of a wolf',
+ 'This is a photo of a woman',
+ 'This is a photo of a worm']
+Turning off gradients in both the image and the text encoder
+Parameters to be updated:
+"Parameters to be updated: {'deep_prompt'}"
+Number of prompt parameters:  224
+  0%|          | 0/313 [00:00<?, ?it/s]/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/conv.py:456: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /opt/conda/conda-bld/pytorch_1695392026823/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+  0%|          | 0/313 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 174, in <module>
+    main()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 164, in main
+    learn.run()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 157, in run
+    self.train_one_epoch(epoch)
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 241, in train_one_epoch
+    output = self.clip(images)
+             ^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 116, in forward
+    image_features = self.custom_encode_image(image)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 162, in custom_encode_image
+    x = torch.cat((x, deep_prompt), dim=0)  # add deep prompt to batch
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Sizes of tensors must match except in dimension 0. Expected size 768 but got size 224 for tensor number 1 in the list.
+Running experiment on cifar100 with 1 learnable deep prompts injected at layer 0
+Namespace(print_freq=10, save_freq=50, batch_size=128, num_workers=16, epochs=20, square_size=8, optim='sgd', learning_rate=40, weight_decay=0, warmup=1000, momentum=0.9, patience=1000, model='clip', arch='ViT-B/32', prompt_type='deep_prompt', prompt_num=1, injection_layer=0, method='padding', prompt_size=30, text_prompt_template='This is a photo of a {}', visualize_prompt=False, root='/scratch-local/scur1180.4571930', dataset='cifar100', image_size=224, test_noise=False, seed=0, model_dir='./save/models', image_dir='./save/images', filename='deep_prompt_injection_layer_0_1_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1', trial=1, resume=None, evaluate=False, gpu=None, use_wandb=False, device='cuda', model_folder='./save/models/deep_prompt_injection_layer_0_1_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1')
+Files already downloaded and verified
+Files already downloaded and verified
+Building custom CLIP
+Loading CLIP (backbone: ViT-B/32)
+List of prompts:
+['This is a photo of a apple',
+ 'This is a photo of a aquarium fish',
+ 'This is a photo of a baby',
+ 'This is a photo of a bear',
+ 'This is a photo of a beaver',
+ 'This is a photo of a bed',
+ 'This is a photo of a bee',
+ 'This is a photo of a beetle',
+ 'This is a photo of a bicycle',
+ 'This is a photo of a bottle',
+ 'This is a photo of a bowl',
+ 'This is a photo of a boy',
+ 'This is a photo of a bridge',
+ 'This is a photo of a bus',
+ 'This is a photo of a butterfly',
+ 'This is a photo of a camel',
+ 'This is a photo of a can',
+ 'This is a photo of a castle',
+ 'This is a photo of a caterpillar',
+ 'This is a photo of a cattle',
+ 'This is a photo of a chair',
+ 'This is a photo of a chimpanzee',
+ 'This is a photo of a clock',
+ 'This is a photo of a cloud',
+ 'This is a photo of a cockroach',
+ 'This is a photo of a couch',
+ 'This is a photo of a crab',
+ 'This is a photo of a crocodile',
+ 'This is a photo of a cup',
+ 'This is a photo of a dinosaur',
+ 'This is a photo of a dolphin',
+ 'This is a photo of a elephant',
+ 'This is a photo of a flatfish',
+ 'This is a photo of a forest',
+ 'This is a photo of a fox',
+ 'This is a photo of a girl',
+ 'This is a photo of a hamster',
+ 'This is a photo of a house',
+ 'This is a photo of a kangaroo',
+ 'This is a photo of a keyboard',
+ 'This is a photo of a lamp',
+ 'This is a photo of a lawn mower',
+ 'This is a photo of a leopard',
+ 'This is a photo of a lion',
+ 'This is a photo of a lizard',
+ 'This is a photo of a lobster',
+ 'This is a photo of a man',
+ 'This is a photo of a maple tree',
+ 'This is a photo of a motorcycle',
+ 'This is a photo of a mountain',
+ 'This is a photo of a mouse',
+ 'This is a photo of a mushroom',
+ 'This is a photo of a oak tree',
+ 'This is a photo of a orange',
+ 'This is a photo of a orchid',
+ 'This is a photo of a otter',
+ 'This is a photo of a palm tree',
+ 'This is a photo of a pear',
+ 'This is a photo of a pickup truck',
+ 'This is a photo of a pine tree',
+ 'This is a photo of a plain',
+ 'This is a photo of a plate',
+ 'This is a photo of a poppy',
+ 'This is a photo of a porcupine',
+ 'This is a photo of a possum',
+ 'This is a photo of a rabbit',
+ 'This is a photo of a raccoon',
+ 'This is a photo of a ray',
+ 'This is a photo of a road',
+ 'This is a photo of a rocket',
+ 'This is a photo of a rose',
+ 'This is a photo of a sea',
+ 'This is a photo of a seal',
+ 'This is a photo of a shark',
+ 'This is a photo of a shrew',
+ 'This is a photo of a skunk',
+ 'This is a photo of a skyscraper',
+ 'This is a photo of a snail',
+ 'This is a photo of a snake',
+ 'This is a photo of a spider',
+ 'This is a photo of a squirrel',
+ 'This is a photo of a streetcar',
+ 'This is a photo of a sunflower',
+ 'This is a photo of a sweet pepper',
+ 'This is a photo of a table',
+ 'This is a photo of a tank',
+ 'This is a photo of a telephone',
+ 'This is a photo of a television',
+ 'This is a photo of a tiger',
+ 'This is a photo of a tractor',
+ 'This is a photo of a train',
+ 'This is a photo of a trout',
+ 'This is a photo of a tulip',
+ 'This is a photo of a turtle',
+ 'This is a photo of a wardrobe',
+ 'This is a photo of a whale',
+ 'This is a photo of a willow tree',
+ 'This is a photo of a wolf',
+ 'This is a photo of a woman',
+ 'This is a photo of a worm']
+Turning off gradients in both the image and the text encoder
+Parameters to be updated:
+"Parameters to be updated: {'deep_prompt'}"
+Number of prompt parameters:  224
+  0%|          | 0/313 [00:00<?, ?it/s]/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/conv.py:456: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /opt/conda/conda-bld/pytorch_1695392026823/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+  0%|          | 0/313 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 174, in <module>
+    main()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 164, in main
+    learn.run()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 157, in run
+    self.train_one_epoch(epoch)
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 241, in train_one_epoch
+    output = self.clip(images)
+             ^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 116, in forward
+    image_features = self.custom_encode_image(image)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 162, in custom_encode_image
+    x = torch.cat((x, deep_prompt), dim=0)  # add deep prompt to batch
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Sizes of tensors must match except in dimension 0. Expected size 768 but got size 224 for tensor number 1 in the list.
+Running experiment on cifar100 with 4 learnable deep prompts injected at layer 6
+Namespace(print_freq=10, save_freq=50, batch_size=128, num_workers=16, epochs=20, square_size=8, optim='sgd', learning_rate=40, weight_decay=0, warmup=1000, momentum=0.9, patience=1000, model='clip', arch='ViT-B/32', prompt_type='deep_prompt', prompt_num=4, injection_layer=6, method='padding', prompt_size=30, text_prompt_template='This is a photo of a {}', visualize_prompt=False, root='/scratch-local/scur1180.4571930', dataset='cifar100', image_size=224, test_noise=False, seed=0, model_dir='./save/models', image_dir='./save/images', filename='deep_prompt_injection_layer_6_4_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1', trial=1, resume=None, evaluate=False, gpu=None, use_wandb=False, device='cuda', model_folder='./save/models/deep_prompt_injection_layer_6_4_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1')
+Files already downloaded and verified
+Files already downloaded and verified
+Building custom CLIP
+Loading CLIP (backbone: ViT-B/32)
+List of prompts:
+['This is a photo of a apple',
+ 'This is a photo of a aquarium fish',
+ 'This is a photo of a baby',
+ 'This is a photo of a bear',
+ 'This is a photo of a beaver',
+ 'This is a photo of a bed',
+ 'This is a photo of a bee',
+ 'This is a photo of a beetle',
+ 'This is a photo of a bicycle',
+ 'This is a photo of a bottle',
+ 'This is a photo of a bowl',
+ 'This is a photo of a boy',
+ 'This is a photo of a bridge',
+ 'This is a photo of a bus',
+ 'This is a photo of a butterfly',
+ 'This is a photo of a camel',
+ 'This is a photo of a can',
+ 'This is a photo of a castle',
+ 'This is a photo of a caterpillar',
+ 'This is a photo of a cattle',
+ 'This is a photo of a chair',
+ 'This is a photo of a chimpanzee',
+ 'This is a photo of a clock',
+ 'This is a photo of a cloud',
+ 'This is a photo of a cockroach',
+ 'This is a photo of a couch',
+ 'This is a photo of a crab',
+ 'This is a photo of a crocodile',
+ 'This is a photo of a cup',
+ 'This is a photo of a dinosaur',
+ 'This is a photo of a dolphin',
+ 'This is a photo of a elephant',
+ 'This is a photo of a flatfish',
+ 'This is a photo of a forest',
+ 'This is a photo of a fox',
+ 'This is a photo of a girl',
+ 'This is a photo of a hamster',
+ 'This is a photo of a house',
+ 'This is a photo of a kangaroo',
+ 'This is a photo of a keyboard',
+ 'This is a photo of a lamp',
+ 'This is a photo of a lawn mower',
+ 'This is a photo of a leopard',
+ 'This is a photo of a lion',
+ 'This is a photo of a lizard',
+ 'This is a photo of a lobster',
+ 'This is a photo of a man',
+ 'This is a photo of a maple tree',
+ 'This is a photo of a motorcycle',
+ 'This is a photo of a mountain',
+ 'This is a photo of a mouse',
+ 'This is a photo of a mushroom',
+ 'This is a photo of a oak tree',
+ 'This is a photo of a orange',
+ 'This is a photo of a orchid',
+ 'This is a photo of a otter',
+ 'This is a photo of a palm tree',
+ 'This is a photo of a pear',
+ 'This is a photo of a pickup truck',
+ 'This is a photo of a pine tree',
+ 'This is a photo of a plain',
+ 'This is a photo of a plate',
+ 'This is a photo of a poppy',
+ 'This is a photo of a porcupine',
+ 'This is a photo of a possum',
+ 'This is a photo of a rabbit',
+ 'This is a photo of a raccoon',
+ 'This is a photo of a ray',
+ 'This is a photo of a road',
+ 'This is a photo of a rocket',
+ 'This is a photo of a rose',
+ 'This is a photo of a sea',
+ 'This is a photo of a seal',
+ 'This is a photo of a shark',
+ 'This is a photo of a shrew',
+ 'This is a photo of a skunk',
+ 'This is a photo of a skyscraper',
+ 'This is a photo of a snail',
+ 'This is a photo of a snake',
+ 'This is a photo of a spider',
+ 'This is a photo of a squirrel',
+ 'This is a photo of a streetcar',
+ 'This is a photo of a sunflower',
+ 'This is a photo of a sweet pepper',
+ 'This is a photo of a table',
+ 'This is a photo of a tank',
+ 'This is a photo of a telephone',
+ 'This is a photo of a television',
+ 'This is a photo of a tiger',
+ 'This is a photo of a tractor',
+ 'This is a photo of a train',
+ 'This is a photo of a trout',
+ 'This is a photo of a tulip',
+ 'This is a photo of a turtle',
+ 'This is a photo of a wardrobe',
+ 'This is a photo of a whale',
+ 'This is a photo of a willow tree',
+ 'This is a photo of a wolf',
+ 'This is a photo of a woman',
+ 'This is a photo of a worm']
+Turning off gradients in both the image and the text encoder
+Parameters to be updated:
+"Parameters to be updated: {'deep_prompt'}"
+Number of prompt parameters:  896
+  0%|          | 0/313 [00:00<?, ?it/s]/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/conv.py:456: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /opt/conda/conda-bld/pytorch_1695392026823/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+  0%|          | 0/313 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 174, in <module>
+    main()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 164, in main
+    learn.run()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 157, in run
+    self.train_one_epoch(epoch)
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 241, in train_one_epoch
+    output = self.clip(images)
+             ^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 116, in forward
+    image_features = self.custom_encode_image(image)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 162, in custom_encode_image
+    x = torch.cat((x, deep_prompt), dim=0)  # add deep prompt to batch
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Sizes of tensors must match except in dimension 0. Expected size 128 but got size 512 for tensor number 1 in the list.
+Running experiment on cifar100 with 4 learnable deep prompts injected at layer 6
+Namespace(print_freq=10, save_freq=50, batch_size=128, num_workers=16, epochs=20, square_size=8, optim='sgd', learning_rate=40, weight_decay=0, warmup=1000, momentum=0.9, patience=1000, model='clip', arch='ViT-B/32', prompt_type='deep_prompt', prompt_num=4, injection_layer=6, method='padding', prompt_size=30, text_prompt_template='This is a photo of a {}', visualize_prompt=False, root='/scratch-local/scur1180.4571930', dataset='cifar100', image_size=224, test_noise=False, seed=0, model_dir='./save/models', image_dir='./save/images', filename='deep_prompt_injection_layer_6_4_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1', trial=1, resume=None, evaluate=False, gpu=None, use_wandb=False, device='cuda', model_folder='./save/models/deep_prompt_injection_layer_6_4_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1')
+Files already downloaded and verified
+Files already downloaded and verified
+Building custom CLIP
+Loading CLIP (backbone: ViT-B/32)
+List of prompts:
+['This is a photo of a apple',
+ 'This is a photo of a aquarium fish',
+ 'This is a photo of a baby',
+ 'This is a photo of a bear',
+ 'This is a photo of a beaver',
+ 'This is a photo of a bed',
+ 'This is a photo of a bee',
+ 'This is a photo of a beetle',
+ 'This is a photo of a bicycle',
+ 'This is a photo of a bottle',
+ 'This is a photo of a bowl',
+ 'This is a photo of a boy',
+ 'This is a photo of a bridge',
+ 'This is a photo of a bus',
+ 'This is a photo of a butterfly',
+ 'This is a photo of a camel',
+ 'This is a photo of a can',
+ 'This is a photo of a castle',
+ 'This is a photo of a caterpillar',
+ 'This is a photo of a cattle',
+ 'This is a photo of a chair',
+ 'This is a photo of a chimpanzee',
+ 'This is a photo of a clock',
+ 'This is a photo of a cloud',
+ 'This is a photo of a cockroach',
+ 'This is a photo of a couch',
+ 'This is a photo of a crab',
+ 'This is a photo of a crocodile',
+ 'This is a photo of a cup',
+ 'This is a photo of a dinosaur',
+ 'This is a photo of a dolphin',
+ 'This is a photo of a elephant',
+ 'This is a photo of a flatfish',
+ 'This is a photo of a forest',
+ 'This is a photo of a fox',
+ 'This is a photo of a girl',
+ 'This is a photo of a hamster',
+ 'This is a photo of a house',
+ 'This is a photo of a kangaroo',
+ 'This is a photo of a keyboard',
+ 'This is a photo of a lamp',
+ 'This is a photo of a lawn mower',
+ 'This is a photo of a leopard',
+ 'This is a photo of a lion',
+ 'This is a photo of a lizard',
+ 'This is a photo of a lobster',
+ 'This is a photo of a man',
+ 'This is a photo of a maple tree',
+ 'This is a photo of a motorcycle',
+ 'This is a photo of a mountain',
+ 'This is a photo of a mouse',
+ 'This is a photo of a mushroom',
+ 'This is a photo of a oak tree',
+ 'This is a photo of a orange',
+ 'This is a photo of a orchid',
+ 'This is a photo of a otter',
+ 'This is a photo of a palm tree',
+ 'This is a photo of a pear',
+ 'This is a photo of a pickup truck',
+ 'This is a photo of a pine tree',
+ 'This is a photo of a plain',
+ 'This is a photo of a plate',
+ 'This is a photo of a poppy',
+ 'This is a photo of a porcupine',
+ 'This is a photo of a possum',
+ 'This is a photo of a rabbit',
+ 'This is a photo of a raccoon',
+ 'This is a photo of a ray',
+ 'This is a photo of a road',
+ 'This is a photo of a rocket',
+ 'This is a photo of a rose',
+ 'This is a photo of a sea',
+ 'This is a photo of a seal',
+ 'This is a photo of a shark',
+ 'This is a photo of a shrew',
+ 'This is a photo of a skunk',
+ 'This is a photo of a skyscraper',
+ 'This is a photo of a snail',
+ 'This is a photo of a snake',
+ 'This is a photo of a spider',
+ 'This is a photo of a squirrel',
+ 'This is a photo of a streetcar',
+ 'This is a photo of a sunflower',
+ 'This is a photo of a sweet pepper',
+ 'This is a photo of a table',
+ 'This is a photo of a tank',
+ 'This is a photo of a telephone',
+ 'This is a photo of a television',
+ 'This is a photo of a tiger',
+ 'This is a photo of a tractor',
+ 'This is a photo of a train',
+ 'This is a photo of a trout',
+ 'This is a photo of a tulip',
+ 'This is a photo of a turtle',
+ 'This is a photo of a wardrobe',
+ 'This is a photo of a whale',
+ 'This is a photo of a willow tree',
+ 'This is a photo of a wolf',
+ 'This is a photo of a woman',
+ 'This is a photo of a worm']
+Turning off gradients in both the image and the text encoder
+Parameters to be updated:
+"Parameters to be updated: {'deep_prompt'}"
+Number of prompt parameters:  896
+  0%|          | 0/313 [00:00<?, ?it/s]/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/conv.py:456: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /opt/conda/conda-bld/pytorch_1695392026823/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+  0%|          | 0/313 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 174, in <module>
+    main()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/.//main.py", line 164, in main
+    learn.run()
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 157, in run
+    self.train_one_epoch(epoch)
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/learner.py", line 241, in train_one_epoch
+    output = self.clip(images)
+             ^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 116, in forward
+    image_features = self.custom_encode_image(image)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home1/scur1180/DL1-Practicals/assignment2/part2/dpt_model.py", line 162, in custom_encode_image
+    x = torch.cat((x, deep_prompt), dim=0)  # add deep prompt to batch
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Sizes of tensors must match except in dimension 0. Expected size 128 but got size 512 for tensor number 1 in the list.
+Running experiment on cifar100 with  learnable deep prompts injected at layer 11
+usage: Visual Prompting for CLIP [-h] [--print_freq PRINT_FREQ]
+                                 [--save_freq SAVE_FREQ]
+                                 [--batch_size BATCH_SIZE]
+                                 [--num_workers NUM_WORKERS] [--epochs EPOCHS]
+                                 [--square_size SQUARE_SIZE] [--optim OPTIM]
+                                 [--learning_rate LEARNING_RATE]
+                                 [--weight_decay WEIGHT_DECAY]
+                                 [--warmup WARMUP] [--momentum MOMENTUM]
+                                 [--patience PATIENCE] [--model MODEL]
+                                 [--arch ARCH]
+                                 [--prompt_type {visual_prompt,deep_prompt}]
+                                 [--prompt_num PROMPT_NUM]
+                                 [--injection_layer INJECTION_LAYER]
+                                 [--method {padding,random_patch,fixed_patch}]
+                                 [--prompt_size PROMPT_SIZE]
+                                 [--text_prompt_template TEXT_PROMPT_TEMPLATE]
+                                 [--visualize_prompt] [--root ROOT]
+                                 [--dataset DATASET] [--image_size IMAGE_SIZE]
+                                 [--test_noise] [--seed SEED]
+                                 [--model_dir MODEL_DIR]
+                                 [--image_dir IMAGE_DIR] [--filename FILENAME]
+                                 [--trial TRIAL] [--resume RESUME]
+                                 [--evaluate] [--gpu GPU] [--use_wandb]
+Visual Prompting for CLIP: error: argument --prompt_num: expected one argument
+Running experiment on cifar100 with  learnable deep prompts injected at layer 11
+usage: Visual Prompting for CLIP [-h] [--print_freq PRINT_FREQ]
+                                 [--save_freq SAVE_FREQ]
+                                 [--batch_size BATCH_SIZE]
+                                 [--num_workers NUM_WORKERS] [--epochs EPOCHS]
+                                 [--square_size SQUARE_SIZE] [--optim OPTIM]
+                                 [--learning_rate LEARNING_RATE]
+                                 [--weight_decay WEIGHT_DECAY]
+                                 [--warmup WARMUP] [--momentum MOMENTUM]
+                                 [--patience PATIENCE] [--model MODEL]
+                                 [--arch ARCH]
+                                 [--prompt_type {visual_prompt,deep_prompt}]
+                                 [--prompt_num PROMPT_NUM]
+                                 [--injection_layer INJECTION_LAYER]
+                                 [--method {padding,random_patch,fixed_patch}]
+                                 [--prompt_size PROMPT_SIZE]
+                                 [--text_prompt_template TEXT_PROMPT_TEMPLATE]
+                                 [--visualize_prompt] [--root ROOT]
+                                 [--dataset DATASET] [--image_size IMAGE_SIZE]
+                                 [--test_noise] [--seed SEED]
+                                 [--model_dir MODEL_DIR]
+                                 [--image_dir IMAGE_DIR] [--filename FILENAME]
+                                 [--trial TRIAL] [--resume RESUME]
+                                 [--evaluate] [--gpu GPU] [--use_wandb]
+Visual Prompting for CLIP: error: argument --prompt_num: expected one argument
+
+JOB STATISTICS
+==============
+Job ID: 4571930
+Cluster: snellius
+User/Group: scur1180/scur1180
+State: FAILED (exit code 2)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:05:27
+CPU Efficiency: 11.43% of 00:47:42 core-walltime
+Job Wall-clock time: 00:02:39
+Memory Utilized: 1.54 GB
+Memory Efficiency: 1.28% of 120.00 GB

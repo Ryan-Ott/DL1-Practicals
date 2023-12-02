@@ -130,9 +130,10 @@ def parse_option():
             args.trial,
         )
     elif args.prompt_type == "deep_prompt":
-        args.filename = "{}_injection_layer_{}_{}_{}_{}_{}_lr_{}_decay_{}_bsz_{}_warmup_{}_trial_{}".format(
+        args.filename = "{}_injection_layer_{}_{}_{}_{}_{}_{}_lr_{}_decay_{}_bsz_{}_warmup_{}_trial_{}".format(
             args.prompt_type,
             args.injection_layer,
+            args.prompt_num,
             args.dataset,
             args.model,
             args.arch,

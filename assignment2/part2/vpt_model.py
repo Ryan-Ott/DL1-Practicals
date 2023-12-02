@@ -86,7 +86,7 @@ class VisualPromptCLIP(nn.Module):
         
         with torch.no_grad():
             text_features = clip_model.encode_text(prompts)
-        text_features = text_features / text_features.norm(dim=-1, keepdim=True)
+            text_features = text_features / text_features.norm(dim=-1, keepdim=True)
 
         assert text_features.shape == (len(prompts), 512), f"Expected text features of shape (num_prompts, 512), got {text_features.shape}."
 
