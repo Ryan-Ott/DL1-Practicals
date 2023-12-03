@@ -89,8 +89,8 @@ class DeepPromptCLIP(nn.Module):
         # Hint: use args.prompt_num to specify the number of deep prompts to use
 
         dtype = torch.float32 if args.device == "cpu" else torch.float16
-        embedding_dim = self.clip_model.visual.
-        self.deep_prompt = torch.nn.Parameter(torch.randn(1, args.prompt_num, embedding_dim, dtype=dtype))
+        embedding_dim = self.clip_model.visual.transformer.resblocks[0].ln_1.weight.shape[0]  # * The embedding dimension is the same size as the weight matrix of the first layer norm in the transformer blocks
+        self.deep_prompt = torch.nn.Parameter(torch.randn(args.prompt_num, 1, embedding_dim, dtype=dtype))
 
         #######################
         # END OF YOUR CODE    #
@@ -157,11 +157,12 @@ class DeepPromptCLIP(nn.Module):
 
         for i, block in enumerate(image_encoder.transformer.resblocks):
             if i == self.injection_layer:
-                L, N = x.shape[:2]  # ? L = sequence length, N = batch size (D = embedding dimension)
-                deep_prompt = self.deep_prompt.repeat(L, N, 1)  # repeat for all images in batch
-                x = torch.cat((x, deep_prompt), dim=0)  # add deep prompt to batch
-            
+                B = x.shape[1]  # Batch size (referred to as N in the CLIP code)
+                # deep_prompt_expanded = self.deep_prompt.repeat(1, B, 1).view(-1, B, self.deep_prompt.shape[-1])  # [1, num_prompts, embedding_dim] -> [1, B*num_prompts, embedding_dim] -> [num_prompts, B, embedding_dim]
+                deep_prompt_expanded = self.deep_prompt.repeat(1, B, 1)  # Repeat to match the batch size
+                x = torch.cat((deep_prompt_expanded, x), dim=0)  # Concatenate along the sequence length dimension (L)
             x = block(x)
+
 
         #######################
         # END OF YOUR CODE    #

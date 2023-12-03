@@ -21,9 +21,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.utils.data as data
 import torchvision.models as models
-import wandb  # TODO: REMOVE ME!!!
-from tqdm import tqdm  # TODO: REMOVE ME!!!
 from cifar100_utils import get_train_validation_set, get_test_set, set_dataset
+
+# import wandb  # Used for logging metrics but removed before uploading
+from tqdm import tqdm  # Added myself
 
 def set_seed(seed):
     """
@@ -119,7 +120,7 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
     best_val_accuracy = 0
 
     # WandB – Watching gradients and weights
-    wandb.watch(model, log="all", log_freq=100)
+    # wandb.watch(model, log="all", log_freq=100)
 
     # Training loop with validation after each epoch. Save the best model.
     print("Training & eval ...")
@@ -157,12 +158,12 @@ def train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device
             best_val_accuracy = val_accuracy
             torch.save(model.state_dict(), checkpoint_name)
 
-        # Log the epoch loss, accuracy and best accuracy to WandB.
-        wandb.log({
-            "loss": loss,
-            "val_accuracy": val_accuracy,
-            "best_val_accuracy": best_val_accuracy
-        })
+        # Logging the epoch loss, accuracy and best accuracy to WandB
+        # wandb.log({
+        #     "loss": loss,
+        #     "val_accuracy": val_accuracy,
+        #     "best_val_accuracy": best_val_accuracy
+        # })
 
     # Load the best model on val accuracy and return it.
     model.load_state_dict(torch.load(checkpoint_name))
@@ -249,15 +250,15 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise, 
     # Get the augmentation to use
     checkpoint_name = f"best_model_aug-{augmentation_name}.pt" if augmentation_name else "best_model.pt"
 
-    # WandB – Initialize a new run
-    wandb.init(project="DL1 Practical 2", config={
-        "learning_rate": lr,
-        "batch_size": batch_size,
-        "epochs": epochs,
-        "augmentation_name": augmentation_name,
-        "test_noise": test_noise,
-        "debug": debug
-    })
+    # Initialising new WandB run
+    # wandb.init(project="DL1 Practical 2", config={
+    #     "learning_rate": lr,
+    #     "batch_size": batch_size,
+    #     "epochs": epochs,
+    #     "augmentation_name": augmentation_name,
+    #     "test_noise": test_noise,
+    #     "debug": debug
+    # })
 
     # Train the model
     model = train_model(model, lr, batch_size, epochs, data_dir, checkpoint_name, device, augmentation_name, debug)
@@ -271,11 +272,11 @@ def main(lr, batch_size, epochs, data_dir, seed, augmentation_name, test_noise, 
     test_accuracy = evaluate_model(model, test_loader, device, )
     print("Test accuracy: {0:.2f}".format(test_accuracy * 100))
 
-    # Log the test accuracy to WandB
-    wandb.log({"test_accuracy": test_accuracy})
+    # Logging the test accuracy to WandB
+    # wandb.log({"test_accuracy": test_accuracy})
 
     # End WandB logging
-    wandb.finish()
+    # wandb.finish()
     #######################
     # END OF YOUR CODE    #
     #######################

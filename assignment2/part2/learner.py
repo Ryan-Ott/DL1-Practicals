@@ -87,7 +87,6 @@ class Learner:
         for name, param in self.clip.named_parameters():
             if param.requires_grad:
                 enabled.add(name)
-        print(f"Parameters to be updated:")
         pprint(f"Parameters to be updated: {enabled}")
 
         # Print number of parameters
@@ -242,11 +241,13 @@ class Learner:
 
             loss = self.criterion(output, target)
 
-            # Using GradScaler to use PyTorch's AMP
-            self.scaler.scale(loss).backward()
+            loss.backward()
 
-            self.scaler.step(self.optimizer)
-            self.scaler.update()
+            self.optimizer.step()
+
+            # self.scaler.scale(loss).backward()
+            # self.scaler.step(self.optimizer)
+            # self.scaler.update()
             #######################
             # END OF YOUR CODE    #
             #######################

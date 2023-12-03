@@ -62,7 +62,7 @@ class MLP(object):
 
             # Remaining hidden layers
             for i in range(1, len(n_hidden)):
-                self.layers.append(LinearModule(n_hidden[i - 1], n_hidden[i]))
+                self.layers.append(LinearModule(n_hidden[i - 1], n_hidden[i]))  # No input layer
                 self.layers.append(ELUModule())
 
             # Output layer - connected to the last hidden layer
