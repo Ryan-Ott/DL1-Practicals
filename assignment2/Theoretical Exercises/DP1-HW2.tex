@@ -112,6 +112,7 @@ specialized to the downstream task than the first layers.
     \centering
     \begin{tabular}{|l|c|c|}
     \hline
+    \rowcolor{Gray}
     \textbf{Dataset} & \textbf{Train Accuracy (\%)} & \textbf{Test Accuracy (\%)} \\ \hline
     CIFAR-10 & 88.726 & 88.940 \\ \hline
     CIFAR-100 & 63.564 & 63.150 \\ \hline
@@ -160,7 +161,7 @@ having to train a new model for each task. This is especially useful when the ta
 require a lot of training data, because training a new model for each task would be very inefficient.
 \bigskip
 
-\subsection{Comparing Prompt Type's Effectiveness on Classification Accuracy}
+\subsection{Effect of Prompt Types on Classification Accuracy}
 \begin{figure}[h]
     \centering
     \begin{minipage}[b]{0.45\textwidth}
@@ -186,6 +187,7 @@ require a lot of training data, because training a new model for each task would
     \centering
     \begin{tabular}{|l|c|c||c|}
     \hline
+    \rowcolor{Gray}
     \textbf{Dataset} & \textbf{Fixed Patch Accuracy (\%)} & \textbf{Padding Accuracy (\%)} & \textbf{Baseline Accuracy (\%)} \\ \hline
     CIFAR-10 & 89.570 & 92.740 & 88.940 \\ \hline
     CIFAR-100 & 64.490 & 71.390 & 63.150 \\ \hline
@@ -201,6 +203,84 @@ prompt type has a lot more trainable parameters (69840 for padding size 30) than
 patch size 1, one per channel), and thus is able adapt better to the task. Espeically for the CIFAR-100 dataset this
 improvement is noticeable. likely due to the fact that the CIFAR-100 dataset is more complex than the CIFAR-10
 dataset, and thus requires more trainable parameters to perform well.
+\bigskip
+
+\subsection{Deep Prompts}
+From Figure 3 in the assignment PDF we see how we can inject a learnable deep prompt into the CLIP model. In the
+diagram it is appended to the beginning of the sequence that is fed into a Transformer block. I initially accidentally
+appended it to the end of the sequence, but then chose to compare the two approaches which was quite interesting to
+see. I also investigated the effect of different numbers of deep prompts (1, 4 \& 8) as well as the injection layer.
+The results are shown in Table \ref{tab:clip_accuracy_deep_prompts}, as well as a comparison between the best visual
+prompt accuracies and baseline readings in Table \ref{tab:clip_accuracy}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|c|c|c|}
+    \hline
+    \rowcolor{Gray}
+    \textbf{Dataset} & \textbf{Injection Layer} & \textbf{Prompts} & \textbf{Front Acc (\%)} & \textbf{Back Acc (\%)} \\ \hline
+    \multirow{9}{*}{CIFAR-10}  
+                               & \multirow{3}{*}{0} & 1 & 95.320 & \textbf{95.480} \\ \cline{3-5}
+                               &                     & 4 & \textbf{96.310} & 94.970 \\ \cline{3-5}
+                               &                     & 8 & \textbf{96.590} & 94.670 \\ \cline{2-5}
+                               & \multirow{3}{*}{6} & 1 & 94.630  & \textbf{94.820} \\ \cline{3-5}
+                               &                     & 4 & \textbf{95.820} & 94.460 \\ \cline{3-5}
+                               &                     & 8 & \textbf{96.000} & 94.230 \\ \cline{2-5}
+                               & \multirow{3}{*}{11}& 1 & 91.170  & \textbf{92.440} \\ \cline{3-5}
+                               &                     & 4 & 91.180  & \textbf{92.350} \\ \cline{3-5}
+                               &                     & 8 & 89.250  & \textbf{92.190} \\ \hline
+    \multirow{9}{*}{CIFAR-100} 
+                               & \multirow{3}{*}{0} & 1 & 75.900  & \textbf{76.270} \\ \cline{3-5}
+                               &                     & 4 & \textbf{78.430} & 75.780 \\ \cline{3-5}
+                               &                     & 8 & \textbf{79.980} & 74.860 \\ \cline{2-5}
+                               & \multirow{3}{*}{6} & 1 & 73.720  & \textbf{74.290} \\ \cline{3-5}
+                               &                     & 4 & \textbf{76.950} & 74.010 \\ \cline{3-5}
+                               &                     & 8 & \textbf{78.110} & 73.560 \\ \cline{2-5}
+                               & \multirow{3}{*}{11}& 1 & \textbf{69.620} & 68.390 \\ \cline{3-5}
+                               &                     & 4 & \textbf{69.610} & 68.000 \\ \cline{3-5}
+                               &                     & 8 & \textbf{69.640} & 67.670 \\ \hline
+    \end{tabular}
+    \caption{Image Classification Performance with CLIP using Different Numbers of Prompts, Injected at Different Layers and Appended to the Front or Back of the Sequence}
+    \label{tab:clip_accuracy_deep_prompts}
+\end{table}
+
+Injecting prompts at early layers yields higher classification performance across the board than at later layers. This could be because it allows the model to learn more specialized lower-level
+features that are more useful for the classification task at hand, although this could differ with dataset too. The
+difference between injecting at layer 0 and 6 is also less pronounced than between layer 6 and 11, which might hint to
+the fact that deep prompts are most useful for lower-level to mid-level features.
+\newline \newline
+Increasing the number of prompt generally correlates well with an increase in classification accuracy too, having
+the largest effect when injecting at early to middle layers on the CIFAR-100 dataset. This could be because the
+CIFAR-100 dataset is more complex than the CIFAR-10 dataset and the model benefits from having more guidance from the
+prompts.
+\newline \newline
+Appending the prompts to the front of the sequence does seem to yield
+slightly better results than appending them to the back of the sequence. Although the attention mechanism of the
+Transformer should allow the model to learn to attend to the prompts regardless of their position in the sequence,
+appending our style of prompt (''This is a photo of a \{\}") perhaps is better suited to being at the beginning,
+whereas more of a question or summary style prompt could be better suited to being at the end of the sequence. This
+is just specularitory and could be interesting for futher investigation.
+\newline \newline
+We see that the best performing deep prompt model outperforms the visual prompt model, resulting in a considerable
+improvement over the baseline model. 
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|c|c|}
+    \hline
+    \rowcolor{Gray}
+    \textbf{Dataset} & \textbf{Deep Prompt Acc (\%)} & \textbf{Visual Prompt Acc (\%)} & \textbf{Baseline Acc (\%)} \\ \hline
+    CIFAR-10 & 96.590 & 92.740 & 88.940 \\ \hline
+    CIFAR-100 & 79.980 & 71.390 & 63.150 \\ \hline
+    \end{tabular}
+    \caption{CLIP Top-1 Accuracy on CIFAR-10 and CIFAR-100's Test Set with Different Prompt Types Compared to Baseline}
+    \label{tab:clip_accuracy}
+\end{table}
+
+The reason why deep prompts might outperform the visual prompts is that they can interact with the latent
+representation of the image in the model, allowing more complex interactions between the prompt and the image. This
+can guide the network better than the visual prompts which only can augment the raw input data.
+
+\subsection{Robustness to Noise}
 
 
 \end{document}

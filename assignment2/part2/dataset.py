@@ -36,12 +36,16 @@ class AddGaussianNoise(torch.nn.Module):
         # TODO: Add Gaussian noise to an image.
 
         # Hints:
-        # - You can use torch.randn() to sample z ~ N(0, 1).
+        # - You can use torch.randn() to sample z ~ N(0, 1).  *** I'll assume this was meant to be N(0, 0.1)?
         # - Then, you can transform z s.t. it is sampled from N(self.mean, self.std)
         # - Finally, you can add the noise to the image.
         # - Return the image with added noise.
-
-        raise NotImplementedError
+        
+        noise = torch.randn(img.shape) * self.std + self.mean
+        img = img + noise
+        img = torch.clamp(img, 0, 1)  # making sure the image is still in the range [0, 1]
+        
+        return img
         #######################
         # END OF YOUR CODE    #
         #######################
