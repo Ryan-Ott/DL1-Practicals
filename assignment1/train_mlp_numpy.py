@@ -303,6 +303,9 @@ def train(hidden_dims, lr, batch_size, epochs, seed, data_dir):
                 if hasattr(layer, 'params'):
                     for param in layer.params:
                         layer.params[param] -= lr * layer.grads[param]
+            
+            # == Clear cache ==
+            model.clear_cache()
         
         avg_train_loss = sum_loss / num_batches
         train_losses.append(avg_train_loss)
