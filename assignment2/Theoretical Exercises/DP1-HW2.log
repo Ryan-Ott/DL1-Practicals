@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.13)  4 DEC 2023 17:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.13)  5 DEC 2023 13:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1262,17 +1262,17 @@ LaTeX Font Info:    Trying to load font information for U+wasy on input line 17.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/wasysym/uwasy.fd
 File: uwasy.fd 2020/01/19 v2.4 Wasy-2 symbol font definitions
 )
-<imgs/Top1Acc-vs-Inference.png, id=72, 824.6007pt x 395.3169pt>
+<imgs/Top1Acc-vs-Inference.png, id=76, 824.6007pt x 395.3169pt>
 File: imgs/Top1Acc-vs-Inference.png Graphic file (type png)
 <use imgs/Top1Acc-vs-Inference.png>
 Package pdftex.def Info: imgs/Top1Acc-vs-Inference.png  used on input line 44.
 (pdftex.def)             Requested size: 354.77805pt x 170.07945pt.
-<imgs/NumParams-vs-Inference.png, id=75, 934.4511pt x 395.3169pt>
+<imgs/NumParams-vs-Inference.png, id=79, 934.4511pt x 395.3169pt>
 File: imgs/NumParams-vs-Inference.png Graphic file (type png)
 <use imgs/NumParams-vs-Inference.png>
 Package pdftex.def Info: imgs/NumParams-vs-Inference.png  used on input line 54.
 (pdftex.def)             Requested size: 354.77805pt x 150.08926pt.
-<imgs/Inference-vs-noGrad.png, id=77, 783.4068pt x 426.393pt>
+<imgs/Inference-vs-noGrad.png, id=81, 783.4068pt x 426.393pt>
 File: imgs/Inference-vs-noGrad.png Graphic file (type png)
 <use imgs/Inference-vs-noGrad.png>
 Package pdftex.def Info: imgs/Inference-vs-noGrad.png  used on input line 66.
@@ -1281,7 +1281,7 @@ Package pdftex.def Info: imgs/Inference-vs-noGrad.png  used on input line 66.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<imgs/VRAM-vs-noGrad.png, id=79, 735.7086pt x 426.393pt>
+<imgs/VRAM-vs-noGrad.png, id=83, 735.7086pt x 426.393pt>
 File: imgs/VRAM-vs-noGrad.png Graphic file (type png)
 <use imgs/VRAM-vs-noGrad.png>
 Package pdftex.def Info: imgs/VRAM-vs-noGrad.png  used on input line 78.
@@ -1303,12 +1303,12 @@ Package xcolor Warning: Incompatible color definition on input line 116.
 
 Package xcolor Warning: Incompatible color definition on input line 116.
 
-<imgs/cifar100-test_red,green,blue.png, id=100, 1011.78pt x 578.16pt>
+<imgs/cifar100-test_red,green,blue.png, id=104, 1011.78pt x 578.16pt>
 File: imgs/cifar100-test_red,green,blue.png Graphic file (type png)
 <use imgs/cifar100-test_red,green,blue.png>
 Package pdftex.def Info: imgs/cifar100-test_red,green,blue.png  used on input line 130.
 (pdftex.def)             Requested size: 354.77805pt x 202.72955pt.
-<imgs/cifar100-test_human-made,from-nature.png, id=102, 1011.78pt x 578.16pt>
+<imgs/cifar100-test_human-made,from-nature.png, id=106, 1011.78pt x 578.16pt>
 File: imgs/cifar100-test_human-made,from-nature.png Graphic file (type png)
 <use imgs/cifar100-test_human-made,from-nature.png>
 Package pdftex.def Info: imgs/cifar100-test_human-made,from-nature.png  used on input line 145.
@@ -1317,12 +1317,12 @@ Package pdftex.def Info: imgs/cifar100-test_human-made,from-nature.png  used on 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [3 <./imgs/cifar100-test_red,green,blue.png>]
-<imgs/prompt_fixed_patch.png, id=113, 161.8848pt x 161.8848pt>
+<imgs/prompt_fixed_patch.png, id=117, 161.8848pt x 161.8848pt>
 File: imgs/prompt_fixed_patch.png Graphic file (type png)
 <use imgs/prompt_fixed_patch.png>
 Package pdftex.def Info: imgs/prompt_fixed_patch.png  used on input line 169.
 (pdftex.def)             Requested size: 170.29294pt x 170.3027pt.
-<imgs/prompt_padding.png, id=114, 161.8848pt x 161.8848pt>
+<imgs/prompt_padding.png, id=118, 161.8848pt x 161.8848pt>
 File: imgs/prompt_padding.png Graphic file (type png)
 <use imgs/prompt_padding.png>
 Package pdftex.def Info: imgs/prompt_padding.png  used on input line 176.
@@ -1390,29 +1390,39 @@ Underfull \hbox (badness 10000) in paragraph at lines 247--278
 
  []
 
-[5] [6] (./DP1-HW2.aux)
+[5]
+
+Package xcolor Warning: Incompatible color definition on input line 297.
+
+
+Package xcolor Warning: Incompatible color definition on input line 297.
+
+
+Package xcolor Warning: Incompatible color definition on input line 297.
+
+[6] (./DP1-HW2.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `DP1-HW2.out' has not changed.
-(rerunfilecheck)             Checksum: 72DB0E7B09D8F9E22E692856565013A7;3985.
+(rerunfilecheck)             Checksum: 64D4E1600C52128787048E921E9F6C5E;4260.
 Package logreq Info: Writing requests to 'DP1-HW2.run.xml'.
 \openout1 = `DP1-HW2.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39410 strings out of 476025
- 760701 string characters out of 5790017
+ 39420 strings out of 476025
+ 760808 string characters out of 5790017
  1878388 words of memory out of 5000000
- 59013 multiletter control sequences out of 15000+600000
- 539793 words of font info for 138 fonts, out of 8000000 for 9000
+ 59015 multiletter control sequences out of 15000+600000
+ 540289 words of font info for 142 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  104i,11n,97p,1147b,1767s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on DP1-HW2.pdf (6 pages, 1339715 bytes).
+Output written on DP1-HW2.pdf (6 pages, 1341427 bytes).
 PDF statistics:
- 172 PDF objects out of 1000 (max. 8388607)
- 136 compressed objects within 2 object streams
- 35 named destinations out of 1000 (max. 500000)
- 34485 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 181 PDF objects out of 1000 (max. 8388607)
+ 145 compressed objects within 2 object streams
+ 37 named destinations out of 1000 (max. 500000)
+ 34493 words of extra memory for PDF output out of 35830 (max. 10000000)
 

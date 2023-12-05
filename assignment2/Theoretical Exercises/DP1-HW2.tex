@@ -85,12 +85,12 @@ inference speed, the vRAM usage is lower when using torch.no\_grad() as seen in 
 \subsection{Fine-tuning}
 \subsubsection{Retraining ResNet-18's Fully Connected Layer}
 Using the specifications and default hyperparameters from the assignment, the retrained model achieved a test
-accuracy of 0.5855 in CIFAR-100.
+accuracy of 58.55\% in CIFAR-100.
 
 \subsubsection{Increasing Model Performance using Data Augmentation}
 By applying \texttt{torchvision.transforms.RandomHorizontalFlip(p=0.5)} around half of the images in the training
 set are flipped horizontally. This should increase the model's performance because it is being trained on more
-varied data, thus making it more robust to different inputs. The model achieved a test accuracy of 0.5927, a small
+varied data, thus making it more robust to different inputs. The model achieved a test accuracy of 59.27\%, a small
 improvement.
 
 \subsubsection{Last vs First Convolutional Layer}
@@ -114,8 +114,8 @@ specialized to the downstream task than the first layers.
     \hline
     \rowcolor{Gray}
     \textbf{Dataset} & \textbf{Train Accuracy (\%)} & \textbf{Test Accuracy (\%)} \\ \hline
-    CIFAR-10 & 88.726 & 88.940 \\ \hline
-    CIFAR-100 & 63.564 & 63.150 \\ \hline
+    CIFAR-10 & 88.73 & 88.94 \\ \hline
+    CIFAR-100 & 63.56 & 63.15 \\ \hline
     \end{tabular}
     \caption{Zero-shot CLIP Top-1 Accuracy on CIFAR-10 and CIFAR-100}
     \label{tab:clip_accuracy}
@@ -189,8 +189,8 @@ require a lot of training data, because training a new model for each task would
     \hline
     \rowcolor{Gray}
     \textbf{Dataset} & \textbf{Fixed Patch Accuracy (\%)} & \textbf{Padding Accuracy (\%)} & \textbf{Baseline Accuracy (\%)} \\ \hline
-    CIFAR-10 & 89.570 & 92.740 & 88.940 \\ \hline
-    CIFAR-100 & 64.490 & 71.390 & 63.150 \\ \hline
+    CIFAR-10 & 89.57 & 92.74 & 88.94 \\ \hline
+    CIFAR-100 & 64.49 & 71.39 & 63.15 \\ \hline
     \end{tabular}
     \caption{CLIP Top-1 Accuracy on CIFAR-10 and CIFAR-100's Test with Different Prompt Types Compared to Baseline}
     \label{tab:clip_accuracy_prompt_types}
@@ -220,25 +220,25 @@ prompt accuracies and baseline readings in Table \ref{tab:clip_accuracy}.
     \rowcolor{Gray}
     \textbf{Dataset} & \textbf{Injection Layer} & \textbf{Prompts} & \textbf{Front Acc (\%)} & \textbf{Back Acc (\%)} \\ \hline
     \multirow{9}{*}{CIFAR-10}  
-                               & \multirow{3}{*}{0} & 1 & 95.320 & \textbf{95.480} \\ \cline{3-5}
-                               &                     & 4 & \textbf{96.310} & 94.970 \\ \cline{3-5}
-                               &                     & 8 & \textbf{96.590} & 94.670 \\ \cline{2-5}
-                               & \multirow{3}{*}{6} & 1 & 94.630  & \textbf{94.820} \\ \cline{3-5}
-                               &                     & 4 & \textbf{95.820} & 94.460 \\ \cline{3-5}
-                               &                     & 8 & \textbf{96.000} & 94.230 \\ \cline{2-5}
-                               & \multirow{3}{*}{11}& 1 & 91.170  & \textbf{92.440} \\ \cline{3-5}
-                               &                     & 4 & 91.180  & \textbf{92.350} \\ \cline{3-5}
-                               &                     & 8 & 89.250  & \textbf{92.190} \\ \hline
+                               & \multirow{3}{*}{0} & 1 & 95.32 & \textbf{95.48} \\ \cline{3-5}
+                               &                     & 4 & \textbf{96.31} & 94.97 \\ \cline{3-5}
+                               &                     & 8 & \textbf{96.59} & 94.67 \\ \cline{2-5}
+                               & \multirow{3}{*}{6} & 1 & 94.63  & \textbf{94.82} \\ \cline{3-5}
+                               &                     & 4 & \textbf{95.82} & 94.46 \\ \cline{3-5}
+                               &                     & 8 & \textbf{96.00} & 94.23 \\ \cline{2-5}
+                               & \multirow{3}{*}{11}& 1 & 91.17  & \textbf{92.44} \\ \cline{3-5}
+                               &                     & 4 & 91.18  & \textbf{92.35} \\ \cline{3-5}
+                               &                     & 8 & 89.25  & \textbf{92.19} \\ \hline
     \multirow{9}{*}{CIFAR-100} 
-                               & \multirow{3}{*}{0} & 1 & 75.900  & \textbf{76.270} \\ \cline{3-5}
-                               &                     & 4 & \textbf{78.430} & 75.780 \\ \cline{3-5}
-                               &                     & 8 & \textbf{79.980} & 74.860 \\ \cline{2-5}
-                               & \multirow{3}{*}{6} & 1 & 73.720  & \textbf{74.290} \\ \cline{3-5}
-                               &                     & 4 & \textbf{76.950} & 74.010 \\ \cline{3-5}
-                               &                     & 8 & \textbf{78.110} & 73.560 \\ \cline{2-5}
-                               & \multirow{3}{*}{11}& 1 & \textbf{69.620} & 68.390 \\ \cline{3-5}
-                               &                     & 4 & \textbf{69.610} & 68.000 \\ \cline{3-5}
-                               &                     & 8 & \textbf{69.640} & 67.670 \\ \hline
+                               & \multirow{3}{*}{0} & 1 & 75.90  & \textbf{76.27} \\ \cline{3-5}
+                               &                     & 4 & \textbf{78.43} & 75.78 \\ \cline{3-5}
+                               &                     & 8 & \textbf{79.98} & 74.86 \\ \cline{2-5}
+                               & \multirow{3}{*}{6} & 1 & 73.72  & \textbf{74.29} \\ \cline{3-5}
+                               &                     & 4 & \textbf{76.95} & 74.01 \\ \cline{3-5}
+                               &                     & 8 & \textbf{78.11} & 73.56 \\ \cline{2-5}
+                               & \multirow{3}{*}{11}& 1 & \textbf{69.62} & 68.39 \\ \cline{3-5}
+                               &                     & 4 & \textbf{69.61} & 68.00 \\ \cline{3-5}
+                               &                     & 8 & \textbf{69.64} & 67.67 \\ \hline
     \end{tabular}
     \caption{Image Classification Performance with CLIP using Different Numbers of Prompts, Injected at Different Layers and Appended to the Front or Back of the Sequence}
     \label{tab:clip_accuracy_deep_prompts}
@@ -269,8 +269,8 @@ improvement over the baseline model.
     \hline
     \rowcolor{Gray}
     \textbf{Dataset} & \textbf{Deep Prompt Acc (\%)} & \textbf{Visual Prompt Acc (\%)} & \textbf{Baseline Acc (\%)} \\ \hline
-    CIFAR-10 & 96.590 & 92.740 & 88.940 \\ \hline
-    CIFAR-100 & 79.980 & 71.390 & 63.150 \\ \hline
+    CIFAR-10 & 96.59 & 92.74 & 88.94 \\ \hline
+    CIFAR-100 & 79.98 & 71.39 & 63.15 \\ \hline
     \end{tabular}
     \caption{CLIP Top-1 Accuracy on CIFAR-10 and CIFAR-100's Test Set with Different Prompt Types Compared to Baseline}
     \label{tab:clip_accuracy}
@@ -281,6 +281,32 @@ representation of the image in the model, allowing more complex interactions bet
 can guide the network better than the visual prompts which only can augment the raw input data.
 
 \subsection{Robustness to Noise}
+I investigated how robust CLIP and Resnet-18 are to distributional shifts on CIFAR-100 by adding Gaussian noise to
+the test set. The previously trained CLIP model using a visual padding prompt of size 30 was used for this, while
+for Resnet-18 the fine-tunned model was used where only the fully connected layer was retrained - but not the one
+being shown augmented data during training as to not bias it towards having seen noisy data before.
+
+Previously, in this configuration CLIP achieved a test accuracy of 71.39\% and Resnet-18 achieved a test accuracy
+of 58.55\%. The results of adding Gaussian noise to the test set are shown in Table \ref{tab:robustness}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|c|}
+    \hline
+    \rowcolor{Gray}
+    \textbf{Test Dataset} & \textbf{CLIP Accuracy (\%)} & \textbf{Resnet-18 Accuracy (\%)} \\ \hline
+    CIFAR-100 & 71.39 & 58.55 \\ \hline
+    CIFAR-100 + Gaussian Noise & 61.89 & 25.15 \\ \hline
+    \end{tabular}
+    \caption{CLIP and Resnet-18 Top-1 Accuracy on CIFAR-100's Test Set with and without Gaussian Noise}
+    \label{tab:robustness}
+\end{table}
+
+Where we can see a clear drop in accuracy for both models, although CLIP seems much more robust to the noise than
+Resnet-18, CLIP lost around 10\% accuracy while Resnet-18's more than halved.
+\bigskip
+
+\subsection{Visual Prompts Effectiveness on CIFAR-110}
 
 
 \end{document}
