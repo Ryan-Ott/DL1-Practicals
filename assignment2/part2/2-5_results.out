@@ -1,0 +1,451 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius+and+Lisa#SoftwarepolicySnelliusandLisa-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+Namespace(print_freq=10, save_freq=50, batch_size=128, num_workers=16, epochs=1000, square_size=8, optim='sgd', learning_rate=40, weight_decay=0, warmup=1000, momentum=0.9, patience=1000, model='clip', arch='ViT-B/32', method='padding', prompt_type='visual_prompt', prompt_num=4, injection_layer=0, prompt_size=30, text_prompt_template='This a photo of a {}', root='/scratch-local/scur1180.4594324', dataset='cifar10', image_size=224, test_noise=False, visualize_prompt=False, seed=0, model_dir='./save/models', image_dir='./save/images', filename='padding_30_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1', trial=1, resume='/home/scur1180/DL1-Practicals/assignment2/part2/save/models/visual_prompt_padding_30_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1/checkpoint.pth.tar', evaluate=True, gpu=None, use_wandb=False, device='cuda', model_folder='./save/models/padding_30_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1')
+Downloading https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz to /scratch-local/scur1180.4594324/cifar-10-python.tar.gz
+  0%|          | 0/170498071 [00:00<?, ?it/s]  0%|          | 65536/170498071 [00:00<07:30, 378399.23it/s]  0%|          | 229376/170498071 [00:00<03:56, 720059.23it/s]  0%|          | 786432/170498071 [00:00<01:13, 2313764.66it/s]  1%|          | 1769472/170498071 [00:00<00:37, 4442459.08it/s]  2%|▏         | 3571712/170498071 [00:00<00:21, 7937509.19it/s]  5%|▍         | 7897088/170498071 [00:00<00:09, 18019811.42it/s]  7%|▋         | 12255232/170498071 [00:00<00:06, 25425714.71it/s] 10%|▉         | 16580608/170498071 [00:01<00:05, 25857188.06it/s] 12%|█▏        | 19791872/170498071 [00:01<00:05, 25516502.77it/s] 14%|█▍        | 24150016/170498071 [00:01<00:04, 30148752.62it/s] 17%|█▋        | 28508160/170498071 [00:01<00:04, 33747609.54it/s] 19%|█▉        | 32866304/170498071 [00:01<00:03, 36455385.91it/s] 22%|██▏       | 36732928/170498071 [00:01<00:04, 31766503.42it/s] 24%|██▍       | 41091072/170498071 [00:01<00:03, 34795209.62it/s] 27%|██▋       | 45449216/170498071 [00:01<00:03, 37134800.70it/s] 29%|██▉       | 49545216/170498071 [00:02<00:03, 32675749.72it/s] 32%|███▏      | 53903360/170498071 [00:02<00:03, 35423300.81it/s] 34%|███▍      | 58261504/170498071 [00:02<00:02, 37567674.65it/s] 37%|███▋      | 62423040/170498071 [00:02<00:03, 33076448.70it/s] 39%|███▉      | 66584576/170498071 [00:02<00:02, 35215756.59it/s] 41%|████▏     | 70549504/170498071 [00:02<00:02, 36364556.13it/s] 44%|████▎     | 74448896/170498071 [00:02<00:02, 37079659.09it/s] 46%|████▌     | 78282752/170498071 [00:02<00:02, 32459833.29it/s] 48%|████▊     | 82247680/170498071 [00:02<00:02, 34300266.84it/s] 50%|█████     | 86048768/170498071 [00:03<00:02, 35227198.37it/s] 53%|█████▎    | 89915392/170498071 [00:03<00:02, 36163616.82it/s] 55%|█████▍    | 93650944/170498071 [00:03<00:02, 35541933.86it/s] 57%|█████▋    | 97288192/170498071 [00:03<00:02, 32494407.15it/s] 59%|█████▉    | 101023744/170498071 [00:03<00:02, 33733976.65it/s] 61%|██████▏   | 104693760/170498071 [00:03<00:01, 34417293.65it/s] 64%|██████▎   | 108560384/170498071 [00:03<00:01, 35610709.98it/s] 66%|██████▌   | 112230400/170498071 [00:03<00:01, 35900952.25it/s] 68%|██████▊   | 115867648/170498071 [00:03<00:01, 31867918.43it/s] 70%|███████   | 119832576/170498071 [00:04<00:01, 33948921.50it/s] 72%|███████▏  | 123338752/170498071 [00:04<00:01, 33873502.09it/s] 75%|███████▍  | 127336448/170498071 [00:04<00:01, 35512569.08it/s] 77%|███████▋  | 130973696/170498071 [00:04<00:01, 31901120.69it/s] 79%|███████▉  | 135004160/170498071 [00:04<00:01, 34114789.57it/s] 81%|████████▏ | 138543104/170498071 [00:04<00:00, 33348308.81it/s] 83%|████████▎ | 141950976/170498071 [00:04<00:00, 33302276.73it/s] 85%|████████▌ | 145358848/170498071 [00:04<00:00, 33443552.62it/s] 87%|████████▋ | 148766720/170498071 [00:04<00:00, 32958598.65it/s] 89%|████████▉ | 152109056/170498071 [00:05<00:00, 30980318.77it/s] 91%|█████████▏| 155582464/170498071 [00:05<00:00, 31993918.44it/s] 93%|█████████▎| 158826496/170498071 [00:05<00:00, 31727061.46it/s] 95%|█████████▌| 162332672/170498071 [00:05<00:00, 31998441.11it/s] 97%|█████████▋| 165576704/170498071 [00:05<00:00, 32085441.93it/s] 99%|█████████▉| 168919040/170498071 [00:05<00:00, 32469960.26it/s]100%|██████████| 170498071/170498071 [00:05<00:00, 30586117.60it/s]
+Extracting /scratch-local/scur1180.4594324/cifar-10-python.tar.gz to /scratch-local/scur1180.4594324
+Files already downloaded and verified
+Building custom CLIP
+Loading CLIP (backbone: ViT-B/32)
+  0%|                                               | 0.00/338M [00:00<?, ?iB/s]  2%|▋                                     | 6.62M/338M [00:00<00:05, 68.7MiB/s]  4%|█▌                                    | 13.9M/338M [00:00<00:04, 72.5MiB/s]  6%|██▎                                   | 20.8M/338M [00:00<00:04, 71.7MiB/s]  8%|███                                   | 27.6M/338M [00:00<00:04, 67.6MiB/s] 10%|███▊                                  | 34.1M/338M [00:00<00:05, 62.5MiB/s] 12%|████▌                                 | 40.2M/338M [00:01<00:20, 15.1MiB/s] 13%|████▉                                 | 44.3M/338M [00:02<00:32, 9.50MiB/s] 14%|█████▎                                | 47.3M/338M [00:02<00:30, 10.1MiB/s] 15%|█████▌                                | 49.7M/338M [00:03<00:27, 11.0MiB/s] 17%|██████▎                               | 56.4M/338M [00:03<00:17, 17.1MiB/s] 19%|███████                               | 63.0M/338M [00:03<00:12, 23.8MiB/s] 21%|███████▉                              | 70.1M/338M [00:03<00:08, 31.6MiB/s] 22%|████████▍                             | 75.4M/338M [00:03<00:10, 26.7MiB/s] 24%|████████▉                             | 79.6M/338M [00:03<00:12, 21.5MiB/s] 25%|█████████▎                            | 83.0M/338M [00:04<00:13, 19.2MiB/s] 25%|█████████▋                            | 85.7M/338M [00:04<00:13, 19.7MiB/s] 26%|█████████▉                            | 88.3M/338M [00:04<00:12, 20.5MiB/s] 28%|██████████▊                           | 95.8M/338M [00:04<00:08, 31.3MiB/s] 30%|███████████▉                           | 103M/338M [00:04<00:06, 40.3MiB/s] 32%|████████████▌                          | 109M/338M [00:04<00:05, 46.6MiB/s] 35%|█████████████▍                         | 117M/338M [00:04<00:04, 53.9MiB/s] 36%|██████████████▏                        | 123M/338M [00:04<00:03, 57.1MiB/s] 38%|███████████████                        | 130M/338M [00:05<00:03, 61.5MiB/s] 41%|███████████████▊                       | 137M/338M [00:05<00:03, 65.1MiB/s] 43%|████████████████▌                      | 144M/338M [00:05<00:03, 60.6MiB/s] 45%|█████████████████▍                     | 151M/338M [00:05<00:03, 63.7MiB/s] 47%|██████████████████▏                    | 158M/338M [00:05<00:02, 67.5MiB/s] 49%|███████████████████                    | 165M/338M [00:05<00:02, 69.9MiB/s] 51%|███████████████████▉                   | 172M/338M [00:05<00:02, 71.6MiB/s] 53%|████████████████████▋                  | 180M/338M [00:05<00:02, 72.4MiB/s] 55%|█████████████████████▌                 | 186M/338M [00:05<00:02, 70.2MiB/s] 57%|██████████████████████▎                | 193M/338M [00:05<00:02, 70.4MiB/s] 59%|███████████████████████                | 200M/338M [00:06<00:02, 70.8MiB/s] 61%|███████████████████████▉               | 207M/338M [00:06<00:01, 72.7MiB/s] 64%|████████████████████████▊              | 214M/338M [00:06<00:01, 72.3MiB/s] 66%|█████████████████████████▌             | 221M/338M [00:06<00:01, 68.3MiB/s] 68%|██████████████████████████▍            | 229M/338M [00:06<00:01, 69.9MiB/s] 70%|███████████████████████████▏           | 235M/338M [00:06<00:01, 69.5MiB/s] 72%|███████████████████████████▉           | 242M/338M [00:06<00:01, 59.8MiB/s] 73%|████████████████████████████▋          | 248M/338M [00:07<00:04, 19.3MiB/s] 75%|█████████████████████████████▏         | 252M/338M [00:08<00:07, 11.2MiB/s] 76%|█████████████████████████████▌         | 256M/338M [00:08<00:07, 11.7MiB/s] 78%|██████████████████████████████▎        | 263M/338M [00:09<00:04, 17.2MiB/s] 80%|███████████████████████████████▏       | 270M/338M [00:09<00:03, 23.4MiB/s] 82%|████████████████████████████████       | 277M/338M [00:09<00:02, 30.1MiB/s] 84%|████████████████████████████████▊      | 284M/338M [00:09<00:01, 36.6MiB/s] 86%|█████████████████████████████████▌     | 290M/338M [00:09<00:01, 42.7MiB/s] 88%|██████████████████████████████████▎    | 297M/338M [00:09<00:01, 38.4MiB/s] 90%|███████████████████████████████████    | 303M/338M [00:09<00:00, 44.3MiB/s] 92%|███████████████████████████████████▊   | 310M/338M [00:09<00:00, 50.2MiB/s] 94%|████████████████████████████████████▌  | 317M/338M [00:09<00:00, 55.0MiB/s] 96%|█████████████████████████████████████▍ | 324M/338M [00:10<00:00, 60.6MiB/s] 98%|██████████████████████████████████████▎| 331M/338M [00:10<00:00, 65.0MiB/s]100%|███████████████████████████████████████| 338M/338M [00:10<00:00, 34.5MiB/s]
+List of prompts:
+['This a photo of a airplane',
+ 'This a photo of a automobile',
+ 'This a photo of a bird',
+ 'This a photo of a cat',
+ 'This a photo of a deer',
+ 'This a photo of a dog',
+ 'This a photo of a frog',
+ 'This a photo of a horse',
+ 'This a photo of a ship',
+ 'This a photo of a truck']
+=> loading checkpoint '/home/scur1180/DL1-Practicals/assignment2/part2/save/models/visual_prompt_padding_30_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1/checkpoint.pth.tar'
+=> loaded checkpoint '/home/scur1180/DL1-Practicals/assignment2/part2/save/models/visual_prompt_padding_30_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1/checkpoint.pth.tar' (epoch 20)
+Turning off gradients in both the image and the text encoder
+("Parameters to be updated: {'prompt_learner.pad_down', "
+ "'prompt_learner.pad_up', 'prompt_learner.pad_right', "
+ "'prompt_learner.pad_left'}")
+Number of prompt parameters:  69840
+Files already downloaded and verified
+Files already downloaded and verified
+Downloading https://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz to /scratch-local/scur1180.4594324/cifar-100-python.tar.gz
+  0%|          | 0/169001437 [00:00<?, ?it/s]  0%|          | 65536/169001437 [00:00<07:39, 368028.50it/s]  0%|          | 196608/169001437 [00:00<03:35, 781861.47it/s]  0%|          | 425984/169001437 [00:00<02:04, 1356642.97it/s]  1%|          | 917504/169001437 [00:00<01:13, 2273900.23it/s]  1%|          | 2064384/169001437 [00:00<00:32, 5061726.78it/s]  3%|▎         | 4423680/169001437 [00:00<00:15, 10669107.26it/s]  5%|▍         | 7667712/169001437 [00:00<00:09, 17114437.59it/s]  7%|▋         | 11042816/169001437 [00:00<00:07, 22026597.07it/s]  8%|▊         | 14352384/169001437 [00:01<00:06, 25269726.46it/s] 11%|█         | 18120704/169001437 [00:01<00:05, 28276799.90it/s] 13%|█▎        | 22183936/169001437 [00:01<00:04, 31863299.75it/s] 15%|█▌        | 25952256/169001437 [00:01<00:04, 29865859.12it/s] 18%|█▊        | 29949952/169001437 [00:01<00:04, 32584813.50it/s] 20%|█▉        | 33587200/169001437 [00:01<00:04, 33563497.49it/s] 22%|██▏       | 37126144/169001437 [00:01<00:03, 34000541.97it/s] 24%|██▍       | 41058304/169001437 [00:01<00:03, 35472155.89it/s] 26%|██▋       | 44662784/169001437 [00:01<00:03, 31876452.33it/s] 29%|██▊       | 48300032/169001437 [00:02<00:03, 33081067.45it/s] 31%|███       | 52035584/169001437 [00:02<00:03, 34259658.81it/s] 33%|███▎      | 55541760/169001437 [00:02<00:03, 32882684.78it/s] 35%|███▍      | 58982400/169001437 [00:02<00:03, 33201463.40it/s] 37%|███▋      | 62357504/169001437 [00:02<00:03, 32921347.14it/s] 39%|███▉      | 65699840/169001437 [00:02<00:03, 30985712.21it/s] 41%|████      | 68845568/169001437 [00:02<00:03, 30957520.97it/s] 43%|████▎     | 71991296/169001437 [00:02<00:03, 30323523.76it/s] 44%|████▍     | 75071488/169001437 [00:02<00:03, 29949752.04it/s] 46%|████▌     | 78086144/169001437 [00:02<00:03, 29730724.54it/s] 48%|████▊     | 81068032/169001437 [00:03<00:02, 29577247.54it/s] 50%|████▉     | 84344832/169001437 [00:03<00:02, 29980062.97it/s] 52%|█████▏    | 87687168/169001437 [00:03<00:02, 30946108.16it/s] 54%|█████▍    | 90898432/169001437 [00:03<00:02, 31281219.06it/s] 56%|█████▌    | 94076928/169001437 [00:03<00:02, 31414802.38it/s] 58%|█████▊    | 97288192/169001437 [00:03<00:02, 31494210.23it/s] 59%|█████▉    | 100466688/169001437 [00:03<00:02, 31295432.78it/s] 61%|██████▏   | 103710720/169001437 [00:03<00:02, 31451344.66it/s] 63%|██████▎   | 106889216/169001437 [00:03<00:01, 31399640.96it/s] 65%|██████▌   | 110034944/169001437 [00:04<00:01, 30642735.88it/s] 67%|██████▋   | 113115136/169001437 [00:04<00:01, 30091402.80it/s] 69%|██████▉   | 116523008/169001437 [00:04<00:01, 30731013.36it/s] 71%|███████   | 119898112/169001437 [00:04<00:01, 31582555.00it/s] 73%|███████▎  | 123142144/169001437 [00:04<00:01, 31822148.50it/s] 75%|███████▍  | 126451712/169001437 [00:04<00:01, 32129228.67it/s] 77%|███████▋  | 129761280/169001437 [00:04<00:01, 30935460.01it/s] 79%|███████▉  | 133136384/169001437 [00:04<00:01, 31676215.24it/s] 81%|████████  | 136413184/169001437 [00:04<00:01, 31935448.28it/s] 83%|████████▎ | 139657216/169001437 [00:04<00:00, 32032161.31it/s] 85%|████████▍ | 142999552/169001437 [00:05<00:00, 31585310.39it/s] 87%|████████▋ | 146276352/169001437 [00:05<00:00, 31866241.24it/s] 89%|████████▊ | 149651456/169001437 [00:05<00:00, 32402579.83it/s] 90%|█████████ | 152928256/169001437 [00:05<00:00, 31524550.70it/s] 92%|█████████▏| 156172288/169001437 [00:05<00:00, 31277541.22it/s] 94%|█████████▍| 159383552/169001437 [00:05<00:00, 31504114.14it/s] 96%|█████████▋| 162725888/169001437 [00:05<00:00, 32046843.30it/s] 98%|█████████▊| 165937152/169001437 [00:05<00:00, 31831160.72it/s]100%|██████████| 169001437/169001437 [00:05<00:00, 28743840.64it/s]
+Extracting /scratch-local/scur1180.4594324/cifar-100-python.tar.gz to /scratch-local/scur1180.4594324
+Files already downloaded and verified
+Loading CLIP (backbone: ViT-B/32)
+List of prompts:
+['This a photo of a airplane',
+ 'This a photo of a automobile',
+ 'This a photo of a bird',
+ 'This a photo of a cat',
+ 'This a photo of a deer',
+ 'This a photo of a dog',
+ 'This a photo of a frog',
+ 'This a photo of a horse',
+ 'This a photo of a ship',
+ 'This a photo of a truck',
+ 'This a photo of a apple',
+ 'This a photo of a aquarium fish',
+ 'This a photo of a baby',
+ 'This a photo of a bear',
+ 'This a photo of a beaver',
+ 'This a photo of a bed',
+ 'This a photo of a bee',
+ 'This a photo of a beetle',
+ 'This a photo of a bicycle',
+ 'This a photo of a bottle',
+ 'This a photo of a bowl',
+ 'This a photo of a boy',
+ 'This a photo of a bridge',
+ 'This a photo of a bus',
+ 'This a photo of a butterfly',
+ 'This a photo of a camel',
+ 'This a photo of a can',
+ 'This a photo of a castle',
+ 'This a photo of a caterpillar',
+ 'This a photo of a cattle',
+ 'This a photo of a chair',
+ 'This a photo of a chimpanzee',
+ 'This a photo of a clock',
+ 'This a photo of a cloud',
+ 'This a photo of a cockroach',
+ 'This a photo of a couch',
+ 'This a photo of a crab',
+ 'This a photo of a crocodile',
+ 'This a photo of a cup',
+ 'This a photo of a dinosaur',
+ 'This a photo of a dolphin',
+ 'This a photo of a elephant',
+ 'This a photo of a flatfish',
+ 'This a photo of a forest',
+ 'This a photo of a fox',
+ 'This a photo of a girl',
+ 'This a photo of a hamster',
+ 'This a photo of a house',
+ 'This a photo of a kangaroo',
+ 'This a photo of a keyboard',
+ 'This a photo of a lamp',
+ 'This a photo of a lawn mower',
+ 'This a photo of a leopard',
+ 'This a photo of a lion',
+ 'This a photo of a lizard',
+ 'This a photo of a lobster',
+ 'This a photo of a man',
+ 'This a photo of a maple tree',
+ 'This a photo of a motorcycle',
+ 'This a photo of a mountain',
+ 'This a photo of a mouse',
+ 'This a photo of a mushroom',
+ 'This a photo of a oak tree',
+ 'This a photo of a orange',
+ 'This a photo of a orchid',
+ 'This a photo of a otter',
+ 'This a photo of a palm tree',
+ 'This a photo of a pear',
+ 'This a photo of a pickup truck',
+ 'This a photo of a pine tree',
+ 'This a photo of a plain',
+ 'This a photo of a plate',
+ 'This a photo of a poppy',
+ 'This a photo of a porcupine',
+ 'This a photo of a possum',
+ 'This a photo of a rabbit',
+ 'This a photo of a raccoon',
+ 'This a photo of a ray',
+ 'This a photo of a road',
+ 'This a photo of a rocket',
+ 'This a photo of a rose',
+ 'This a photo of a sea',
+ 'This a photo of a seal',
+ 'This a photo of a shark',
+ 'This a photo of a shrew',
+ 'This a photo of a skunk',
+ 'This a photo of a skyscraper',
+ 'This a photo of a snail',
+ 'This a photo of a snake',
+ 'This a photo of a spider',
+ 'This a photo of a squirrel',
+ 'This a photo of a streetcar',
+ 'This a photo of a sunflower',
+ 'This a photo of a sweet pepper',
+ 'This a photo of a table',
+ 'This a photo of a tank',
+ 'This a photo of a telephone',
+ 'This a photo of a television',
+ 'This a photo of a tiger',
+ 'This a photo of a tractor',
+ 'This a photo of a train',
+ 'This a photo of a trout',
+ 'This a photo of a tulip',
+ 'This a photo of a turtle',
+ 'This a photo of a wardrobe',
+ 'This a photo of a whale',
+ 'This a photo of a willow tree',
+ 'This a photo of a wolf',
+ 'This a photo of a woman',
+ 'This a photo of a worm']
+  0%|          | 0/79 [00:00<?, ?it/s]/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/conv.py:456: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /opt/conda/conda-bld/pytorch_1695392026823/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+Validate: [ 0/79]	Time  1.790 ( 1.790)	Loss 7.9102e-01 (7.9102e-01)	Prompt Acc@1  80.47 ( 80.47)
+  1%|▏         | 1/79 [00:01<02:19,  1.79s/it]  5%|▌         | 4/79 [00:01<00:28,  2.67it/s]  9%|▉         | 7/79 [00:02<00:14,  5.10it/s] 13%|█▎        | 10/79 [00:02<00:08,  7.72it/s]Validate: [10/79]	Time  0.043 ( 0.202)	Loss 6.6211e-01 (6.0327e-01)	Prompt Acc@1  79.69 ( 83.59)
+ 16%|█▋        | 13/79 [00:02<00:06, 10.39it/s] 20%|██        | 16/79 [00:02<00:04, 12.93it/s] 24%|██▍       | 19/79 [00:02<00:03, 15.06it/s]Validate: [20/79]	Time  0.042 ( 0.126)	Loss 6.4795e-01 (6.4850e-01)	Prompt Acc@1  85.94 ( 82.63)
+ 28%|██▊       | 22/79 [00:02<00:03, 16.97it/s] 32%|███▏      | 25/79 [00:02<00:02, 18.61it/s] 35%|███▌      | 28/79 [00:02<00:02, 19.90it/s]Validate: [30/79]	Time  0.042 ( 0.099)	Loss 6.0205e-01 (6.6024e-01)	Prompt Acc@1  85.16 ( 82.51)
+ 39%|███▉      | 31/79 [00:03<00:02, 20.89it/s] 43%|████▎     | 34/79 [00:03<00:02, 21.56it/s] 47%|████▋     | 37/79 [00:03<00:01, 21.84it/s] 51%|█████     | 40/79 [00:03<00:01, 22.06it/s]Validate: [40/79]	Time  0.044 ( 0.086)	Loss 7.8711e-01 (6.5732e-01)	Prompt Acc@1  78.12 ( 82.68)
+ 54%|█████▍    | 43/79 [00:03<00:01, 22.23it/s] 58%|█████▊    | 46/79 [00:03<00:01, 22.37it/s] 62%|██████▏   | 49/79 [00:03<00:01, 22.45it/s]Validate: [50/79]	Time  0.042 ( 0.078)	Loss 7.1924e-01 (6.6642e-01)	Prompt Acc@1  81.25 ( 82.43)
+ 66%|██████▌   | 52/79 [00:03<00:01, 22.75it/s] 70%|██████▉   | 55/79 [00:04<00:01, 23.06it/s] 73%|███████▎  | 58/79 [00:04<00:00, 23.25it/s]Validate: [60/79]	Time  0.042 ( 0.072)	Loss 5.2783e-01 (6.5769e-01)	Prompt Acc@1  85.16 ( 82.52)
+ 77%|███████▋  | 61/79 [00:04<00:00, 23.43it/s] 81%|████████  | 64/79 [00:04<00:00, 23.61it/s] 85%|████████▍ | 67/79 [00:04<00:00, 23.63it/s] 89%|████████▊ | 70/79 [00:04<00:00, 23.66it/s]Validate: [70/79]	Time  0.042 ( 0.068)	Loss 6.6748e-01 (6.5994e-01)	Prompt Acc@1  82.03 ( 82.41)
+ 92%|█████████▏| 73/79 [00:04<00:00, 23.67it/s] 96%|█████████▌| 76/79 [00:05<00:00, 23.68it/s]100%|██████████| 79/79 [00:05<00:00, 22.65it/s]100%|██████████| 79/79 [00:05<00:00, 15.09it/s]
+ * Prompt Acc@1 82.260
+  0%|          | 0/79 [00:00<?, ?it/s]Validate: [ 0/79]	Time  1.366 ( 1.366)	Loss 1.4443e+00 (1.4443e+00)	Prompt Acc@1  63.28 ( 63.28)
+  1%|▏         | 1/79 [00:01<01:46,  1.37s/it]  5%|▌         | 4/79 [00:01<00:22,  3.36it/s]  9%|▉         | 7/79 [00:01<00:11,  6.18it/s] 13%|█▎        | 10/79 [00:01<00:07,  9.06it/s]Validate: [10/79]	Time  0.044 ( 0.165)	Loss 2.0801e+00 (1.8539e+00)	Prompt Acc@1  46.09 ( 51.92)
+ 16%|█▋        | 13/79 [00:01<00:05, 11.82it/s] 20%|██        | 16/79 [00:02<00:04, 14.34it/s] 24%|██▍       | 19/79 [00:02<00:03, 16.37it/s]Validate: [20/79]	Time  0.043 ( 0.107)	Loss 1.9443e+00 (1.8009e+00)	Prompt Acc@1  46.88 ( 53.09)
+ 28%|██▊       | 22/79 [00:02<00:03, 17.98it/s] 32%|███▏      | 25/79 [00:02<00:02, 19.41it/s] 35%|███▌      | 28/79 [00:02<00:02, 20.45it/s]Validate: [30/79]	Time  0.043 ( 0.087)	Loss 1.9297e+00 (1.8077e+00)	Prompt Acc@1  49.22 ( 53.18)
+ 39%|███▉      | 31/79 [00:02<00:02, 21.18it/s] 43%|████▎     | 34/79 [00:02<00:02, 21.68it/s] 47%|████▋     | 37/79 [00:02<00:01, 21.96it/s] 51%|█████     | 40/79 [00:03<00:01, 22.19it/s]Validate: [40/79]	Time  0.045 ( 0.076)	Loss 1.5371e+00 (1.8154e+00)	Prompt Acc@1  61.72 ( 53.11)
+ 54%|█████▍    | 43/79 [00:03<00:01, 22.33it/s] 58%|█████▊    | 46/79 [00:03<00:01, 22.47it/s] 62%|██████▏   | 49/79 [00:03<00:01, 22.57it/s]Validate: [50/79]	Time  0.042 ( 0.070)	Loss 1.9141e+00 (1.8197e+00)	Prompt Acc@1  55.47 ( 53.32)
+ 66%|██████▌   | 52/79 [00:03<00:01, 22.82it/s] 70%|██████▉   | 55/79 [00:03<00:01, 23.11it/s] 73%|███████▎  | 58/79 [00:03<00:00, 23.30it/s]Validate: [60/79]	Time  0.042 ( 0.065)	Loss 2.0898e+00 (1.8170e+00)	Prompt Acc@1  49.22 ( 53.14)
+ 77%|███████▋  | 61/79 [00:03<00:00, 23.43it/s] 81%|████████  | 64/79 [00:04<00:00, 23.50it/s] 85%|████████▍ | 67/79 [00:04<00:00, 23.55it/s] 89%|████████▊ | 70/79 [00:04<00:00, 23.59it/s]Validate: [70/79]	Time  0.042 ( 0.062)	Loss 1.9150e+00 (1.8109e+00)	Prompt Acc@1  48.44 ( 53.06)
+ 92%|█████████▏| 73/79 [00:04<00:00, 23.63it/s] 96%|█████████▌| 76/79 [00:04<00:00, 23.60it/s]100%|██████████| 79/79 [00:04<00:00, 24.73it/s]100%|██████████| 79/79 [00:04<00:00, 16.00it/s]
+ * Prompt Acc@1 53.150
+TOP1 Accuracy on cifra10 + cifar100 is: 67.705
+CIFAR10 done
+Namespace(print_freq=10, save_freq=50, batch_size=128, num_workers=16, epochs=1000, square_size=8, optim='sgd', learning_rate=40, weight_decay=0, warmup=1000, momentum=0.9, patience=1000, model='clip', arch='ViT-B/32', method='padding', prompt_type='visual_prompt', prompt_num=4, injection_layer=0, prompt_size=30, text_prompt_template='This a photo of a {}', root='/scratch-local/scur1180.4594324', dataset='cifar100', image_size=224, test_noise=False, visualize_prompt=False, seed=0, model_dir='./save/models', image_dir='./save/images', filename='padding_30_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1', trial=1, resume='/home/scur1180/DL1-Practicals/assignment2/part2/save/models/visual_prompt_padding_30_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1/checkpoint.pth.tar', evaluate=True, gpu=None, use_wandb=False, device='cuda', model_folder='./save/models/padding_30_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1')
+Files already downloaded and verified
+Files already downloaded and verified
+Building custom CLIP
+Loading CLIP (backbone: ViT-B/32)
+List of prompts:
+['This a photo of a apple',
+ 'This a photo of a aquarium fish',
+ 'This a photo of a baby',
+ 'This a photo of a bear',
+ 'This a photo of a beaver',
+ 'This a photo of a bed',
+ 'This a photo of a bee',
+ 'This a photo of a beetle',
+ 'This a photo of a bicycle',
+ 'This a photo of a bottle',
+ 'This a photo of a bowl',
+ 'This a photo of a boy',
+ 'This a photo of a bridge',
+ 'This a photo of a bus',
+ 'This a photo of a butterfly',
+ 'This a photo of a camel',
+ 'This a photo of a can',
+ 'This a photo of a castle',
+ 'This a photo of a caterpillar',
+ 'This a photo of a cattle',
+ 'This a photo of a chair',
+ 'This a photo of a chimpanzee',
+ 'This a photo of a clock',
+ 'This a photo of a cloud',
+ 'This a photo of a cockroach',
+ 'This a photo of a couch',
+ 'This a photo of a crab',
+ 'This a photo of a crocodile',
+ 'This a photo of a cup',
+ 'This a photo of a dinosaur',
+ 'This a photo of a dolphin',
+ 'This a photo of a elephant',
+ 'This a photo of a flatfish',
+ 'This a photo of a forest',
+ 'This a photo of a fox',
+ 'This a photo of a girl',
+ 'This a photo of a hamster',
+ 'This a photo of a house',
+ 'This a photo of a kangaroo',
+ 'This a photo of a keyboard',
+ 'This a photo of a lamp',
+ 'This a photo of a lawn mower',
+ 'This a photo of a leopard',
+ 'This a photo of a lion',
+ 'This a photo of a lizard',
+ 'This a photo of a lobster',
+ 'This a photo of a man',
+ 'This a photo of a maple tree',
+ 'This a photo of a motorcycle',
+ 'This a photo of a mountain',
+ 'This a photo of a mouse',
+ 'This a photo of a mushroom',
+ 'This a photo of a oak tree',
+ 'This a photo of a orange',
+ 'This a photo of a orchid',
+ 'This a photo of a otter',
+ 'This a photo of a palm tree',
+ 'This a photo of a pear',
+ 'This a photo of a pickup truck',
+ 'This a photo of a pine tree',
+ 'This a photo of a plain',
+ 'This a photo of a plate',
+ 'This a photo of a poppy',
+ 'This a photo of a porcupine',
+ 'This a photo of a possum',
+ 'This a photo of a rabbit',
+ 'This a photo of a raccoon',
+ 'This a photo of a ray',
+ 'This a photo of a road',
+ 'This a photo of a rocket',
+ 'This a photo of a rose',
+ 'This a photo of a sea',
+ 'This a photo of a seal',
+ 'This a photo of a shark',
+ 'This a photo of a shrew',
+ 'This a photo of a skunk',
+ 'This a photo of a skyscraper',
+ 'This a photo of a snail',
+ 'This a photo of a snake',
+ 'This a photo of a spider',
+ 'This a photo of a squirrel',
+ 'This a photo of a streetcar',
+ 'This a photo of a sunflower',
+ 'This a photo of a sweet pepper',
+ 'This a photo of a table',
+ 'This a photo of a tank',
+ 'This a photo of a telephone',
+ 'This a photo of a television',
+ 'This a photo of a tiger',
+ 'This a photo of a tractor',
+ 'This a photo of a train',
+ 'This a photo of a trout',
+ 'This a photo of a tulip',
+ 'This a photo of a turtle',
+ 'This a photo of a wardrobe',
+ 'This a photo of a whale',
+ 'This a photo of a willow tree',
+ 'This a photo of a wolf',
+ 'This a photo of a woman',
+ 'This a photo of a worm']
+=> loading checkpoint '/home/scur1180/DL1-Practicals/assignment2/part2/save/models/visual_prompt_padding_30_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1/checkpoint.pth.tar'
+=> loaded checkpoint '/home/scur1180/DL1-Practicals/assignment2/part2/save/models/visual_prompt_padding_30_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1/checkpoint.pth.tar' (epoch 20)
+Turning off gradients in both the image and the text encoder
+("Parameters to be updated: {'prompt_learner.pad_up', "
+ "'prompt_learner.pad_right', 'prompt_learner.pad_left', "
+ "'prompt_learner.pad_down'}")
+Number of prompt parameters:  69840
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Loading CLIP (backbone: ViT-B/32)
+List of prompts:
+['This a photo of a airplane',
+ 'This a photo of a automobile',
+ 'This a photo of a bird',
+ 'This a photo of a cat',
+ 'This a photo of a deer',
+ 'This a photo of a dog',
+ 'This a photo of a frog',
+ 'This a photo of a horse',
+ 'This a photo of a ship',
+ 'This a photo of a truck',
+ 'This a photo of a apple',
+ 'This a photo of a aquarium fish',
+ 'This a photo of a baby',
+ 'This a photo of a bear',
+ 'This a photo of a beaver',
+ 'This a photo of a bed',
+ 'This a photo of a bee',
+ 'This a photo of a beetle',
+ 'This a photo of a bicycle',
+ 'This a photo of a bottle',
+ 'This a photo of a bowl',
+ 'This a photo of a boy',
+ 'This a photo of a bridge',
+ 'This a photo of a bus',
+ 'This a photo of a butterfly',
+ 'This a photo of a camel',
+ 'This a photo of a can',
+ 'This a photo of a castle',
+ 'This a photo of a caterpillar',
+ 'This a photo of a cattle',
+ 'This a photo of a chair',
+ 'This a photo of a chimpanzee',
+ 'This a photo of a clock',
+ 'This a photo of a cloud',
+ 'This a photo of a cockroach',
+ 'This a photo of a couch',
+ 'This a photo of a crab',
+ 'This a photo of a crocodile',
+ 'This a photo of a cup',
+ 'This a photo of a dinosaur',
+ 'This a photo of a dolphin',
+ 'This a photo of a elephant',
+ 'This a photo of a flatfish',
+ 'This a photo of a forest',
+ 'This a photo of a fox',
+ 'This a photo of a girl',
+ 'This a photo of a hamster',
+ 'This a photo of a house',
+ 'This a photo of a kangaroo',
+ 'This a photo of a keyboard',
+ 'This a photo of a lamp',
+ 'This a photo of a lawn mower',
+ 'This a photo of a leopard',
+ 'This a photo of a lion',
+ 'This a photo of a lizard',
+ 'This a photo of a lobster',
+ 'This a photo of a man',
+ 'This a photo of a maple tree',
+ 'This a photo of a motorcycle',
+ 'This a photo of a mountain',
+ 'This a photo of a mouse',
+ 'This a photo of a mushroom',
+ 'This a photo of a oak tree',
+ 'This a photo of a orange',
+ 'This a photo of a orchid',
+ 'This a photo of a otter',
+ 'This a photo of a palm tree',
+ 'This a photo of a pear',
+ 'This a photo of a pickup truck',
+ 'This a photo of a pine tree',
+ 'This a photo of a plain',
+ 'This a photo of a plate',
+ 'This a photo of a poppy',
+ 'This a photo of a porcupine',
+ 'This a photo of a possum',
+ 'This a photo of a rabbit',
+ 'This a photo of a raccoon',
+ 'This a photo of a ray',
+ 'This a photo of a road',
+ 'This a photo of a rocket',
+ 'This a photo of a rose',
+ 'This a photo of a sea',
+ 'This a photo of a seal',
+ 'This a photo of a shark',
+ 'This a photo of a shrew',
+ 'This a photo of a skunk',
+ 'This a photo of a skyscraper',
+ 'This a photo of a snail',
+ 'This a photo of a snake',
+ 'This a photo of a spider',
+ 'This a photo of a squirrel',
+ 'This a photo of a streetcar',
+ 'This a photo of a sunflower',
+ 'This a photo of a sweet pepper',
+ 'This a photo of a table',
+ 'This a photo of a tank',
+ 'This a photo of a telephone',
+ 'This a photo of a television',
+ 'This a photo of a tiger',
+ 'This a photo of a tractor',
+ 'This a photo of a train',
+ 'This a photo of a trout',
+ 'This a photo of a tulip',
+ 'This a photo of a turtle',
+ 'This a photo of a wardrobe',
+ 'This a photo of a whale',
+ 'This a photo of a willow tree',
+ 'This a photo of a wolf',
+ 'This a photo of a woman',
+ 'This a photo of a worm']
+  0%|          | 0/79 [00:00<?, ?it/s]/home/scur1180/.conda/envs/dl2023/lib/python3.11/site-packages/torch/nn/modules/conv.py:456: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /opt/conda/conda-bld/pytorch_1695392026823/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+Validate: [ 0/79]	Time  1.655 ( 1.655)	Loss 1.2520e+00 (1.2520e+00)	Prompt Acc@1  70.31 ( 70.31)
+  1%|▏         | 1/79 [00:01<02:08,  1.65s/it]  5%|▌         | 4/79 [00:01<00:26,  2.87it/s]  9%|▉         | 7/79 [00:01<00:13,  5.42it/s] 13%|█▎        | 10/79 [00:02<00:08,  8.12it/s]Validate: [10/79]	Time  0.044 ( 0.190)	Loss 1.0371e+00 (1.1329e+00)	Prompt Acc@1  76.56 ( 71.95)
+ 16%|█▋        | 13/79 [00:02<00:06, 10.79it/s] 20%|██        | 16/79 [00:02<00:04, 13.28it/s] 24%|██▍       | 19/79 [00:02<00:03, 15.34it/s]Validate: [20/79]	Time  0.043 ( 0.120)	Loss 1.0879e+00 (1.1364e+00)	Prompt Acc@1  72.66 ( 71.95)
+ 28%|██▊       | 22/79 [00:02<00:03, 17.20it/s] 32%|███▏      | 25/79 [00:02<00:02, 18.77it/s] 35%|███▌      | 28/79 [00:02<00:02, 20.00it/s]Validate: [30/79]	Time  0.043 ( 0.095)	Loss 9.2920e-01 (1.1385e+00)	Prompt Acc@1  75.78 ( 71.55)
+ 39%|███▉      | 31/79 [00:02<00:02, 20.91it/s] 43%|████▎     | 34/79 [00:03<00:02, 21.42it/s] 47%|████▋     | 37/79 [00:03<00:01, 21.78it/s] 51%|█████     | 40/79 [00:03<00:01, 21.93it/s]Validate: [40/79]	Time  0.046 ( 0.083)	Loss 1.3467e+00 (1.1322e+00)	Prompt Acc@1  67.97 ( 71.65)
+ 54%|█████▍    | 43/79 [00:03<00:01, 22.03it/s] 58%|█████▊    | 46/79 [00:03<00:01, 22.27it/s] 62%|██████▏   | 49/79 [00:03<00:01, 22.46it/s]Validate: [50/79]	Time  0.042 ( 0.075)	Loss 1.2656e+00 (1.1370e+00)	Prompt Acc@1  67.19 ( 71.42)
+ 66%|██████▌   | 52/79 [00:03<00:01, 22.84it/s] 70%|██████▉   | 55/79 [00:04<00:01, 23.15it/s] 73%|███████▎  | 58/79 [00:04<00:00, 23.36it/s]Validate: [60/79]	Time  0.042 ( 0.070)	Loss 1.1006e+00 (1.1398e+00)	Prompt Acc@1  75.00 ( 71.29)
+ 77%|███████▋  | 61/79 [00:04<00:00, 23.49it/s] 81%|████████  | 64/79 [00:04<00:00, 23.60it/s] 85%|████████▍ | 67/79 [00:04<00:00, 23.66it/s] 89%|████████▊ | 70/79 [00:04<00:00, 23.56it/s]Validate: [70/79]	Time  0.043 ( 0.066)	Loss 1.2500e+00 (1.1448e+00)	Prompt Acc@1  67.97 ( 71.12)
+ 92%|█████████▏| 73/79 [00:04<00:00, 23.56it/s] 96%|█████████▌| 76/79 [00:04<00:00, 23.58it/s]100%|██████████| 79/79 [00:05<00:00, 23.46it/s]100%|██████████| 79/79 [00:05<00:00, 15.49it/s]
+ * Prompt Acc@1 71.050
+  0%|          | 0/79 [00:00<?, ?it/s]Validate: [ 0/79]	Time  1.359 ( 1.359)	Loss 7.1631e-01 (7.1631e-01)	Prompt Acc@1  82.03 ( 82.03)
+  1%|▏         | 1/79 [00:01<01:46,  1.36s/it]  5%|▌         | 4/79 [00:01<00:22,  3.39it/s]  9%|▉         | 7/79 [00:01<00:11,  6.21it/s] 13%|█▎        | 10/79 [00:01<00:07,  9.08it/s]Validate: [10/79]	Time  0.045 ( 0.165)	Loss 1.1035e+00 (1.0008e+00)	Prompt Acc@1  64.84 ( 69.74)
+ 16%|█▋        | 13/79 [00:01<00:05, 11.80it/s] 20%|██        | 16/79 [00:02<00:04, 14.25it/s] 24%|██▍       | 19/79 [00:02<00:03, 16.15it/s]Validate: [20/79]	Time  0.044 ( 0.107)	Loss 1.1943e+00 (1.0054e+00)	Prompt Acc@1  65.62 ( 69.83)
+ 28%|██▊       | 22/79 [00:02<00:03, 17.83it/s] 32%|███▏      | 25/79 [00:02<00:02, 19.10it/s] 35%|███▌      | 28/79 [00:02<00:02, 20.12it/s]Validate: [30/79]	Time  0.043 ( 0.087)	Loss 1.1465e+00 (1.0269e+00)	Prompt Acc@1  64.06 ( 69.25)
+ 39%|███▉      | 31/79 [00:02<00:02, 20.96it/s] 43%|████▎     | 34/79 [00:02<00:02, 21.34it/s] 47%|████▋     | 37/79 [00:02<00:01, 21.78it/s] 51%|█████     | 40/79 [00:03<00:01, 22.03it/s]Validate: [40/79]	Time  0.045 ( 0.076)	Loss 1.0098e+00 (1.0443e+00)	Prompt Acc@1  71.88 ( 68.96)
+ 54%|█████▍    | 43/79 [00:03<00:01, 22.17it/s] 58%|█████▊    | 46/79 [00:03<00:01, 22.28it/s] 62%|██████▏   | 49/79 [00:03<00:01, 22.39it/s]Validate: [50/79]	Time  0.044 ( 0.070)	Loss 1.2168e+00 (1.0493e+00)	Prompt Acc@1  64.84 ( 69.03)
+ 66%|██████▌   | 52/79 [00:03<00:01, 22.57it/s] 70%|██████▉   | 55/79 [00:03<00:01, 22.89it/s] 73%|███████▎  | 58/79 [00:03<00:00, 23.14it/s]Validate: [60/79]	Time  0.042 ( 0.066)	Loss 1.3057e+00 (1.0503e+00)	Prompt Acc@1  71.09 ( 69.39)
+ 77%|███████▋  | 61/79 [00:03<00:00, 23.31it/s] 81%|████████  | 64/79 [00:04<00:00, 23.41it/s] 85%|████████▍ | 67/79 [00:04<00:00, 23.49it/s] 89%|████████▊ | 70/79 [00:04<00:00, 23.53it/s]Validate: [70/79]	Time  0.042 ( 0.062)	Loss 1.2051e+00 (1.0440e+00)	Prompt Acc@1  67.97 ( 69.75)
+ 92%|█████████▏| 73/79 [00:04<00:00, 23.57it/s] 96%|█████████▌| 76/79 [00:04<00:00, 23.53it/s]100%|██████████| 79/79 [00:04<00:00, 24.76it/s]100%|██████████| 79/79 [00:04<00:00, 16.38it/s]
+ * Prompt Acc@1 70.000
+TOP1 Accuracy on cifra10 + cifar100 is: 70.525
+CIFAR100 done
+
+JOB STATISTICS
+==============
+Job ID: 4594324
+Cluster: snellius
+User/Group: scur1180/scur1180
+State: RUNNING
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 00:30:00 core-walltime
+Job Wall-clock time: 00:01:40
+Memory Utilized: 0.00 MB (estimated maximum)
+Memory Efficiency: 0.00% of 120.00 GB (120.00 GB/node)
+WARNING: Efficiency statistics may be misleading for RUNNING jobs.

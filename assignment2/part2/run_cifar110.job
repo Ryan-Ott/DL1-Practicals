@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu
+#SBATCH --gpus=1
+#SBATCH --job-name=CIFAR110
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --time=01:00:00
+#SBATCH --output=cifar110_slurm_output_%A.out
+
+module purge
+module load 2022
+module load Anaconda3/2022.05
+
+# activate the environment
+source activate dl2023
+
+code_dir=/home/scur1180/DL1-Practicals/assignment2/part2
+
+cd $code_dir
+
+vp_cifar10_checkpoint=$code_dir/save/models/visual_prompt_padding_30_cifar10_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1/checkpoint.pth.tar
+vp_cifar100_checkpoint=$code_dir/save/models/visual_prompt_padding_30_cifar100_clip_ViT-B/32_sgd_lr_40_decay_0_bsz_128_warmup_1000_trial_1/checkpoint.pth.tar
+
+python -u cross_dataset.py \
+                    --root $TMPDIR \
+                    --dataset cifar10 \
+                    --resume $vp_cifar10_checkpoint \
+                    --evaluate
+
+echo "CIFAR10 done"
+
+python -u cross_dataset.py \
+                    --root $TMPDIR \
+                    --dataset cifar100 \
+                    --resume $vp_cifar100_checkpoint \
+                    --evaluate
+
+echo "CIFAR100 done"
