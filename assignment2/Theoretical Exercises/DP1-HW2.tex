@@ -282,9 +282,10 @@ can guide the network better than the visual prompts which only can augment the 
 
 \subsection{Robustness to Noise}
 I investigated how robust CLIP and Resnet-18 are to distributional shifts on CIFAR-100 by adding Gaussian noise to
-the test set. The previously trained CLIP model using a visual padding prompt of size 30 was used for this, while
-for Resnet-18 the fine-tunned model was used where only the fully connected layer was retrained - but not the one
-being shown augmented data during training as to not bias it towards having seen noisy data before.
+the test set. The previously trained CLIP model using a visual padding prompt of size 30 on the CIFAR-100 dataset
+was used for this, while for Resnet-18 the fine-tunned model was used where only the fully connected layer was
+retrained - but not the one being shown augmented data during training as to not bias it towards having seen noisy
+data before.
 
 Previously, in this configuration CLIP achieved a test accuracy of 71.39\% and Resnet-18 achieved a test accuracy
 of 58.55\%. The results of adding Gaussian noise to the test set are shown in Table \ref{tab:robustness}.
@@ -304,9 +305,38 @@ of 58.55\%. The results of adding Gaussian noise to the test set are shown in Ta
 
 Where we can see a clear drop in accuracy for both models, although CLIP seems much more robust to the noise than
 Resnet-18, CLIP lost around 10\% accuracy while Resnet-18's more than halved.
+
+The reason this might occur could come down to the learned visual prompts. CLIP's visual prompts perhaps allow it
+to learn more robust features that are more invariant to noise, with the padding prompt type of size 30 being able
+to attend to a large part of the image and thus being able to learn less sensitive features. Resnet-18 on the other
+hand only had its final fully connected layer retrained, which might not help it to be more robust to noise, if
+anything it might make it more inclined to overfit to the training data it saw during fine-tuning.
 \bigskip
 
 \subsection{Visual Prompts Effectiveness on CIFAR-110}
+For investigating the effectiveness of learned visual prompts the best performing visual prompt models, one trained
+on CIFAR-10 and one trained on CIFAR-100. When comparing the performance of these on the 110-way classification
+task, we see that the model trained on CIFAR-100 performs better than the model trained on CIFAR-10, achieving a
+slightly higher test top-1 accuracy (see Table \ref{tab:cifar110}).
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|c|}
+    \hline
+    \rowcolor{Gray}
+    \textbf{Dataset} & \textbf{CIFAR-10 Prompt Acc (\%)} & \textbf{CIFAR-100 Prompt Acc (\%)} \\ \hline
+    CIFAR-110 & 67.705 & 70.525 \\ \hline
+    \end{tabular}
+    \caption{CLIP Top-1 Accuracy on CIFAR-110's Test Set with Different Prompt Types}
+    \label{tab:cifar110}
+\end{table}
+
+This is the expected result because the model trained on CIFAR-100 has already seen most of the classes in CIFAR-110,
+and thus is able to perform better on it than the model trained on CIFAR-10. The fact that having only seen $<$
+10\% of the classes in CIFAR-110 the model trained on CIFAR-10 is able to achieve a test accuracy of 67.705\% is
+quite impressive, and shows the power of CLIP's zero-shot learning capabilities and the learned visual prompts.
+
+\section{Graph Neural Networks}
 
 
 \end{document}

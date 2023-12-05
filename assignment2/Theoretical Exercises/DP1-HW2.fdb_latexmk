@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber DP1-HW2"] 1701780066 "DP1-HW2.bcf" "DP1-HW2.bbl" "DP1-HW2" 1701780076 0
-  "DP1-HW2.bcf" 1701780076 107256 cda255eed6b0d0df027a0b54e0d84d42 "pdflatex"
+["biber DP1-HW2"] 1701817909 "DP1-HW2.bcf" "DP1-HW2.bbl" "DP1-HW2" 1701817918 0
+  "DP1-HW2.bcf" 1701817917 107256 cda255eed6b0d0df027a0b54e0d84d42 "pdflatex"
   (generated)
   "DP1-HW2.bbl"
   "DP1-HW2.blg"
   (rewritten before read)
-["pdflatex"] 1701780073 "/Users/ryan/Edu/UvA/Semester1/DL1/DL1-Practicals/assignment2/Theoretical Exercises/DP1-HW2.tex" "DP1-HW2.pdf" "DP1-HW2" 1701780076 0
-  "/Users/ryan/Edu/UvA/Semester1/DL1/DL1-Practicals/assignment2/Theoretical Exercises/DP1-HW2.tex" 1701780058 16320 3de64f5d27d85592afef9ebf49bf99fe ""
+["pdflatex"] 1701817915 "/Users/ryan/Edu/UvA/Semester1/DL1/DL1-Practicals/assignment2/Theoretical Exercises/DP1-HW2.tex" "DP1-HW2.pdf" "DP1-HW2" 1701817918 0
+  "/Users/ryan/Edu/UvA/Semester1/DL1/DL1-Practicals/assignment2/Theoretical Exercises/DP1-HW2.tex" 1701817912 18180 2c55dd070a891adb13ab46ec9f3d9a83 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/bitstrea/charter/bchb7t.tfm" 1136768653 2732 006d846b4d54f9b40899c7c3eecd771a ""
@@ -38,6 +38,7 @@
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb" 1136849748 33799 6c8c18c1e1a138641a52c29f0b878445 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb" 1136849748 34869 539b6fed90ef630e9049bc13079bc598 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb" 1136849748 35118 12369bddf1a14581d11fcdbf86619250 ""
+  "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 1248133631 31099 c85edf1dd5b9e826d67c9c7293b6786c ""
   "/usr/local/texlive/2023/texmf-dist/fonts/vf/bitstrea/charter/bchb7t.vf" 1136768653 1372 e6cfde23c168b1d1864ce6aa6dffa18b ""
@@ -261,11 +262,11 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1694628660 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1694628570 7883453 51c4c5a8098eae168c681c327e572b15 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "DP1-HW2.aux" 1701780076 7089 bba6d887f390e98337e193e589b25875 "pdflatex"
-  "DP1-HW2.bbl" 1701780069 0 d41d8cd98f00b204e9800998ecf8427e "biber DP1-HW2"
-  "DP1-HW2.out" 1701780076 4260 64d4e1600c52128787048e921e9f6c5e "pdflatex"
-  "DP1-HW2.run.xml" 1701780076 2245 11d87fffc4e3a54a0a01ea9dd0408e63 "pdflatex"
-  "DP1-HW2.tex" 1701780058 16320 3de64f5d27d85592afef9ebf49bf99fe ""
+  "DP1-HW2.aux" 1701817917 7503 6f08585243acc9402e51385ef9f42fff "pdflatex"
+  "DP1-HW2.bbl" 1701817912 0 d41d8cd98f00b204e9800998ecf8427e "biber DP1-HW2"
+  "DP1-HW2.out" 1701817917 4415 59dc79a1d8f762d69d020d9a9cfbc3d2 "pdflatex"
+  "DP1-HW2.run.xml" 1701817917 2245 11d87fffc4e3a54a0a01ea9dd0408e63 "pdflatex"
+  "DP1-HW2.tex" 1701817912 18180 2c55dd070a891adb13ab46ec9f3d9a83 ""
   "head.tex" 1701696278 3630 c0cbddbd09aba01419fae08ed139491b ""
   "imgs/Inference-vs-noGrad.png" 1701375124 51979 8bacfbc9e24a1d8f9880d3e2d7833fa4 ""
   "imgs/NumParams-vs-Inference.png" 1701375124 55323 ae93df3b7438ef889e0449383d5d66cf ""
