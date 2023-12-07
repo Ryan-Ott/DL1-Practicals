@@ -8,21 +8,21 @@
 
 \fancyhead[C]{}
 \hrule \medskip % Upper rule
-\begin{minipage}{0.295\textwidth} 
+\begin{minipage}{0.295\linewidth} 
 \raggedright
 \footnotesize
 Ryan Ott \hfill\\   
 14862565 \hfill\\
 ryan.ott@student.uva.nl
 \end{minipage}
-\begin{minipage}{0.4\textwidth} 
+\begin{minipage}{0.4\linewidth} 
 \centering 
 \large 
 Practical Assignment 2\\ 
 \normalsize 
 Deep Learning 1\\ 
 \end{minipage}
-\begin{minipage}{0.295\textwidth} 
+\begin{minipage}{0.295\linewidth} 
 \raggedleft
 \today\hfill\\
 \end{minipage}
@@ -41,7 +41,7 @@ top-1 accuracy and the inference speed. The ViT-B/32 model performs best overall
 inference speed than the trend suggests. Shown in Figure \ref{fig:Top1Acc-vs-Inference}.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.75\textwidth]{"imgs/Top1Acc-vs-Inference.png"}
+    \includegraphics[width=0.75\linewidth]{"imgs/Top1Acc-vs-Inference.png"}
     \caption{Top-1 Accuracy vs Inference Speed per Image}
     \label{fig:Top1Acc-vs-Inference}
 \end{figure}
@@ -51,7 +51,7 @@ should only play a role when the model is being trained, not during inferencing,
 expectations. Shown in Figure \ref{fig:NumParams-vs-Inference}.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.75\textwidth]{"imgs/NumParams-vs-Inference.png"}
+    \includegraphics[width=0.75\linewidth]{"imgs/NumParams-vs-Inference.png"}
     \caption{Number of Trainable Parameters vs Inference Speed per Image}
     \label{fig:NumParams-vs-Inference}
 \end{figure}
@@ -63,7 +63,7 @@ confirmed by the results, the inference speed is slightly faster with torch.no\_
 Figure \ref{fig:Inference-vs-noGrad}.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.75\textwidth]{"imgs/Inference-vs-noGrad.png"}
+    \includegraphics[width=0.75\linewidth]{"imgs/Inference-vs-noGrad.png"}
     \caption{Inference Speed per Image with and without torch.no\_grad()}
     \label{fig:Inference-vs-noGrad}
 \end{figure}
@@ -75,7 +75,7 @@ inference speed, the vRAM usage is lower when using torch.no\_grad() as seen in 
 \ref{fig:VRAM-vs-noGrad}.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.75\textwidth]{"imgs/VRAM-vs-noGrad.png"}
+    \includegraphics[width=0.75\linewidth]{"imgs/VRAM-vs-noGrad.png"}
     \caption{vRAM Usage with and without torch.no\_grad()}
     \label{fig:VRAM-vs-noGrad}
 \end{figure}
@@ -127,7 +127,7 @@ specialized to the downstream task than the first layers.
 \textbf{Labels:} \textit{"red", "green", "blue"}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.75\textwidth]{"imgs/cifar100-test_red,green,blue.png"}
+    \includegraphics[width=0.75\linewidth]{"imgs/cifar100-test_red,green,blue.png"}
     \caption{Primary Colour Identification}
     \label{fig:CLIP-primary-colour}
 \end{figure}
@@ -142,7 +142,7 @@ The contrastive learning approach of CLIP allows it to generalize well to new ta
 \textbf{Labels:} \textit{"human-made", "from-nature"}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.75\textwidth]{"imgs/cifar100-test_human-made,from-nature.png"}
+    \includegraphics[width=0.75\linewidth]{"imgs/cifar100-test_human-made,from-nature.png"}
     \caption{Distinguishing Human-made and Natural Objects}
     \label{fig:CLIP-human-vs-nature}
 \end{figure}
@@ -164,16 +164,16 @@ require a lot of training data, because training a new model for each task would
 \subsection{Effect of Prompt Types on Classification Accuracy}
 \begin{figure}[h]
     \centering
-    \begin{minipage}[b]{0.45\textwidth}
+    \begin{minipage}[b]{0.45\linewidth}
         \centering
-        \includegraphics[width=0.8\textwidth]{"imgs/prompt_fixed_patch.png"}
+        \includegraphics[width=0.8\linewidth]{"imgs/prompt_fixed_patch.png"}
         \caption{Fixed Patch Visual Prompt (Single Pixel Top-Left)}
         \label{fig:prompt-fixed}
     \end{minipage}
     \hfill
-    \begin{minipage}[b]{0.45\textwidth}
+    \begin{minipage}[b]{0.45\linewidth}
         \centering
-        \includegraphics[width=0.8\textwidth]{"imgs/prompt_padding.png"}
+        \includegraphics[width=0.8\linewidth]{"imgs/prompt_padding.png"}
         \caption{Padding Visual Prompt}
         \label{fig:prompt-padding}
     \end{minipage}
@@ -336,7 +336,150 @@ and thus is able to perform better on it than the model trained on CIFAR-10. The
 10\% of the classes in CIFAR-110 the model trained on CIFAR-10 is able to achieve a test accuracy of 67.705\% is
 quite impressive, and shows the power of CLIP's zero-shot learning capabilities and the learned visual prompts.
 
-\section{Graph Neural Networks}
+\subsection{Transfer Learning vs Prompting}
+\subsubsection{What are some advantages of prompting over linear probing in terms of robustness against distributional shifts?}
+\begin{itemize}
+    \item Parameter Optimization Efficiency
+    \item Less Compute for Input Manipulation
+\end{itemize}
 
+\subsubsection{What are some advantages of prompting over linear probing concerning computational resources?}
+\begin{itemize}
+    \item Prompt Dataset Overfitting Prevention
+\end{itemize}
+
+\subsubsection{What represents some drawback(s) of prompting compared to linear probing concerning memory requirements?}
+\begin{itemize}
+    \item Increased Memory Load for Prompting
+\end{itemize}
+
+\subsubsection{What represents a disadvantage of prompting compared to full fine-tuning and linear probing in terms of adaptability to downstream tasks?}
+\begin{itemize}
+    \item Limited Data Space Manipulation
+\end{itemize}
+
+
+% ==============================
+\section{Graph Neural Networks}
+\subsection{Adjacency Matrices}
+\subsubsection{}
+First graph:\newline
+[[0, 1, 1, 1, 1, 1, 1], [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0]]\newline\newline
+Second graph:\newline
+[[0, 1, 1, 1, 1, 1, 1], [1, 0, 1, 0, 0, 0, 1], [1, 1, 0, 1, 0, 0, 0], [1, 0, 1, 0, 1, 0, 0], [1, 0, 0, 1, 0, 1, 0], [1, 0, 0, 0, 1, 0, 1], [1, 1, 0, 0, 0, 1, 0]]\newline\newline
+Third graph:\newline
+[[0, 1, 0, 0, 0, 1], [1, 0, 1, 0, 0, 0], [0, 1, 0, 1, 0, 0], [0, 0, 1, 0, 1, 0], [0, 0, 0, 1, 0, 1], [1, 0, 0, 0, 1, 0]]
+
+\subsubsection{}
+[[2 0 1 0 1 0], [0 2 0 1 0 1], [1 0 2 0 1 0], [0 1 0 2 0 1], [1 0 1 0 2 0], [0 1 0 1 0 2]]
+
+\subsubsection{}
+$(A^2)_{uv}$ represents the number of paths of length 2 from node $u$ to node $v$ in the graph. This extends to 
+$(A^n)_{uv}$ representing the number of paths of length $n$ from node $u$ to node $v$ in the graph.
+\bigskip
+% ------------------------------
+
+\subsection{Graph Convolution}
+% For an undirected graph with $N$ nodes, each node $v$ is associated with a $d$-dimensional embedding $h_v$. Let us
+% consider the following graph convolution that propagtaes the embeddings for all nodes from a layer $l$ to the next
+% layer $l+1$:
+% $$h_v^{(l+1)} = \sigma \left( W^{(l)} \sum_{u\in N(v)} \frac{h_u^{(l)}}{|N(v)|} + B^{(l)} h_v^{(l)} \right)$$
+% The nonlinearity, e.g. ReLU, is denoted by $\sigma$. The matrices
+% $B^{(l)}$, $W^{(l)}$ $\in \mathbb{R}^{d^{(l+1)} \times d^{(l)}}$ are parameterizing the self-connection and the
+% combination of neighboring node activations respectively. The neighborhood of a node $v$ is denoted by $N(v)$ and
+% consists of all nodes connected to $v$ by an edge. Hence, $|N(v)|$ is the number of neighbors of $v$.
+\subsubsection{Where in the Equation does the Structural Information on the Graph Appear?}
+The structural information on the graph appears in the equation through the term
+$$\sum_{u\in N(v)} \frac{h_u^{(l)}}{|N(v)|}$$
+This sum represents the aggregation of the embeddings of the neighbours of node v, weighted by the inverse degree of
+each neighbour node. This is then multiplied by the weight matrix $W^{(l)}$ to combine the embeddings of the
+neighbours into a single embedding for node v after adding the self-connection term $B^{(l)}h_v^{(l)}$ and applying
+the nonlinearity $\sigma$.
+
+\subsubsection{How is the graph convolution related to message passing neural networks?}
+% In message-parsing neural networks, after every layer, the information contained in the embeddings of a node is
+% propagated to the neighbor nodes in so called messages. These are summed up to update the node embedding:
+% $$m_v^{(l+1)} = \sum_{u\in N(v)} \text{message}(h_v^{(l)}, h_u^{(l)}, e_{uv})$$
+% $$h_v^{(l+1)} = \text{update}(h_v^{(l)}, m_v^{(l+1)})$$
+% Here ``message'' and ``update'' are nonlinear functions that can parametrized by artificial neural networks.
+A graph convolution can be seen as a subclass of a message passing scheme, where in a graph convolution we are
+limited to the immediate neighbours of a node and the message and update functions are parametrized by linear
+transformations. In a message passing scheme we can define the message and update functions more flexibly, and we can
+propagate messages to nodes that are not immediate neighbours of a node.
+\bigskip
+% ------------------------------
+
+\subsection{Graph Convolutions Continued}
+% The degree matrix $D$ of a graph with $N$ nodes is an $N\times N$ diagonal matrix. For each node $v$, it counts the
+% nodes in its neighbourhood $N(v)$:
+% $$D_{vu} = \begin{cases}
+%     |N(v)| & \text{if } u = v \\
+%     0 & \text{else}
+% \end{cases}$$
+
+\subsubsection{Rewriting the Graph Convolution in Matrix Form}
+% Rewrite the graph convolution to matrix form $H^{(l+1)} = f(H^{(l)})$ with embedding matrix
+% $$H^{(l)} = \left[ h_1^{(l)}, \dots, h_{|V|}^{(l)} \right]^T$$
+% Use the adjacency matrix $A$ and the degree matrix $D$.
+Using the Adjacency matrix $A$ and the Degree matrix $D$, we can rewrite the graph convolution to matrix form as
+follows:
+$$H^{(l+1)} = \sigma \left( W^{(l)} D^{-1} A H^{(l)} + B^{(l)} H^{(l)} \right)$$
+Where $D^{-1}AH^{(l)}$ represents the normalized sum of the embeddings of the neighbours. 
+
+\subsubsection{Which function does this graph convolutional network use to aggregate over neighboring nodes?}
+The graph convolutional network uses the mean function to aggregate over neighbouring nodes. Its the sum of all
+neighbouring embeddings divided by the number of neighbours.
+
+\subsubsection{Is Rewriting to Matrix Form Possible for All Aggregation Functions?}
+No, rewriting to matrix form is not possible for all aggregation functions. The aggregation function must be
+applicable uniformly across all nodes and their neighbours. Max pooling for example is not applicable because it
+would require a different number of neighbours for each node, and thus a different number of terms in the sum for each
+node. This coupled with its nonlinearity makes it impossible to rewrite to matrix form.
+
+\bigskip
+% ------------------------------
+
+\subsection{Connections to Standard Neural Network Architectures}
+% In principle, we can concatenate the adjacency matrix and node embeddings to classify each data point with a
+% standard feed-forward neural network. What problems do you expect with this approach? Where does it fail completely?
+% Name three different aspects. Keep in mind different applications: for example, classifiying molecular structures
+% in chemistry (i.e. graph classification) or categorizing people in a social network (i.e. node classification).
+% Being concise and to the point will help you get all the points.
+Firstly, scaling to larger graphs would be difficult because the adjacency matrix would grow quadratically with the
+number of nodes in the graph. This would make the input to the feed-forward neural network very large and thus
+computationally expensive to train and evaluate. For social networks for example with millions of people, this would
+be infeasible.
+\newline \newline
+Secondly, the loss of structural information would be problematic. The adjacency matrix would be flattened and
+concatenated with the node embeddings, and thus the structural information would be lost. This would make it
+difficult to learn from the graph structure, which is the main advantage of graph neural networks. For example, in
+chemistry the structure of the molecule is very important for its properties, and thus this approach would not be
+suitable.
+\newline \newline
+Thirdly, the approach lacks invariance to node permutations. The same graph can be represented by multiple adjacency
+matrices, depending on the ordering of nodes. When concatenating a flattened adjacency matrix with
+node embeddings, different permutations of the same graph would result in different input vectors to the feed-forward
+neural network. This lack of permutation invariance of a FFNN could lead to inconsistent model performance, as the
+network might interpret these permutations as distinct graphs. This could be an issue in for example molecular
+structure classification, where different representations of the same graph should yield the different predictions.
+\bigskip
+% ------------------------------
+\subsection{Relation to Transformers}
+\subsubsection{How can a Transformer Model be Seen as a Graph Neural Network?}
+% Consider a standard transformer model applied to a sentence in natural language. How can a transformer model be seen
+% as a graph neural network? What would be the nodes and edges, and what would be the graph structure?
+The nodes in this case would be the words in the sentence, and the edges would be the attention weights between
+the nodes. The graph structure would be a fully connected graph, where each node is connected to every other node,
+and the attention scores between words represent the edge weights.
+
+\subsubsection{How Can the Transformer Model Process Inputs for Which the Order Matters While Staying Permutation
+Invariant in its Architecture and Computation?}
+% Transformers perform state-of-the-art in the natural language domain, which is inherently not permutation invariant:
+% it matters in which order we say something. How can the transformer model process inputs for which the order matters
+% while staying permuation invariant in its architecture and computation?
+Transformers encode the order of the input sequence in positional embeddings, which are added to the input embeddings
+before being fed into en/decoder. This allows the model to retain information and learn from the order of the input
+sequence. The self-attention mechanism which is used to compute the attention scores is permutation invariant, and
+thus the model is permutation invariant in its architecture and computation.
 
 \end{document}
