@@ -51,8 +51,9 @@ class CNNEncoder(nn.Module):
             nn.Conv2d(2*num_filters, 2*num_filters, kernel_size=3, padding=1, stride=2),  # 7x7 -> 4x4
             nn.GELU(),
             nn.Flatten(),  # Turns the 2*num_filters output of the 4x4 conv into a 1D vector
-            nn.Linear(4*4*2*num_filters, z_dim*2)  # 2 for mean and log_std
         )
+        self.mean_layer = nn.Linear(2*4*4*num_filters, z_dim)
+        self.log_std_layer = nn.Linear(2*4*4*num_filters, z_dim)
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -71,7 +72,8 @@ class CNNEncoder(nn.Module):
         # PUT YOUR CODE HERE  #
         #######################
         x = self.net(x)
-        mean, log_std = torch.chunk(x, 2, dim=-1)
+        mean = self.mean_layer(x)
+        log_std = self.log_std_layer(x)
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -79,7 +81,7 @@ class CNNEncoder(nn.Module):
 
 
 class CNNDecoder(nn.Module):
-    def __init__(self, num_input_channels: int = 1, num_filters: int = 32,
+    def __init__(self, num_input_channels: int = 16, num_filters: int = 32,
                  z_dim: int = 20):
         """Decoder with a CNN network.
         Inputs:

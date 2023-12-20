@@ -70,14 +70,19 @@ class VAE(pl.LightningModule):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
+        # Getting the mean and log_std of the latent distribution
         mean, log_std = self.encoder(imgs)
+        
+        # Sampling from the latent distribution using the reparameterization trick
+        std = torch.exp(log_std)
+        z = sample_reparameterize(mean, std)
 
-        z = sample_reparameterize(mean, torch.exp(log_std))
-
+        # Decoding the sampled latent distribution to get the reconstructed images
         x_hat = self.decoder(z)
 
-        L_rec = F.cross_entropy(x_hat, imgs, reduction='none')
-        L_reg = KLD(mean, log_std)
+        L_rec = F.cross_entropy(x_hat.squeeze(), imgs.squeeze(), reduction='none')
+        L_rec = L_rec.sum(dim=[1, 2]).mean(dim=0)
+        L_reg = KLD(mean, log_std).mean()
         bpd = elbo_to_bpd(L_rec + L_reg, imgs.shape)
         #######################
         # END OF YOUR CODE    #
@@ -96,8 +101,8 @@ class VAE(pl.LightningModule):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-        z = torch.randn(batch_size, self.hparams.z_dim, device=self.device)
-        x_samples = self.decoder(z)
+        z_samples = torch.randn(batch_size, self.hparams.z_dim, device=self.device)
+        x_samples = torch.argmax(self.decoder(z_samples), dim=1, keepdim=True)
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -183,8 +188,8 @@ def train_vae(args):
 
     os.makedirs(args.log_dir, exist_ok=True)
     train_loader, val_loader, test_loader = mnist(batch_size=args.batch_size,
-                                                   num_workers=args.num_workers,
-                                                   root=args.data_dir)
+                                                  num_workers=args.num_workers,
+                                                  root=args.data_dir)
 
     # Create a PyTorch Lightning trainer with the generation callback
     gen_callback = GenerateCallback(save_to_disk=True)
