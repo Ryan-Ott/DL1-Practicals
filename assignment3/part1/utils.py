@@ -99,7 +99,7 @@ def visualize_manifold(decoder, grid_size=20):
     """
 
     ## Hints:
-    # - You can use the icdf method of the torch normal distribution  to obtain z values at percentiles.
+    # - You can use the icdf method of the torch normal distribution to obtain z values at percentiles.
     # - Use the range [0.5/grid_size, 1.5/grid_size, ..., (grid_size-0.5)/grid_size] for the percentiles.
     # - torch.meshgrid might be helpful for creating the grid of values
     # - You can use torchvision's function "make_grid" to combine the grid_size**2 images into a grid
@@ -108,8 +108,35 @@ def visualize_manifold(decoder, grid_size=20):
     #######################
     # PUT YOUR CODE HERE  #
     #######################
-    img_grid = None
-    raise NotImplementedError
+    # Percentiles for the grid
+    percentiles = torch.linspace(0.5/grid_size, 1-0.5/grid_size, grid_size)
+
+    # Use the ICDF of the standard normal distribution to get z values
+    z_values = torch.distributions.Normal(0, 1).icdf(percentiles)
+
+    # Create a grid of z values using meshgrid
+    z1, z2 = torch.meshgrid(z_values, z_values, indexing='ij')
+    z_grid = torch.stack([z1.flatten(), z2.flatten()], dim=1)
+
+    # Decode each point in the grid
+    decoded_images = []
+    for z in z_grid:
+        logits = decoder(z.unsqueeze(0))
+        
+        # Apply softmax to convert logits to probabilities
+        probabilities = torch.softmax(logits, dim=1)
+        
+        # Sample from the probabilities for each pixel
+        sampled = torch.multinomial(probabilities.view(-1, 16), 1).view(logits.size()[2:4])
+        
+        # Convert sampled indices to floating point and normalize
+        sampled = sampled.float() / 15  # Assuming 16 categories (0-15)
+
+        # Add a dummy channel dimension and append to the list
+        decoded_images.append(sampled.unsqueeze(0))
+
+    # Combine the images into a grid
+    img_grid = make_grid(decoded_images, nrow=grid_size, normalize=False)
     #######################
     # END OF YOUR CODE    #
     #######################

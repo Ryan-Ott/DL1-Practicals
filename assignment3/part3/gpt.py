@@ -90,7 +90,20 @@ class CausalSelfAttention(nn.Module):
         #######################
         # PUT YOUR CODE HERE  #
         #######################
-        raise NotImplementedError
+        # Calculate the raw attention scores
+        attn_scores = torch.matmul(q, k.transpose(-2, -1))
+        
+        # Apply the causal mask to ensure that for each position, attention is only applied to the left in the input sequence
+        attn_scores = attn_scores.masked_fill(self.mask[:,:,:seq_len,:seq_len] == 0, float('-inf'))
+        
+        # Normalize the attention scores
+        attn_weights = F.softmax(attn_scores, dim=-1)
+        
+        # Apply dropout to the attention weights
+        attn_weights = self.attn_dropout(attn_weights)
+        
+        # Apply the attention weights to the values
+        y = torch.matmul(attn_weights, v)
         #######################
         # END OF YOUR CODE    #
         #######################
@@ -392,7 +405,28 @@ class GPT(nn.Module):
             #######################
             # PUT YOUR CODE HERE  #
             #######################
-            raise NotImplementedError
+            # Forward the model to get the logits
+            logits = self(idx_cond)[:, -1, :]
+
+            # Scale the logits by temperature
+            logits = logits / temperature
+
+            # Apply top-k filtering if specified
+            if top_k is not None:
+                indices_to_remove = logits < torch.topk(logits, top_k)[0][..., -1, None]
+                logits[indices_to_remove] = -float('Inf')
+
+            # Convert logits to probabilities
+            probabilities = F.softmax(logits, dim=-1)
+
+            # Sampling or choosing the most likely token
+            if do_sample:
+                next_token = torch.multinomial(probabilities, num_samples=1)
+            else:
+                next_token = torch.argmax(probabilities, dim=-1, keepdim=True)
+
+            # Append the next token to the sequence
+            idx = torch.cat((idx, next_token), dim=-1)
             #######################
             # END OF YOUR CODE    #
             #######################

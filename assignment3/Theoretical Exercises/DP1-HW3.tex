@@ -79,4 +79,215 @@ differentiable function of $\epsilon$ and $\phi$: $\bm{z} = g(\epsilon, \phi)$. 
 $\epsilon$ instead, where the stochasticity is now encapsulated, and move the expectation outside of the gradient operation, allowing us
 to compute the gradient w.r.t. $\phi$.
 
+\subsection{VAE Training, Validation \& Testing bpd}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{/Users/ryan/Edu/UvA/Semester1/DL1/DL1-Practicals/assignment3/part1/Results/1-7.png}
+    \caption{Training, validation and testing bpd for the VAE}
+    \label{fig:VAE_training}
+\end{figure}
+
+\subsection{Samples During Training}
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{/Users/ryan/Edu/UvA/Semester1/DL1/DL1-Practicals/assignment3/part1/Results/epoch_0_samples.png}
+        \caption{Before Training}
+        \label{fig:epoch0}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{/Users/ryan/Edu/UvA/Semester1/DL1/DL1-Practicals/assignment3/part1/Results/epoch_10_samples.png}
+        \caption{After 10 Epochs}
+        \label{fig:epoch10}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{/Users/ryan/Edu/UvA/Semester1/DL1/DL1-Practicals/assignment3/part1/Results/epoch_80_samples.png}
+        \caption{After 80 Epochs}
+        \label{fig:epoch80}
+    \end{subfigure}
+    \caption{Sample Quality Across Training Epochs}
+    \label{fig:three_epochs}
+\end{figure}
+A clear improvement in sample quality can be seen as training progresses. The samples become less blurry and more
+closely resemble the human-written digits. Before training the model is not able to generate any meaningful samples
+and the images are just noise. After 10 epochs we can see that the model has learned to generate some digits, but
+they are quite unrecognisable. For example the 8 might be on its side like an infinity symbol or lines are not finished
+and are disconnected. After 80 epochs the model has learned to generate better digits and improves upon the issues
+seen after 10 epochs. Still some issues persist like some digits being incomplete like the one seen in row 5 column 3
+in Figure 2(c).
+
+\subsection{Manifold}
+\bigskip
+\newpage
+
+\section{Adverserial Autoencoder Networks}
+\subsection{How to compute $q(\mb{z})$ based on different encoders}
+In each case, $q(z)$ is computed by integrating over the distribution of $x$ in the dataset, weighted by the encoder's
+output distribution $q(z|x)$ for each $x$. The exact form of this integration depends on the nature of the encoder and
+the assumed or learned distribution $q(z|x)$.
+
+\subsubsection{$q(\mb{z})$ being a dirac delta function}
+In this scenario, the encoder maps each input $x$ to a specific point in the latent space. The overall distribution
+$q(z)$ is formed by considering the distribution of $x$ in the data and mapping it through the deterministic function.
+If $p(x)$ is the distribution of the data, then $q(z)$ is obtained by integrating over all possible values of $x$:
+$$q(z) = \int p(x) \delta(z - f(x)) \, dx$$
+Here, $f(x)$ is the deterministic function mapping from $x$ to $z$, and $\delta$ is the Dirac delta function.
+
+\subsubsection{$q(\mb{z})$ being a Gaussian distribution}
+For a Gaussian posterior encoder, $q(z)$ is obtained by marginalizing over the distribution of $x$:
+$$q(z) = \int p(x) \mathcal{N}(z; \mu(x), \sigma^2(x)) \, dx$$ where $\mu(x)$ and $\sigma(x)$ are the mean and standard
+deviation predicted by the encoder for each $x$. This integration considers all possible values of $x$ and their
+corresponding Gaussian distributions in the latent space.
+
+
+\subsubsection{$q(\mb{z})$ being a universal approximator}
+In the case of a universal approximator posterior, the computation of $q(z)$ is more complex due to the arbitrary nature
+of the distribution $q(z|x)$. The overall distribution $q(z)$ is obtained by integrating over the entire data distribution:
+$$q(z) = \int p(x) q(z|x) \, dx$$ where $q(z|x)$ is the complex distribution learned by the encoder for each input $x$.
+This integral sums up the contributions of all possible $x$ values to the latent distribution $q(z)$.
+
+\subsection{How do Adversarial Autoencoders reduce the mode collapse problem compared to vanilla GANs}
+In vanilla GANs, mode collapse occurs when the generator focuses on producing a limited range of outputs, neglecting the
+comprehensive representation of the data distribution. This issue arises because the generator is trained solely based on
+the discriminator's feedback, which evaluates the realism of samples without enforcing diversity usually.
+
+In contrast, AAEs incorporate an autoencoder that consists of an encoder and a decoder. The encoder maps input data to
+a latent space, while the decoder reconstructs the input from this latent representation. This reconstruction objective
+ensures that the latent space captures various aspects of the data, as it needs to accurately reconstruct the original
+inputs. Furthermore, the latent space in AAEs is regularized to conform to a predefined prior distribution, commonly
+Gaussian. This regularization is achieved through an adversarial process where a discriminator differentiates between
+samples from the autoencoder's latent space and those from the target prior distribution.
+
+The training of AAEs balances the reconstruction loss, which promotes data diversity, and the adversarial loss, which
+aligns the latent space with the prior distribution. This balance is crucial as it prevents the model from ignoring
+significant modes of the data distribution. The diversity in the generated samples is inherently encouraged by the need
+for the autoencoder to reconstruct a wide range of input data accurately. Therefore, adversarial auto-encoders mitigate
+mode collapse by ensuring diverse representation in the latent space, leading to more varied and representative generated
+samples compared to vanilla GANs.
+
+\subsection{Adversarial Autoencoder Training Objective}
+\subsubsection{Three Terms of the Formula}
+The first term $\mathbb{E}_{p(x)}[\log(1 - D(E(x)))]$ represents the adversarial loss for the discriminator. It
+encourages the discriminator $D$ to correctly identify the encoded inputs $E(x)$ as fake. This is part of the
+adversarial objective where the encoder $E$ tries to generate latent representations that the discriminator $D$ will
+mistakenly classify as coming from the true prior distribution $p(z)$, instead of the data distribution $p(x)$.
+
+The second term $\mathbb{E}_{p(z)}[\log(D(z))]$ encourages the discriminator $D$ to classify the samples $z$ drawn
+from the prior distribution $p(z)$ as real.
+
+The third term $\mathbb{E}_{p(x)}[\|x - R(E(x))\|^2]$ is the reconstruction loss, which is part of the reconstruction
+objective. It measures the quality of the reconstructed data $R(E(x))$ compared to the original data $x$, using the squared
+Euclidean distance as a metric. This term ensures that the autoencoder preserves as much information from the input data as
+possible when encoding and decoding.
+
+\subsubsection{Effect of $\lambda$ on the Training Objective}
+The hyperparameter $\lambda$ in the adversarial autoencoder training objective balances the importance of the adversarial
+loss against the reconstruction loss.
+When $\lambda = 1$, the adversarial part of the loss (the terms involving the discriminator $D$) is completely ignored, and
+the training objective reduces to solely minimizing the reconstruction loss:
+$$ \min_{E, R} \mathbb{E}_{p(x)}\left[\|x - R(E(x))\|^2\right] $$
+In this scenario, the autoencoder would focus only on minimizing the difference between the input data and the reconstructed
+data. The encoder and decoder would work together to create a representation that allows for accurate reconstruction of the
+input data.
+
+On the other hand, when $\lambda = 0$, the reconstruction loss is ignored, and the training objective reduces to only the
+adversarial loss:
+$$ \min_{E, R} \max_D \mathbb{E}_{p(z)}[\log(D(z))] + \mathbb{E}_{p(x)}[\log(1 - D(E(x)))] $$
+In this case, the autoencoder would become an adversarial network that focuses solely on tricking the discriminator into
+believing that the outputs of the encoder are from the same distribution as the prior distribution $p(z)$. The encoder would
+try to create latent representations of the data that are indistinguishable from samples drawn from the prior distribution
+$p(z)$, as judged by the discriminator. However, there would be no incentive for the reconstructed data to resemble the
+original input data.
+
+Therefore, $\lambda$ serves as a trade-off parameter that allows one to prioritize between having a good internal
+representation that can fool the discriminator (when $\lambda$ is closer to 0) and having a good reconstruction of the input
+data (when $\lambda$ is closer to 1). The optimal value of $\lambda$ would typically be somewhere between 0 and 1, balancing
+the adversarial and reconstruction aspects of the training objective.
+
+\subsection{Reconstruction Phase}
+
+\subsection{Regularisation Phase}
+
+\subsection{Simple Autoencoder vs Adversarial Autoencoder}
+
+\subsection{Stochastic vs Deterministic Encoder}
+A stochastic encoder is beneficial for higher-dimensional latent spaces, such as \( z_{\text{dim}} = 20 \), to avoid
+overfitting and enhance the generative capabilities of the model. A deterministic encoder, which maps inputs to fixed points
+in the latent space, can lead to a lack of generalization and fail to capture the full complexity of the data distribution,
+particularly in higher dimensions. The stochastic encoder introduces variability and regularizes the model by learning
+distributions over latent variables. This not only aids in capturing a more nuanced representation of the data but also
+encourages a smoother latent space, facilitating the generation of more diverse and representative samples. In contrast,
+deterministic approaches may result in a less structured latent space, hindering the AAE's performance, especially when
+tasked with generating new data that is both varied and coherent with the training distribution.
+
+\section{Transformers}
+\subsection{The Challenge of Long Input Sequence Lengths}
+Transformers handle the entire sequence of data simultaneously, thanks to their self-attention mechanism. This design enables
+the model to effectively manage dependencies between elements in the sequence, regardless of their distance apart. However,
+the challenge arises when dealing with long sequences. The complexity of the self-attention mechanism in Transformers scales
+quadratically with the sequence length, both in terms of computation and memory requirements. This makes processing long
+sequences resource-intensive and potentially impractical.
+To combat this one could introduce sparsity into the attention mechanism, as done in Sparse Transformers. These models
+selectively focus on a subset of the input positions per each output position, effectively reducing the overall computational
+load. They use a fixed pattern to limit the attention to a subset of the input positions. This approach maintains the essence
+of self-attention, allowing the model to focus on the most relevant parts of the input, but they do so in a way that scales
+linearly with the sequence length, making them more efficient for processing long sequences.
+
+\subsection{Causal Self-Attention}
+\begin{lstlisting}[caption={Causal Self-Attention Forward}, label=lst:causal-self-attention]
+    #######################
+    # PUT YOUR CODE HERE  #
+    #######################
+    # Calculate the raw attention scores
+    attn_scores = torch.matmul(q, k.transpose(-2, -1))
+    
+    # Apply the causal mask to ensure that for each position, attention is only applied to the left in the input sequence
+    attn_scores = attn_scores.masked_fill(self.mask[:,:,:seq_len,:seq_len] == 0, float('-inf'))
+    
+    # Normalize the attention scores
+    attn_weights = F.softmax(attn_scores, dim=-1)
+    
+    # Apply dropout to the attention weights
+    attn_weights = self.attn_dropout(attn_weights)
+    
+    # Apply the attention weights to the values
+    y = torch.matmul(attn_weights, v)
+    #######################
+    # END OF YOUR CODE    #
+    #######################
+\end{lstlisting}
+
+\subsection{Generate Function}
+\begin{lstlisting}[caption={GPT Class Generate Function}, label=lst:generate]
+    #######################
+    # PUT YOUR CODE HERE  #
+    #######################
+    # Forward the model to get the logits
+    logits = self(idx_cond)[:, -1, :]
+
+    # Scale the logits by temperature
+    logits = logits / temperature
+
+    # Apply top-k filtering if specified
+    if top_k is not None:
+        indices_to_remove = logits < torch.topk(logits, top_k)[0][..., -1, None]
+        logits[indices_to_remove] = -float('Inf')
+
+    # Convert logits to probabilities
+    probabilities = F.softmax(logits, dim=-1)
+
+    # Sampling or choosing the most likely token
+    if do_sample:
+        next_token = torch.multinomial(probabilities, num_samples=1)
+    else:
+        next_token = torch.argmax(probabilities, dim=-1, keepdim=True)
+
+    # Append the next token to the sequence
+    idx = torch.cat((idx, next_token), dim=-1)
+    #######################
+    # END OF YOUR CODE    #
+    #######################
+    \end{lstlisting}
 \end{document}
